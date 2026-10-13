@@ -8,8 +8,12 @@
 //   node tools/release.mjs --check         只做校验与目录构建，不部署
 //
 // 设计：任一步失败立即停下，不带着坏数据上线。
-// 注意：部署后一定会跑 verify-manifest.mjs。Pages 的 manifest 用错哈希算法（例如
-// 误用 sha256）时部署 API 仍返回 success，但整站会 500 —— 这一步就是拦它的。
+//
+// 五步流水线，后两步是上线后的独立验证，缺一不可：
+//   3/5 部署 → 4/5 校验 manifest → 5/5 校验线上站点
+//   4 查「部署清单里的哈希对不对」：Pages 用错哈希算法（如误用 sha256）时部署 API 仍返回
+//     success，但整站会 500 —— 这一步在浏览器访问前就拦下它。
+//   5 查「真实 HTTP 访问是否正常」：页面可达性、站内链接与锚点、线上内容与本地逐字节一致。
 
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
@@ -42,16 +46,17 @@ const step = (title, cmd, cmdArgs) => {
 
 let failed = null;
 try {
-  step('1/4 数据校验', 'node', ['tools/validate.mjs']);
-  step('2/4 构建目录页', 'node', ['tools/build-index.mjs']);
+  step('1/5 数据校验', 'node', ['tools/validate.mjs']);
+  step('2/5 构建目录页', 'node', ['tools/build-index.mjs']);
 
   if (checkOnly) {
     console.log('\n[check-only] 已跳过部署与推送。');
     process.exit(0);
   }
 
-  step('3/4 部署到 Cloudflare Pages', 'node', ['tools/deploy-pages.mjs', '--deploy']);
-  step('4/4 校验线上 manifest', 'node', ['tools/verify-manifest.mjs']);
+  step('3/5 部署到 Cloudflare Pages', 'node', ['tools/deploy-pages.mjs', '--deploy']);
+  step('4/5 校验线上 manifest', 'node', ['tools/verify-manifest.mjs']);
+  step('5/5 校验线上站点', 'node', ['tools/check-live.mjs']);
 
   if (withGithub) {
     if (!repo) throw new Error('使用 --with-github 时必须提供 --repo <owner/repo>');
