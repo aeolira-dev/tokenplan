@@ -14,6 +14,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { createRequire } from 'node:module';
+import { getAccessToken } from './lib/cloudflare-auth.mjs';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const SITE_DIR = path.join(ROOT, 'site');
@@ -65,12 +66,17 @@ if (vectorsOnly) process.exit(vectorsOk ? 0 : 1);
 
 // ---- 取 manifest ----
 async function loadLiveManifest() {
-  const cachePath = path.join(ROOT, '.cloudflare-auth.json');
-  if (!fs.existsSync(cachePath)) {
-    console.error('[error] 无 .cloudflare-auth.json，请先运行 node tools/deploy-pages.mjs（或 tools/check-cloudflare-auth.mjs）');
+  // 用共享模块读取令牌：过期会自动续期。
+  // 此前这里直接读缓存的 accessToken，令牌一过期就让整条发布流程中断（2026-10-13 实际发生）。
+  let token;
+  try {
+    token = await getAccessToken();
+  } catch (err) {
+    console.error('[error] 无法获取 Cloudflare 凭据：', err.message);
+    console.error('        诊断：node tools/check-cloudflare-auth.mjs');
+    console.error('        修复：重新执行 wrangler login，或设置 CLOUDFLARE_API_TOKEN 环境变量（推荐，不会几小时就过期）。');
     process.exit(2);
   }
-  const token = JSON.parse(fs.readFileSync(cachePath, 'utf8')).accessToken;
   const res = await fetch(`${API}/accounts/${ACCOUNT}/pages/projects/${PROJECT}`, {
     headers: { authorization: 'Bearer ' + token, 'user-agent': 'verify-manifest' },
   });

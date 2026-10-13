@@ -21,8 +21,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import os from 'node:os';
 import { createRequire } from 'node:module';
+import { getAccessToken } from './lib/cloudflare-auth.mjs';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const SITE_DIR = path.join(ROOT, 'site');
@@ -56,109 +56,6 @@ function loadPagesHasher() {
 }
 
 const pagesHash = shouldDeploy || verifyOnly ? loadPagesHasher() : null;
-
-// Wrangler 的 OAuth 授权是「短期 access token + 长期 refresh token」。
-// access token 只有几小时有效期，过期后本可自动用 refresh token 换新，无需重新登录。
-// 这里实现该刷新：结果缓存在工作区内的 .cloudflare-auth.json，绝不改写用户的全局 Wrangler 配置。
-// client_id 取自 wrangler 4.148.0 源码 wrangler-dist/cli.js:129945 的默认值（非机密，OAuth 公开标识）。
-const OAUTH_CLIENT_ID = process.env.CLOUDFLARE_OAUTH_CLIENT_ID || '54d11594-84e4-41aa-b438-e81b8fa78ee7';
-const OAUTH_TOKEN_URL = process.env.CLOUDFLARE_OAUTH_TOKEN_URL || 'https://dash.cloudflare.com/oauth2/token';
-const CACHE_PATH = path.join(ROOT, '.cloudflare-auth.json');
-
-function readWranglerToml() {
-  const tomlPath = path.join(process.env.APPDATA || os.homedir(), 'xdg.config', '.wrangler', 'config', 'default.toml');
-  if (!fs.existsSync(tomlPath)) throw new Error(`未找到 Wrangler 配置：${tomlPath}`);
-  const text = fs.readFileSync(tomlPath, 'utf8');
-  const grab = (key) => {
-    const m = text.match(new RegExp(`^\\s*${key}\\s*=\\s*"?([^"\\n]+)"?`, 'm'));
-    return m ? m[1].trim() : null;
-  };
-  return {
-    accessToken: grab('oauth_token'),
-    expiration: grab('expiration_time'),
-    refreshToken: grab('refresh_token'),
-  };
-}
-
-const isFresh = (expiration, skewMs = 5 * 60 * 1000) => {
-  if (!expiration) return false;
-  const ts = Date.parse(expiration);
-  return Number.isFinite(ts) && ts - skewMs > Date.now();
-};
-
-async function refreshAccessToken(refreshToken) {
-  const body = new URLSearchParams({
-    grant_type: 'refresh_token',
-    refresh_token: refreshToken,
-    client_id: OAUTH_CLIENT_ID,
-  });
-  const res = await fetch(OAUTH_TOKEN_URL, {
-    method: 'POST',
-    headers: { 'content-type': 'application/x-www-form-urlencoded' },
-    body,
-    signal: AbortSignal.timeout(30000),
-  });
-  const json = await res.json().catch(() => ({}));
-  if (!res.ok || json.error) {
-    return { ok: false, error: json.error_description || json.error || `HTTP ${res.status}` };
-  }
-  const record = {
-    accessToken: json.access_token,
-    refreshToken: json.refresh_token || refreshToken,
-    expiration: new Date(Date.now() + (json.expires_in || 3600) * 1000).toISOString(),
-    scopes: json.scope || null,
-    refreshedAt: new Date().toISOString(),
-  };
-  fs.writeFileSync(CACHE_PATH, JSON.stringify(record, null, 2), { mode: 0o600 });
-  return { ok: true, record };
-}
-
-async function readWranglerAuth() {
-  // 1) 工作区缓存（上次刷新所得）优先，避免每次调用都换 token
-  if (fs.existsSync(CACHE_PATH)) {
-    try {
-      const cached = JSON.parse(fs.readFileSync(CACHE_PATH, 'utf8'));
-      if (cached.accessToken && isFresh(cached.expiration)) {
-        console.log(`[auth] 使用工作区缓存令牌，到期 ${cached.expiration}`);
-        return cached.accessToken;
-      }
-    } catch {
-      /* 缓存损坏则忽略，走后续路径 */
-    }
-  }
-
-  const creds = readWranglerToml();
-  if (creds.accessToken && isFresh(creds.expiration)) return creds.accessToken;
-
-  // 2) 过期：尝试用 refresh token 自动续期
-  const cachedRefresh = fs.existsSync(CACHE_PATH)
-    ? (() => {
-        try {
-          return JSON.parse(fs.readFileSync(CACHE_PATH, 'utf8')).refreshToken;
-        } catch {
-          return null;
-        }
-      })()
-    : null;
-  const refreshToken = creds.refreshToken || cachedRefresh || null;
-
-  if (refreshToken) {
-    const reason = creds.expiration ? `access token 已于 ${creds.expiration} 过期` : 'access token 缺失';
-    console.log(`[auth] ${reason}，尝试用 refresh token 自动续期`);
-    const out = await refreshAccessToken(refreshToken);
-    if (out.ok) {
-      console.log(`[auth] 续期成功，新到期时间 ${out.record.expiration}（已缓存到 .cloudflare-auth.json）`);
-      return out.record.accessToken;
-    }
-    console.log(`[auth] 续期失败：${out.error}`);
-    throw new Error(`Wrangler 授权已过期且自动续期失败（${out.error}），请重新执行 wrangler login`);
-  }
-
-  if (creds.accessToken) {
-    throw new Error(`Wrangler access token 已过期（${creds.expiration}）且无 refresh token，请重新执行 wrangler login`);
-  }
-  throw new Error('Wrangler 配置中没有 oauth_token，请先执行 wrangler login');
-}
 
 async function api(token, method, endpoint, body) {
   const res = await fetch(API + endpoint, {
@@ -236,7 +133,7 @@ async function ensureWorkerDomain(token, accountId, zoneId) {
 const files = listSiteFiles();
 console.log(`[plan] 项目 ${PROJECT} · 待部署 ${files.length} 个文件：${files.join(', ')}`);
 
-const token = await readWranglerAuth();
+const token = await getAccessToken();
 const accounts = await api(token, 'GET', '/accounts');
 const accountId = (accounts.json.result || [])[0]?.id;
 if (!accountId) throw new Error('无法读取 Cloudflare 账号，请检查 Wrangler 登录状态');
