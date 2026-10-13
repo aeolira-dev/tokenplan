@@ -6,6 +6,8 @@
 //   node tools/publish-github.mjs --repo <owner/repo> --push       真正推送（SSH 优先）
 //   node tools/publish-github.mjs --show-key                       只打印工作区部署公钥，便于加到 GitHub
 //   node tools/publish-github.mjs --repo <o/r> --push --https      强制走 HTTPS + GITHUB_TOKEN
+//   node tools/publish-github.mjs --repo <o/r> --create --push --https
+//                                          用令牌自动建空仓库并推送（需要令牌有建仓权限）
 //
 // 为什么默认 SSH：
 //   本机 .NET/schannel TLS 栈异常（连 www.baidu.com 都报「接收时发生错误」），
@@ -36,6 +38,7 @@ const value = (n) => {
 const repo = value('--repo');
 const doPush = flag('--push');
 const forceHttps = flag('--https');
+const hasCreate = flag('--create');
 const showKey = flag('--show-key');
 const branch = value('--branch') || 'main';
 const token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || null;
@@ -154,8 +157,53 @@ if (!sshAuth && !token) {
 // ---- 推送 ----
 const useHttps = forceHttps || !sshAuth;
 const url = useHttps ? httpsUrl : sshUrl;
-console.log(`[plan] 方式=${useHttps ? 'HTTPS+token' : 'SSH'} · git push ${url} HEAD:refs/heads/${branch}`);
 
+// 用令牌时可以先在 GitHub 自动建仓，省掉「手动新建空仓库」这一步。
+// 只建空仓库（auto_init=false），绝不产生额外提交，避免与本地首次推送冲突。
+if (hasCreate) {
+  if (!token) {
+    console.error('[create] --create 需要 GITHUB_TOKEN / GH_TOKEN（SSH 密钥无法调用 REST API 建仓）。');
+    process.exit(2);
+  }
+  const [owner, name] = repo.split('/');
+  const api = async (method, endpoint, body) => {
+    const res = await fetch('https://api.github.com' + endpoint, {
+      method,
+      headers: {
+        authorization: 'Bearer ' + token,
+        accept: 'application/vnd.github+json',
+        'user-agent': 'tokenplan-publish',
+        ...(body ? { 'content-type': 'application/json' } : {}),
+      },
+      body: body ? JSON.stringify(body) : undefined,
+      signal: AbortSignal.timeout(30000),
+    });
+    return { status: res.status, json: await res.json().catch(() => ({})) };
+  };
+
+  const me = await api('GET', '/user');
+  if (me.status !== 200) {
+    console.error(`[create] 令牌无效或权限不足（HTTP ${me.status}）：${me.json.message || ''}`);
+    console.error('        需要的令牌权限（fine-grained）：Administration: Read and write（或经典令牌勾 repo）。');
+    process.exit(1);
+  }
+  const login = me.json.login;
+  console.log(`[create] 令牌身份：${login}`);
+
+  const target = owner === login ? '/user/repos' : `/orgs/${owner}/repos`;
+  const made = await api('POST', target, { name, private: false, auto_init: false });
+  if (made.status === 201) {
+    console.log(`[create] 已创建空仓库 https://github.com/${repo}`);
+  } else if (made.status === 422) {
+    console.log(`[create] 仓库已存在，直接复用：https://github.com/${repo}`);
+  } else {
+    console.error(`[create] 建仓失败（HTTP ${made.status}）：${made.json.message || ''}`);
+    if (made.json.errors) console.error('        ', JSON.stringify(made.json.errors));
+    process.exit(1);
+  }
+}
+
+console.log(`[plan] 方式=${useHttps ? 'HTTPS+token' : 'SSH'} · git push ${url} HEAD:refs/heads/${branch}`);
 if (!doPush) {
   console.log('[dry-run] 未推送。加 --push 执行。');
   process.exit(0);
