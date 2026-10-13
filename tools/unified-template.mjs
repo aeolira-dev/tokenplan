@@ -2,7 +2,10 @@ import fs from 'fs';
 import path from 'path';
 import { renderTopNav, NAV_EXTRA_CSS } from './catalog.mjs';
 
-const ROOT = path.resolve('.');
+// ROOT 必须锚定到脚本所在位置，而不是当前工作目录。
+// 原先用 path.resolve('.')：只要不是在仓库根目录执行，site/ 就会被建到别处（或读不到 models/），
+// 表现为莫名其妙的 ENOENT。从根目录运行时两者等价，因此这里改成脚本相对路径不改变既有行为。
+const ROOT = path.resolve(import.meta.dirname, '..');
 const SITE_DIR = path.join(ROOT, 'site');
 fs.mkdirSync(SITE_DIR, { recursive: true });
 

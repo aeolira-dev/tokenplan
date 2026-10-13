@@ -3,8 +3,10 @@ import path from 'path';
 import { generatePage, blend, money, tok, ratioTxt, ratioCls, esc, ROOT, SITE_DIR } from './unified-template.mjs';
 import { buildAllBig3 } from './generate-big3-pages.mjs';
 import { buildAllCn } from './generate-cn-pages.mjs';
+import { readRawJson } from './lib/raw-snapshot.mjs';
 
-const mdData = JSON.parse(fs.readFileSync(path.join(ROOT, 'raw/_global/2026-10-08/modelsdev.json'), 'utf8'));
+// 该脚本需要 raw/ 快照（raw/ 被 .gitignore 排除，克隆后不自带）；缺失时给可执行的恢复说明
+const mdData = readRawJson('modelsdev.json');
 
 // 通用提取 modelsdev 上游端点函数
 function extractEndpointsFromModelsDev(pattern, baseUsd) {

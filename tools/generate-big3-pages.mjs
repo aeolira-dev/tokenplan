@@ -7,10 +7,9 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { generatePage, blend, money, tok, ratioTxt, ratioCls, esc, ROOT, SITE_DIR } from './unified-template.mjs';
 import { SPECS } from './generate-big3-data.mjs';
+import { readRawJson } from './lib/raw-snapshot.mjs';
 
-const mdData = JSON.parse(
-  fs.readFileSync(path.join(ROOT, 'raw/_global/2026-10-08/modelsdev.json'), 'utf8'),
-);
+const mdData = readRawJson('modelsdev.json');
 
 function extractEndpointsFromModelsDev(pattern) {
   const re = pattern instanceof RegExp ? pattern : new RegExp(pattern, 'i');

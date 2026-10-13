@@ -8,10 +8,12 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { readRawJson } from './lib/raw-snapshot.mjs';
 
-const ROOT = path.resolve('.');
-const AA_PATH = path.join(ROOT, 'raw/_global/2026-10-08/aa-peers.json');
-const AA = JSON.parse(fs.readFileSync(AA_PATH, 'utf8'));
+// 锚定脚本位置而非 cwd，理由同 unified-template.mjs
+const ROOT = path.resolve(import.meta.dirname, '..');
+// 该模块在加载期即读快照；缺失时 readRawJson 会给出可执行的恢复说明
+const AA = readRawJson('aa-peers.json');
 const aaBy = Object.fromEntries(AA.models.map((m) => [m.slug, m]));
 const RANKED = [...AA.models].sort(
   (a, b) => (b.intelligenceIndex || 0) - (a.intelligenceIndex || 0),
