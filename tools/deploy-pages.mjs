@@ -7,8 +7,10 @@
 //   node tools/deploy-pages.mjs --deploy --verify-only   不部署，只校验线上与本地
 //
 // 说明：
-// - 凭据取本机 Wrangler 登录留下的 OAuth 令牌（%APPDATA%\xdg.config\.wrangler\config\default.toml），
-//   脚本只读取，不打印令牌本身。access token 过期时自动用 refresh token 续期。
+// - 凭据优先级：环境变量 CLOUDFLARE_API_TOKEN（推荐，不会几小时就过期）> 工作区缓存
+//   > 本机 Wrangler 登录留下的 OAuth 令牌（%APPDATA%\xdg.config\.wrangler\config\default.toml）。
+//   脚本只读取令牌，不打印内容；access 过期时自动用 refresh token 续期。
+//   续期细节与已知失效场景见 tools/lib/cloudflare-auth.mjs 与《进度与恢复.md》7.2。
 // - 该 OAuth 授权含 pages:write，但不含 dns:write，因此自定义域名由 Worker 承接（见 --ensure-domain）。
 // - 部署是幂等的：内容不变时上传会命中去重，仍会生成一次部署记录。
 //
