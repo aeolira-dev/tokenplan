@@ -127,6 +127,13 @@ if (sshAuth) {
   console.log(`[remote] ${repo} 通过 SSH 可达=${remoteExists}`);
 }
 
+if (forceHttps && !token) {
+  console.error('[error] 你指定了 --https，但没有找到 GITHUB_TOKEN / GH_TOKEN 环境变量。');
+  console.error('        HTTPS 方式必须带令牌，否则会退化成匿名推送并被 GitHub 拒绝。');
+  console.error('        请先设置令牌：$env:GITHUB_TOKEN="ghp_..."，或去掉 --https 改用 SSH 密钥方式。');
+  process.exit(2);
+}
+
 if (!sshAuth && !token) {
   console.log('');
   console.log('=== 需要你做一次授权（之后永久生效）===');
@@ -176,3 +183,7 @@ if (useHttps && token) {
 
 console.log('[next] Cloudflare Pages 若绑定本仓库，推送会自动触发构建；否则执行：');
 console.log('       node tools/deploy-pages.mjs --deploy');
+console.log('');
+console.log('[重要] 本仓库根目录没有 package.json，页面在 site/ 子目录。若在 Pages 点「Connect to Git」，');
+console.log('       必须手填：Framework preset = None · Build command = 留空 · Build output directory = site');
+console.log('       填错（比如输出目录留成 /）会部署出空站点。详见 进度与恢复.md 第 9.1 节。');
