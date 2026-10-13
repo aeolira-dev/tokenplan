@@ -1,0 +1,52 @@
+{
+  "$schema": "自描述。AA 榜单口径评测结果。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "sourceRefs": [
+      "aa-peers"
+    ]
+  },
+  "boards": {
+    "artificialAnalysis": {
+      "displayName": "Artificial Analysis",
+      "indexName": "Artificial Analysis Intelligence Index",
+      "indexVersion": "v4.3.2",
+      "modelEntryName": "Claude Fable 5.1 (Max, Default Fallback)",
+      "intelligenceIndex": 53.3549259623252,
+      "snapshotPeerCount": 25,
+      "rankings": [
+        {
+          "key": "intelligence",
+          "label": "Intelligence",
+          "rank": 3,
+          "of": 25,
+          "note": "本快照 25 个对照模型，不是全站 117 榜"
+        },
+        {
+          "key": "cost",
+          "label": "Cost",
+          "rank": 24,
+          "of": 24,
+          "note": "$7.630/任务"
+        }
+      ],
+      "capabilities": {
+        "financeAndAccounting": 56.416905719465,
+        "strategyAndOps": 59.6720657328582,
+        "legal": 60.4916320056283,
+        "healthcareAndMedical": 58.0046680298741,
+        "engineering": 56.4696966078099,
+        "economics": 62.6707547111523
+      },
+      "costProfile": {
+        "price1mInputTokens": 10,
+        "price1mOutputTokens": 50,
+        "cacheHitPrice": 0.25,
+        "price1mBlended7To2To1": 7.175,
+        "costPerTaskUSD": 7.629706364004841,
+        "timePerTaskSec": 712.497593261812,
+        "outputTokensPerTask": 78110.80621282545
+      }
+    }
+  }
+}

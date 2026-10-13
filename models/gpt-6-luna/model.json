@@ -1,0 +1,151 @@
+{
+  "$schema": "自描述。模型身份层。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "sources": [
+      "aa-peers",
+      "openrouter-models",
+      "modelsdev"
+    ]
+  },
+  "slug": "gpt-6-luna",
+  "displayName": "GPT-6 Luna (Max)",
+  "vendor": "openai",
+  "vendorDisplay": "OpenAI",
+  "family": "GPT-6",
+  "tier": "轻量",
+  "apiModelIds": {
+    "official": "gpt-6-luna"
+  },
+  "release": {
+    "date": "2026-09-22",
+    "knowledgeCutoff": null,
+    "deprecated": false
+  },
+  "openness": {
+    "openWeights": false,
+    "license": "Proprietary",
+    "opennessIndex": 0
+  },
+  "architecture": {
+    "sizeClass": "frontier-multimodal"
+  },
+  "limits": {
+    "contextTokens": 1000000,
+    "maxOutputTokens": 128000
+  },
+  "capabilities": {
+    "reasoning": {
+      "supported": true,
+      "default": true
+    },
+    "vision": true,
+    "toolCalls": true,
+    "jsonOutput": true,
+    "inputModalities": [
+      "text",
+      "image"
+    ],
+    "outputModalities": [
+      "text"
+    ]
+  },
+  "speed": {
+    "timePerTaskSec": 393.59547430312165,
+    "outputTokensPerTask": 50011.69043054027
+  },
+  "baseline": {
+    "providerId": "openai-official",
+    "currency": "USD",
+    "unit": "per 1M tokens",
+    "tiers": [
+      {
+        "id": "standard",
+        "label": "标准按量",
+        "usd": {
+          "inputMiss": 0.1,
+          "inputHit": 0.01,
+          "output": 0.5
+        }
+      },
+      {
+        "id": "batch",
+        "label": "Batch API (50%)",
+        "usd": {
+          "inputMiss": 0.05,
+          "inputHit": 0.005,
+          "output": 0.25
+        }
+      }
+    ]
+  },
+  "card": {
+    "radar": {
+      "shape": "hexagon",
+      "axesCount": 6,
+      "axes": [
+        {
+          "key": "engineering",
+          "label": "工程",
+          "value": 37.0938567579007,
+          "estimated": false
+        },
+        {
+          "key": "legal",
+          "label": "法律",
+          "value": 40.2779942332056,
+          "estimated": false
+        },
+        {
+          "key": "strategyAndOps",
+          "label": "战略与运营",
+          "value": 45.7388446388429,
+          "estimated": false
+        },
+        {
+          "key": "financeAndAccounting",
+          "label": "财会",
+          "value": 40.2967547784778,
+          "estimated": false
+        },
+        {
+          "key": "economics",
+          "label": "经济",
+          "value": 45.2162363492431,
+          "estimated": false
+        },
+        {
+          "key": "healthcareAndMedical",
+          "label": "医疗健康",
+          "value": 37.397572885301,
+          "estimated": false
+        }
+      ]
+    }
+  },
+  "page": {
+    "file": "gpt-6-luna.html",
+    "title": "GPT-6 Luna",
+    "pills": [
+      {
+        "cls": "reason",
+        "text": "轻量主力"
+      },
+      {
+        "cls": "open",
+        "text": "闭源"
+      }
+    ],
+    "endpointPattern": "gpt-6-luna",
+    "metric1": {
+      "en": "SWE-bench Verified",
+      "zh": "代码权威得分",
+      "num": "93.00%",
+      "rankNum": "轻量",
+      "rankTotal": "一线",
+      "barPct": "93%",
+      "sub": "总表口径；Codex 套餐折算极低单价"
+    },
+    "specialty": "轻量主力；SWE-bench Verified 93.00%"
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "$schema": "自描述。模型身份层；价格在 channels/，榜单在 benchmarks/，出处登记在 sources.json。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "verificationLevel": "official-doc-plus-snapshot",
+    "sources": ["mimo-v2.6-official-model", "mimo-v2.6-official-pricing", "aa-mimo-v2-6-pro"]
+  },
+  "slug": "mimo-v2.6-pro",
+  "displayName": "MiMo-V2.6-Pro",
+  "vendor": "xiaomi",
+  "vendorDisplay": "小米 / Xiaomi MiMo",
+  "family": "MiMo-V2.6",
+  "tier": "旗舰开放权重多模态",
+  "apiModelIds": {
+    "official": "mimo-v2.6-pro",
+    "aliasNote": "官方国内 API 使用 mimo-v2.6-pro；OpenRouter/models.dev 为 xiaomi/mimo-v2.6-pro。"
+  },
+  "release": { "date": "2026-09-21", "knowledgeCutoff": null, "deprecated": false },
+  "openness": {
+    "openWeights": true,
+    "license": "MIT",
+    "weightsUrl": null,
+    "opennessIndex": null,
+    "note": "工作区 AA 快照记录 open weights 与 MIT；官方 API 页面不等同于权重发布页。"
+  },
+  "architecture": {
+    "totalParametersB": 1020,
+    "activeParametersB": 42,
+    "sizeClass": "large-moe",
+    "moe": true,
+    "note": "AA 工作区快照记录 1020B 总参数、42B 激活。"
+  },
+  "limits": {
+    "contextTokens": 1048576,
+    "maxOutputTokens": 131072,
+    "concurrencyLimit": null,
+    "note": "官方模型目录与聚合目录均以 1M 级上下文为主；最大输出取聚合目录 131072，官方动态页未在本轮静态核到不同值。"
+  },
+  "capabilities": {
+    "reasoning": { "supported": true, "default": true, "note": "面向复杂推理、编码与 Agent 任务。" },
+    "vision": true,
+    "toolCalls": true,
+    "jsonOutput": true,
+    "responsesApi": false,
+    "anthropicApi": false,
+    "chatPrefixCompletion": false,
+    "fimCompletion": { "supported": false },
+    "webSearch": { "supported": null, "note": "未在本页核实独立联网搜索 API。" },
+    "inputModalities": ["text", "image", "audio", "video"],
+    "outputModalities": ["text"]
+  },
+  "speed": {
+    "_source": "aa-mimo-v2-6-pro",
+    "outputTokensPerSecond": null,
+    "timeToFirstChunkSeconds": null,
+    "timePerTaskSec": 1577.9278892097489,
+    "outputTokensPerTask": 64275.70051166789,
+    "note": "AA 对照集只给任务级时长/输出量，未给独立 tok/s。"
+  },
+  "baseline": {
+    "providerId": "xiaomi-mimo-official",
+    "currency": "CNY",
+    "unit": "per 1M tokens",
+    "tiers": [
+      { "id": "standard", "label": "国内官方标准按量", "cny": { "inputMiss": 3, "inputHit": 0.025, "output": 6 } },
+      { "id": "batch", "label": "国内官方批量", "cny": { "inputMiss": 1.5, "inputHit": 0.0125, "output": 3 } }
+    ]
+  },
+  "card": {
+    "radar": {
+      "shape": "hexagon",
+      "axesCount": 6,
+      "axes": [
+        { "key": "financeAndAccounting", "label": "财会", "value": 46.0835522889743 },
+        { "key": "strategyAndOps", "label": "战略与运营", "value": 47.7833279852225 },
+        { "key": "legal", "label": "法律", "value": 44.75076921106 },
+        { "key": "healthcareAndMedical", "label": "医疗健康", "value": 41.8204296860305 },
+        { "key": "engineering", "label": "工程", "value": 46.898224686759 },
+        { "key": "economics", "label": "经济", "value": 53.2171670721347 }
+      ]
+    }
+  },
+  "page": {
+    "file": "mimo-v2.6-pro.html",
+    "title": "MiMo-V2.6-Pro",
+    "endpointPattern": "(?:mimo-v2[.-]6[.-]pro|xiaomi[/.-]mimo-v2[.-]6[.-]pro)",
+    "pills": [
+      { "cls": "reason", "text": "旗舰推理" },
+      { "cls": "open", "text": "开放权重" },
+      { "cls": "vision", "text": "全模态输入" }
+    ],
+    "metric1": { "en": "LMArena Overall", "zh": "盲投总榜", "num": "#10", "sub": "1491.0 · 4,056 票", "rankNum": "10", "rankTotal": "—", "barPct": "82%" },
+    "specialty": "1T 级多模态开放权重模型，面向复杂推理、代码与长时程 Agent。"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "$schema": "自描述。数据溯源清单。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "modelSlug": "deepseek-v4-pro"
+  },
+  "sources": [
+    {
+      "id": "deepseek-pricing-doc",
+      "url": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing",
+      "label": "DeepSeek 官方定价文档"
+    },
+    {
+      "id": "aa-model-pro",
+      "url": "https://artificialanalysis.ai/models/deepseek-v4-pro",
+      "label": "Artificial Analysis DeepSeek V4 Pro 模型页"
+    },
+    {
+      "id": "openrouter-pro-endpoints",
+      "url": "https://openrouter.ai/api/v1/models/deepseek/deepseek-v4-pro-0813/endpoints",
+      "label": "OpenRouter 逐端点 API"
+    },
+    {
+      "id": "lmarena-text",
+      "url": "https://datasets-server.huggingface.co/rows?dataset=lmarena-ai/leaderboard-dataset&config=text",
+      "label": "LMArena Leaderboard Dataset"
+    }
+  ]
+}

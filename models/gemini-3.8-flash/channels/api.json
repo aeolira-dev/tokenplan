@@ -1,0 +1,225 @@
+{
+  "$schema": "自描述。按量渠道列表。",
+  "baseline": {
+    "providerId": "google-ai-studio",
+    "label": "Google AI Studio 官方（基准）",
+    "tiers": [
+      {
+        "id": "standard",
+        "label": "标准按量",
+        "usd": {
+          "inputMiss": 0.75,
+          "inputHit": 0.075,
+          "output": 3.75
+        }
+      },
+      {
+        "id": "batch",
+        "label": "Batch API (50% off)",
+        "usd": {
+          "inputMiss": 0.375,
+          "inputHit": 0.0375,
+          "output": 1.875
+        }
+      }
+    ]
+  },
+  "channels": [
+    {
+      "providerId": "google-ai-studio",
+      "isOfficial": true,
+      "displayName": "Google AI Studio 官方 API",
+      "tiers": [
+        {
+          "id": "standard",
+          "label": "标准按量",
+          "usd": {
+            "inputMiss": 0.75,
+            "inputHit": 0.075,
+            "output": 3.75
+          }
+        },
+        {
+          "id": "batch",
+          "label": "Batch API",
+          "usd": {
+            "inputMiss": 0.375,
+            "inputHit": 0.0375,
+            "output": 1.875
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1048576,
+        "maxOutputTokens": 65536
+      },
+      "notes": [
+        "官方基准，支持上下文缓存（缓存读 $0.075/M，写 $0.0416/M/h）",
+        "含免费额度层（RPM/RPD 限制）"
+      ]
+    },
+    {
+      "providerId": "google-vertex",
+      "isOfficial": true,
+      "displayName": "Google Cloud Vertex AI",
+      "tiers": [
+        {
+          "id": "flat",
+          "label": "企业标准",
+          "usd": {
+            "inputMiss": 0.75,
+            "inputHit": 0.075,
+            "output": 3.75
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1048576,
+        "maxOutputTokens": 65536
+      },
+      "notes": [
+        "GCP 企业级合规与 SLA 保证，价格与官方一致 (1.00×)"
+      ]
+    },
+    {
+      "providerId": "openrouter",
+      "displayName": "OpenRouter",
+      "tiers": [
+        {
+          "id": "flat",
+          "label": "直连/网关",
+          "usd": {
+            "inputMiss": 0.75,
+            "inputHit": 0.075,
+            "output": 3.75
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1048576,
+        "maxOutputTokens": 65536
+      },
+      "notes": [
+        "聚合网关，支持隐式与显式缓存"
+      ]
+    },
+    {
+      "providerId": "vercel-gateway",
+      "displayName": "Vercel AI Gateway",
+      "tiers": [
+        {
+          "id": "flat",
+          "label": "标准转发",
+          "usd": {
+            "inputMiss": 0.75,
+            "inputHit": 0.075,
+            "output": 3.75
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1000000,
+        "maxOutputTokens": 65535
+      },
+      "notes": [
+        "转发官方接口，1.00×"
+      ]
+    },
+    {
+      "providerId": "nano-gpt",
+      "displayName": "Nano-GPT",
+      "tiers": [
+        {
+          "id": "flat",
+          "label": "加密货币直付",
+          "usd": {
+            "inputMiss": 0.75,
+            "inputHit": 0.075,
+            "output": 3.75
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1048576,
+        "maxOutputTokens": 65536
+      },
+      "notes": [
+        "免 KYC / 零日志，标价与官方一致 (1.00×)"
+      ]
+    },
+    {
+      "providerId": "aihubmix",
+      "displayName": "AIHubMix",
+      "tiers": [
+        {
+          "id": "flat",
+          "label": "国内中继",
+          "usd": {
+            "inputMiss": 0.75,
+            "inputHit": 0.075,
+            "output": 3.75
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1048576,
+        "maxOutputTokens": 65536
+      },
+      "notes": [
+        "国内直连通道，同价 1.00×"
+      ]
+    },
+    {
+      "providerId": "302ai",
+      "displayName": "302.AI",
+      "tiers": [
+        {
+          "id": "flat",
+          "label": "标准转发",
+          "usd": {
+            "inputMiss": 0.75,
+            "inputHit": null,
+            "output": 3.75
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1048576,
+        "maxOutputTokens": 65536
+      },
+      "notes": [
+        "缓存计价未单独列出"
+      ]
+    },
+    {
+      "providerId": "github-copilot",
+      "displayName": "GitHub Copilot API",
+      "tiers": [
+        {
+          "id": "flat",
+          "label": "开发者通道",
+          "usd": {
+            "inputMiss": 0.75,
+            "inputHit": 0.075,
+            "output": 3.75
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1000000,
+        "maxOutputTokens": 64000
+      },
+      "notes": [
+        "集成至 VS Code / Copilot Chat 环境"
+      ]
+    }
+  ]
+}

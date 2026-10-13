@@ -1,0 +1,51 @@
+{
+  "$schema": "自描述。AA 榜单口径评测结果。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "sourceRefs": [
+      "aa-peers"
+    ]
+  },
+  "boards": {
+    "artificialAnalysis": {
+      "displayName": "Artificial Analysis",
+      "indexName": "Artificial Analysis Intelligence Index",
+      "indexVersion": "v4.3.2",
+      "modelEntryName": "Claude Haiku 5.5 (Max)",
+      "intelligenceIndex": 43.3950199670746,
+      "snapshotPeerCount": 25,
+      "rankings": [
+        {
+          "key": "intelligence",
+          "label": "Intelligence",
+          "rank": 14,
+          "of": 25,
+          "note": "本快照 25 个对照模型，不是全站 117 榜"
+        },
+        {
+          "key": "cost",
+          "label": "Cost",
+          "rank": 5,
+          "of": 24,
+          "note": "$0.213/任务"
+        }
+      ],
+      "capabilities": {
+        "financeAndAccounting": 43.899544721027,
+        "strategyAndOps": 40.3835291326876,
+        "legal": 42.2752066606861,
+        "engineering": 44.8823073189862,
+        "economics": 51.2271805877356
+      },
+      "costProfile": {
+        "price1mInputTokens": 0.1,
+        "price1mOutputTokens": 0.5,
+        "cacheHitPrice": 0.01,
+        "price1mBlended7To2To1": 0.077,
+        "costPerTaskUSD": 0.21276971216992022,
+        "timePerTaskSec": 423.68107542329057,
+        "outputTokensPerTask": 162164.1932085826
+      }
+    }
+  }
+}

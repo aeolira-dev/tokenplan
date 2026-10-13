@@ -1,0 +1,148 @@
+{
+  "$schema": "自描述。模型身份层。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "sources": [
+      "aa-peers",
+      "openrouter-models",
+      "modelsdev"
+    ]
+  },
+  "slug": "claude-fable-5.1",
+  "displayName": "Claude Fable 5.1 (Max, Default Fallback)",
+  "vendor": "anthropic",
+  "vendorDisplay": "Anthropic",
+  "family": "Claude",
+  "tier": "创意 / 长文本",
+  "apiModelIds": {
+    "official": "claude-fable-5.1"
+  },
+  "release": {
+    "date": "2026-09-01",
+    "knowledgeCutoff": null,
+    "deprecated": false
+  },
+  "openness": {
+    "openWeights": false,
+    "license": "Proprietary",
+    "opennessIndex": 0
+  },
+  "architecture": {
+    "sizeClass": "frontier-multimodal"
+  },
+  "limits": {
+    "contextTokens": 1000000,
+    "maxOutputTokens": 128000
+  },
+  "capabilities": {
+    "reasoning": {
+      "supported": true,
+      "default": true
+    },
+    "vision": true,
+    "toolCalls": true,
+    "jsonOutput": true,
+    "inputModalities": [
+      "text",
+      "image"
+    ],
+    "outputModalities": [
+      "text"
+    ]
+  },
+  "speed": {
+    "timePerTaskSec": 712.497593261812,
+    "outputTokensPerTask": 78110.80621282545
+  },
+  "baseline": {
+    "providerId": "anthropic-official",
+    "currency": "USD",
+    "unit": "per 1M tokens",
+    "tiers": [
+      {
+        "id": "standard",
+        "label": "标准按量",
+        "usd": {
+          "inputMiss": 10,
+          "inputHit": 0.25,
+          "output": 50
+        }
+      },
+      {
+        "id": "batch",
+        "label": "Batch API (50%)",
+        "usd": {
+          "inputMiss": 5,
+          "inputHit": 0.125,
+          "output": 25
+        }
+      }
+    ]
+  },
+  "card": {
+    "radar": {
+      "shape": "hexagon",
+      "axesCount": 6,
+      "axes": [
+        {
+          "key": "engineering",
+          "label": "工程",
+          "value": 56.4696966078099,
+          "estimated": false
+        },
+        {
+          "key": "legal",
+          "label": "法律",
+          "value": 60.4916320056283,
+          "estimated": false
+        },
+        {
+          "key": "strategyAndOps",
+          "label": "战略与运营",
+          "value": 59.6720657328582,
+          "estimated": false
+        },
+        {
+          "key": "financeAndAccounting",
+          "label": "财会",
+          "value": 56.416905719465,
+          "estimated": false
+        },
+        {
+          "key": "economics",
+          "label": "经济",
+          "value": 62.6707547111523,
+          "estimated": false
+        },
+        {
+          "key": "healthcareAndMedical",
+          "label": "医疗健康",
+          "value": 58.0046680298741,
+          "estimated": false
+        }
+      ]
+    }
+  },
+  "page": {
+    "file": "claude-fable-5.1.html",
+    "title": "Claude Fable 5.1",
+    "pills": [
+      {
+        "cls": "reason",
+        "text": "创意长文本"
+      },
+      {
+        "cls": "open",
+        "text": "闭源"
+      }
+    ],
+    "endpointPattern": "claude-fable-5[.-]1",
+    "metric1": {
+      "en": "AA Cost / Task",
+      "zh": "对照集任务成本",
+      "highlight": "cost",
+      "note": "同分下比 GPT-6 Astra 贵约 57%"
+    },
+    "specialty": "创意 / 长文本向旗舰"
+  }
+}

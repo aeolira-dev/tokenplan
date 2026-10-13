@@ -1,0 +1,115 @@
+{
+  "$schema": "自描述。订阅制渠道列表。",
+  "baselinePrice": "$0.75 / $0.075 / $3.75",
+  "plans": [
+    {
+      "providerId": "google-one-ai",
+      "planId": "premium",
+      "label": "Google One AI Premium",
+      "fee": {
+        "amount": 19.99,
+        "currency": "USD"
+      },
+      "modelAllowance": {
+        "usd": 120,
+        "derivation": "含 Gemini Advanced + 2TB Google Drive + Workspace 插件支持"
+      },
+      "limits": {
+        "fiveHourUSD": 24,
+        "weeklyUSD": 60,
+        "monthlyUSD": 120
+      },
+      "rollingWindow": false,
+      "softLimit": false,
+      "quotaConversion": {
+        "codingAgentAt874": 9494
+      }
+    },
+    {
+      "providerId": "cline-pass",
+      "planId": "monthly",
+      "label": "ClinePass 月度",
+      "fee": {
+        "amount": 9.99,
+        "currency": "USD"
+      },
+      "modelAllowance": {
+        "usd": 60,
+        "derivation": "支持 Gemini 3.8 Flash 高速代码生成"
+      },
+      "limits": {
+        "fiveHourUSD": 12,
+        "weeklyUSD": 30,
+        "monthlyUSD": 60
+      },
+      "rollingWindow": false,
+      "softLimit": false,
+      "quotaConversion": {
+        "codingAgentAt874": 4747
+      }
+    },
+    {
+      "providerId": "opencode-go",
+      "planId": "go",
+      "label": "OpenCode Go",
+      "fee": {
+        "amount": 10,
+        "currency": "USD"
+      },
+      "modelAllowance": {
+        "usd": 50,
+        "derivation": "官方配置月限额"
+      },
+      "limits": {
+        "fiveHourUSD": 10,
+        "weeklyUSD": 25,
+        "monthlyUSD": 50
+      },
+      "rollingWindow": false,
+      "softLimit": false,
+      "quotaConversion": {
+        "codingAgentAt874": 3956
+      }
+    },
+    {
+      "providerId": "command-code",
+      "planId": "goat",
+      "label": "Command Code GOAT",
+      "fee": {
+        "amount": 10,
+        "currency": "USD"
+      },
+      "modelAllowance": {
+        "usd": 55,
+        "derivation": "GOAT 套餐额度"
+      },
+      "limits": {
+        "fiveHourUSD": 11,
+        "weeklyUSD": 27.5,
+        "monthlyUSD": 55
+      },
+      "rollingWindow": true,
+      "softLimit": false,
+      "quotaConversion": {
+        "codingAgentAt874": 4351
+      }
+    },
+    {
+      "providerId": "electron-hub",
+      "planId": "turbo",
+      "label": "Electron Hub DevPass Turbo",
+      "fee": {
+        "amount": 20,
+        "currency": "USD"
+      },
+      "modelAllowance": null,
+      "softLimit": true,
+      "limits": {
+        "fiveHourUSD": null,
+        "weeklyUSD": null,
+        "monthlyUSD": null
+      },
+      "quotaConversion": {}
+    }
+  ]
+}

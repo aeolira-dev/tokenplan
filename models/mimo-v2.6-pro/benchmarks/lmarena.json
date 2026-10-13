@@ -1,0 +1,24 @@
+{
+  "$schema": "自描述。LMArena 文本总榜评测结果。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "modelEntryName": "mimo-v2.6-pro",
+    "sourceRefs": ["lmarena-text-mimo-v2-6-pro"],
+    "trustWarning": "LMArena 为人类盲投 Elo，存在风格博弈与快照时效风险；本榜只作参考。"
+  },
+  "boards": {
+    "text": {
+      "displayName": "LMArena",
+      "boardLabel": "Text（通用对话）",
+      "categories": {
+        "overall": {
+          "label": "总榜",
+          "rank": 10,
+          "rating": 1491.0410115857658,
+          "votes": 4056,
+          "publish": "2026-10-02"
+        }
+      }
+    }
+  }
+}

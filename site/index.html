@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>横评目录 · 按发布公司</title>
+  <style>
+    :root {
+      --canvas: #e8edf3;
+      --ink: #17191e;
+      --gold: #9a845c;
+      --blue: #3b6fd8;
+      --orange: #c37b4c;
+      --white: #fff;
+      --line: #d5dce6;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: #d5dce6; color: var(--ink); }
+    body {
+      font-family: "Inter", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.45;
+    }
+    .page { max-width: 1180px; margin: 0 auto; padding: 24px 24px 72px; }
+    .topnav {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 22px; padding: 6px 0 14px; border-bottom: 1px solid var(--line);
+    }
+    .topnav strong { color: var(--ink); font-size: 16px; letter-spacing: -0.02em; }
+    .topnav .nav-group { display: flex; align-items: center; gap: 4px; background: #dfe5ee; padding: 3px; border-radius: 8px; }
+    .topnav .nav-btn {
+      color: #5c6570; text-decoration: none; padding: 3px 9px; font-size: 12.5px; border-radius: 6px; font-weight: 500;
+    }
+    .topnav .nav-btn:hover { color: #17191e; }
+    
+    /* company-nav */
+    .topnav-left { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+    a.nav-home {
+      color: #5c6570; text-decoration: none; font-size: 12.5px; font-weight: 650;
+      padding: 3px 9px; border-radius: 6px; background: #dfe5ee;
+    }
+    a.nav-home:hover { color: #17191e; }
+    a.nav-home.active {
+      background: var(--white); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+    }
+    .snap { font-size:11.5px; color:#8a9099; padding:2px 6px; background:#fff; border-radius:4px; }
+    .topnav details.nav-switch {
+      position: relative; display: inline-block;
+      margin-top: 0; background: transparent; border-radius: 6px; padding: 0;
+    }
+    .nav-switch > summary {
+      list-style: none; cursor: pointer; color: #5c6570; padding: 3px 9px;
+      font-size: 12.5px; border-radius: 6px; font-weight: 500;
+    }
+    .nav-switch > summary::-webkit-details-marker { display: none; }
+    .nav-switch > summary::marker { content: ''; }
+    .nav-switch > summary:hover { color: #17191e; }
+    .nav-switch-panel {
+      position: absolute; right: 0; top: calc(100% + 6px); z-index: 30;
+      min-width: 240px; background: #fff; border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(23,25,30,0.12); padding: 8px;
+    }
+    .nav-switch-vendor { padding: 6px 8px; }
+    .nav-switch-vendor .lab { display:block; font-size:11px; color:#8a9099; margin-bottom:4px; }
+    .nav-switch-vendor a { display:inline-block; margin-right:8px; color:#3b6fd8; text-decoration:none; font-size:12.5px; }
+    .nav-switch-all { display:block; margin-top:4px; padding:8px; font-size:12.5px; color:#3b6fd8; text-decoration:none; }
+
+    h1 { font-size: 28px; font-weight: 650; letter-spacing: -0.038em; line-height: 1.12; margin: 8px 0 10px; }
+    .lede { color: #5c6570; font-size: 14px; max-width: 68ch; line-height: 1.65; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 18px 0 8px; }
+    .stat { background: #fff; border-radius: 14px; padding: 12px 14px; }
+    .stat .k { color: #8a9099; font-size: 11px; }
+    .stat .v { font-size: 22px; font-weight: 620; letter-spacing: -0.04em; margin-top: 4px; }
+    .toolbar { display: flex; gap: 8px; align-items: center; margin: 18px 0 10px; flex-wrap: wrap; }
+    .btn {
+      border: 1px solid var(--line); background: #fff; border-radius: 999px;
+      padding: 5px 12px; font-size: 13px; cursor: pointer;
+    }
+    .btn.on { background: #1f2a3d; color: #fff; border-color: #1f2a3d; }
+    .hint { font-size: 12.5px; color: #6a7380; }
+    input.filter {
+      border: 1px solid var(--line); background: #fff; border-radius: 999px;
+      padding: 6px 14px; font-size: 13px; min-width: 220px; outline: none;
+    }
+    .sec { margin-top: 28px; }
+    .sec h2 {
+      font-size: 13px; font-weight: 650; letter-spacing: 0.12em;
+      color: #6a7380; text-transform: uppercase; margin-bottom: 14px;
+    }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .vcard {
+      background: #fff; border-radius: 14px; padding: 16px 16px 14px;
+    }
+    .vcard header { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+    .vcard h3 { font-size: 16px; font-weight: 650; letter-spacing: -0.02em; }
+    .ven { color: #8a9099; font-size: 12px; margin-top: 2px; }
+    .vmeta { display: flex; flex-wrap: wrap; gap: 4px; justify-content: flex-end; }
+    .ob {
+      display: inline-block; background: #eef1f5; color: #5c6570;
+      font-size: 11px; padding: 1px 7px; border-radius: 6px;
+    }
+    .ob.ok { background: #e5f4ea; color: #2f7a4a; }
+    .ob.mid { background: #f4efe3; color: #8a6d2f; }
+    .ob.hot { background: #f8e8e8; color: #b54646; }
+    .ob.na { color: #9aa1ab; }
+    .mlist { display: flex; flex-wrap: wrap; gap: 6px; }
+    .mchip {
+      display: inline-flex; align-items: baseline; gap: 6px; flex-wrap: wrap;
+      background: var(--canvas); border-radius: 10px; padding: 6px 9px; font-size: 12.5px;
+    }
+    a.mchip.live {
+      text-decoration: none; color: inherit;
+      box-shadow: inset 0 0 0 1px #c9d6f0; background: #f4f7fc;
+    }
+    a.mchip.live:hover { box-shadow: inset 0 0 0 1px #3b6fd8; }
+    .mname { font-weight: 650; }
+    .mtype { color: #8a9099; font-size: 11px; }
+    .mtag {
+      background: #e8eefc; color: #3b6fd8; font-size: 10.5px;
+      padding: 0 5px; border-radius: 5px;
+    }
+    .go { color: #3b6fd8; font-size: 11px; font-weight: 700; margin-left: 2px; }
+    .foot { margin-top: 28px; font-size: 12px; color: #6a7380; }
+    .hidden { display: none !important; }
+    @media (max-width: 860px) {
+      .grid, .stats { grid-template-columns: 1fr; }
+    }
+</style>
+</head>
+<body>
+  <div class="page">
+    <div class="topnav">
+      <div class="topnav-left">
+        <a class="nav-home active" href="index.html">横评目录</a>
+        <strong>按发布公司浏览</strong>
+        <span class="snap">2026.10.08 快照</span>
+      </div>
+      <nav class="nav-group">
+        <a href="#cn" class="nav-btn">国内</a><a href="#os" class="nav-btn">海外</a>
+      </nav>
+    </div>
+
+    <h1>在用模型目录</h1>
+    <p class="lede">按发布公司分组。只收当前主力与在售代际，旧代（GPT-5.x、Claude Opus 4.x、DeepSeek-V4、Hy3、GLM-5.2、Grok 4.6、Llama 等）不进目录。带「横评」的条目已有渠道对照页。</p>
+
+    <div class="stats">
+      <div class="stat"><div class="k">厂商</div><div class="v">51</div></div>
+      <div class="stat"><div class="k">在用模型</div><div class="v">89</div></div>
+      <div class="stat"><div class="k">国内 / 海外</div><div class="v">31 / 20</div></div>
+      <div class="stat"><div class="k">已建档横评</div><div class="v">15</div></div>
+    </div>
+
+    <div class="toolbar">
+      <button class="btn on" data-region="all" type="button">全部</button>
+      <button class="btn" data-region="cn" type="button">国内</button>
+      <button class="btn" data-region="os" type="button">海外</button>
+      <input class="filter" id="q" type="search" placeholder="筛厂商或型号" />
+      <span class="hint">口径：2026.10.08 · 忽略过时模型</span>
+    </div>
+
+    <section class="sec" id="cn">
+      <h2>国内厂商</h2>
+      <div class="grid"><article class="vcard" id="deepseek" data-region="cn" data-open="weights" data-name="深度求索 DeepSeek">
+    <header>
+      <div>
+        <h3>深度求索</h3>
+        <p class="ven">DeepSeek · 中国</p>
+      </div>
+      <div class="vmeta"><span class="ob ok">开源</span></div>
+    </header>
+    <div class="mlist"><a class="mchip live" href="deepseek-v4-pro.html"><span class="mname">DeepSeek-V4 Pro 0813</span><span class="mtype">旗舰推理</span><span class="go">横评</span></a><a class="mchip live" href="deepseek-v4.1-flash.html"><span class="mname">DeepSeek-V4.1 Flash</span><span class="mtype">轻量主力</span><span class="go">横评</span></a></div>
+  </article><article class="vcard" id="bytedance" data-region="cn" data-open="closed" data-name="字节跳动 ByteDance">
+    <header>
+      <div>
+        <h3>字节跳动</h3>
+        <p class="ven">ByteDance · 中国</p>
+      </div>
+      <div class="vmeta"><span class="ob ">闭源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">Doubao Seed 2.1 Pro</span><span class="mtype">旗舰</span></span><span class="mchip"><span class="mname">TRAE</span><span class="mtype">编程专用</span></span></div>
+  </article><article class="vcard" id="qwen" data-region="cn" data-open="partial" data-name="阿里云 / 千问 Qwen">
+    <header>
+      <div>
+        <h3>阿里云 / 千问</h3>
+        <p class="ven">Qwen · 中国</p>
+      </div>
+      <div class="vmeta"><span class="ob mid">部分开源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">Qwen3.8-Max</span><span class="mtype">旗舰闭源</span></span><span class="mchip"><span class="mname">Qwen3.8-Flash-Next</span><span class="mtag">预览</span><span class="mtype">开源预览</span></span><span class="mchip"><span class="mname">Qwen3.8 Omni Flash</span><span class="mtype">全模态</span></span><span class="mchip"><span class="mname">Qwen3.8-Flash</span><span class="mtype">轻量闭源</span></span><span class="mchip"><span class="mname">Qwen3.8 27B</span><span class="mtype">开源</span></span><span class="mchip"><span class="mname">Qwen3.8 2.4T A95B</span><span class="mtype">开源 MoE</span></span></div>
+  </article><article class="vcard" id="tencent" data-region="cn" data-open="partial" data-name="腾讯 Tencent">
+    <header>
+      <div>
+        <h3>腾讯</h3>
+        <p class="ven">Tencent · 中国</p>
+      </div>
+      <div class="vmeta"><span class="ob mid">部分开源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">Hy4</span><span class="mtag">预览</span><span class="mtype">旗舰预览</span></span><span class="mchip"><span class="mname">HY-2.0</span><span class="mtype">通用主力</span></span></div>
+  </article><article class="vcard" id="huawei" data-region="cn" data-open="unknown" data-name="华为 Huawei">
+    <header>
+      <div>
+        <h3>华为</h3>
+        <p class="ven">Huawei · 中国</p>
+      </div>
+      <div class="vmeta"><span class="ob na">—</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">盘古 5.0</span><span class="mtype">行业 + 通用</span></span></div>
+  </article><article class="vcard" id="moonshot" data-region="cn" data-open="partial" data-name="月之暗面 Moonshot AI">
+    <header>
+      <div>
+        <h3>月之暗面</h3>
+        <p class="ven">Moonshot AI · 中国</p>
+      </div>
+      <div class="vmeta"><span class="ob mid">部分开源</span><span class="ob hot">官方暂停销售</span></div>
+    </header>
+    <div class="mlist"><a class="mchip live" href="kimi-k3.html"><span class="mname">Kimi K3</span><span class="mtype">旗舰</span><span class="go">横评</span></a><span class="mchip"><span class="mname">Kimi K2.8 Preview</span><span class="mtag">预览</span><span class="mtype">预览版</span></span><span class="mchip"><span class="mname">Kimi K2.7 Code</span><span class="mtype">编程专用</span></span></div>
+  </article><article class="vcard" id="baidu" data-region="cn" data-open="closed" data-name="百度 Baidu">
+    <header>
+      <div>
+        <h3>百度</h3>
+        <p class="ven">Baidu · 中国</p>
+      </div>
+      <div class="vmeta"><span class="ob ">闭源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">ERNIE 5.1</span><span class="mtype">旗舰</span></span></div>
+  </article><article class="vcard" id="zhipu" data-region="cn" data-open="weights" data-name="智谱 AI Z.ai">
+    <header>
+      <div>
+        <h3>智谱 AI</h3>
+        <p class="ven">Z.ai · 中国</p>
+      </div>
+      <div class="vmeta"><span class="ob ok">开源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">GLM-5.3</span><span class="mtype">旗舰</span></span><a class="mchip live" href="glm-5.3-flash.html"><span class="mname">GLM-5.3-Flash</span><span class="mtype">原生多模态</span><span class="go">横评</span></a></div>
+  </article><article class="vcard" id="360" data-region="cn" data-open="closed" data-name="360 360">
+    <header>
+      <div>
+        <h3>360</h3>
+        <p class="ven">360 · 中国</p>
+      </div>
+      <div class="vmeta"><span class="ob ">闭源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">360 智脑</span><span class="mtype">通用</span></span></div>
+  </article><article class="vcard" id="minimax" data-region="cn" data-open="weights" data-name="MiniMax MiniMax">
+    <header>
+      <div>
+        <h3>MiniMax</h3>
+        <p class="ven">MiniMax · 中国</p>
+      </div>
+      <div class="vmeta"><span class="ob ok">开源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">MiniMax M3</span><span class="mtype">旗舰</span></span></div>
+  </article><article class="vcard" id="chinatelecom" data-region="cn" data-open="unknown" data-name="中电信人工智能 China Telecom AI">
+    <header>
+      <div>
+        <h3>中电信人工智能</h3>
+        <p class="ven">China Telecom AI · 中国</p>
+      </div>
+      <div class="vmeta"><span class="ob na">—</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">星辰</span><span class="mtype">行业大模型</span></span></div>
+  </article><article class="vcard" id="stepfun" data-region="cn" data-open="partial" data-name="阶跃星辰 StepFun">
+    <header>
+      <div>
+        <h3>阶跃星辰</h3>
+        <p class="ven">StepFun · 中国</p>
+      </div>
+      <div class="vmeta"><span class="ob mid">部分开源</span></div>
+    </header>
+    <div class="mlist"><a class="mchip live" href="step-5-preview.html"><span class="mname">Step 5</span><span class="mtag">预览</span><span class="mtype">旗舰 MoE</span><span class="go">横评</span></a></div>
+  </article><article class="vcard" id="sensetime" data-region="cn" data-open="unknown" data-name="商汤科技 SenseTime">
+    <header>
+      <div>
+        <h3>商汤科技</h3>
+        <p class="ven">SenseTime · 中国</p>
+      </div>
+      <div class="vmeta"><span class="ob na">—</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">SenseNova V6</span><span class="mtype">多模态</span></span></div>
+  </article><article class="vcard" id="unicom" data-region="cn" data-open="closed" data-name="中国联通 China Unicom">
+    <header>
+      <div>
+        <h3>中国联通</h3>
+        <p class="ven">China Unicom · 中国</p>
+      </div>
+      <div class="vmeta"><span class="ob ">闭源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">元景</span><span class="mtype">行业大模型</span></span></div>
+  </article><article class="vcard" id="modelbest" data-region="cn" data-open="weights" data-name="面壁智能 ModelBest">
+    <header>
+      <div>
+        <h3>面壁智能</h3>
+        <p class="ven">ModelBest · 中国</p>
+      </div>
+      <div class="vmeta"><span class="ob ok">开源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">MiniCPM</span><span class="mtype">端侧开源</span></span><span class="mchip"><span class="mname">SuperMate</span><span class="mtype">通用</span></span></div>
+  </article><article class="vcard" id="iflytek" data-region="cn" data-open="unknown" data-name="科大讯飞 iFlytek">
+    <header>
+      <div>
+        <h3>科大讯飞</h3>
+        <p class="ven">iFlytek · 中国</p>
+      </div>
+      <div class="vmeta"><span class="ob na">—</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">讯飞星火 X2</span><span class="mtype">旗舰</span></span></div>
+  </article><article class="vcard" id="xiaomi" data-region="cn" data-open="weights" data-name="小米 Xiaomi">
+    <header>
+      <div>
+        <h3>小米</h3>
+        <p class="ven">Xiaomi · 中国</p>
+      </div>
+      <div class="vmeta"><span class="ob ok">开源</span></div>
+    </header>
+    <div class="mlist"><a class="mchip live" href="mimo-v2.6-pro.html"><span class="mname">MiMo-V2.6-Pro</span><span class="mtype">旗舰</span><span class="go">横评</span></a><span class="mchip"><span class="mname">MiMo-V2.6-Flash</span><span class="mtype">轻量</span></span></div>
+  </article><article class="vcard" id="chinamobile" data-region="cn" data-open="closed" data-name="中国移动 China Mobile">
+    <header>
+      <div>
+        <h3>中国移动</h3>
+        <p class="ven">China Mobile · 中国</p>
+      </div>
+      <div class="vmeta"><span class="ob ">闭源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">中移九天</span><span class="mtype">行业大模型</span></span></div>
+  </article><article class="vcard" id="yonyou" data-region="cn" data-open="closed" data-name="用友网络 Yonyou">
+    <header>
+      <div>
+        <h3>用友网络</h3>
+        <p class="ven">Yonyou · 中国</p>
+      </div>
+      <div class="vmeta"><span class="ob ">闭源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">YonGPT</span><span class="mtype">企业软件</span></span></div>
+  </article><article class="vcard" id="kunlun" data-region="cn" data-open="partial" data-name="昆仑万维 Kunlun">
+    <header>
+      <div>
+        <h3>昆仑万维</h3>
+        <p class="ven">Kunlun · 中国</p>
+      </div>
+      <div class="vmeta"><span class="ob mid">部分开源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">Skywork / 天工</span><span class="mtype">通用 + Agent</span></span></div>
+  </article><article class="vcard" id="jd" data-region="cn" data-open="closed" data-name="京东 JD">
+    <header>
+      <div>
+        <h3>京东</h3>
+        <p class="ven">JD · 中国</p>
+      </div>
+      <div class="vmeta"><span class="ob ">闭源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">JoyAI</span><span class="mtype">产业大模型</span></span></div>
+  </article><article class="vcard" id="baichuan" data-region="cn" data-open="unknown" data-name="百川智能 Baichuan">
+    <header>
+      <div>
+        <h3>百川智能</h3>
+        <p class="ven">Baichuan · 中国</p>
+      </div>
+      <div class="vmeta"><span class="ob na">—</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">Baichuan</span><span class="mtype">通用 + 医疗</span></span></div>
+  </article><article class="vcard" id="inspur" data-region="cn" data-open="closed" data-name="浪潮云 Inspur">
+    <header>
+      <div>
+        <h3>浪潮云</h3>
+        <p class="ven">Inspur · 中国</p>
+      </div>
+      <div class="vmeta"><span class="ob ">闭源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">海若</span><span class="mtype">行业大模型</span></span></div>
+  </article><article class="vcard" id="paradigm" data-region="cn" data-open="closed" data-name="范式智能 4Paradigm">
+    <header>
+      <div>
+        <h3>范式智能</h3>
+        <p class="ven">4Paradigm · 中国</p>
+      </div>
+      <div class="vmeta"><span class="ob ">闭源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">SageGPT</span><span class="mtype">企业级</span></span></div>
+  </article><article class="vcard" id="shailab" data-region="cn" data-open="weights" data-name="上海人工智能实验室 Shanghai AI Lab">
+    <header>
+      <div>
+        <h3>上海人工智能实验室</h3>
+        <p class="ven">Shanghai AI Lab · 中国</p>
+      </div>
+      <div class="vmeta"><span class="ob ok">开源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">Intern-S1-Pro</span><span class="mtype">科学多模态</span></span><span class="mchip"><span class="mname">Atria Dawn</span><span class="mtag">预览</span><span class="mtype">旗舰预览</span></span><span class="mchip"><span class="mname">InternLM 3</span><span class="mtype">开源</span></span></div>
+  </article><article class="vcard" id="01ai" data-region="cn" data-open="partial" data-name="零一万物 01.AI">
+    <header>
+      <div>
+        <h3>零一万物</h3>
+        <p class="ven">01.AI · 中国</p>
+      </div>
+      <div class="vmeta"><span class="ob mid">部分开源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">Yi-Vision</span><span class="mtype">多模态</span></span></div>
+  </article><article class="vcard" id="mobvoi" data-region="cn" data-open="closed" data-name="出门问问 Mobvoi">
+    <header>
+      <div>
+        <h3>出门问问</h3>
+        <p class="ven">Mobvoi · 中国</p>
+      </div>
+      <div class="vmeta"><span class="ob ">闭源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">序列猴子</span><span class="mtype">通用</span></span></div>
+  </article><article class="vcard" id="mengzi" data-region="cn" data-open="unknown" data-name="澜舟科技 Langboat">
+    <header>
+      <div>
+        <h3>澜舟科技</h3>
+        <p class="ven">Langboat · 中国</p>
+      </div>
+      <div class="vmeta"><span class="ob na">—</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">孟子 Mengzi</span><span class="mtype">轻量 + 金融</span></span></div>
+  </article><article class="vcard" id="meituan" data-region="cn" data-open="weights" data-name="美团 Meituan">
+    <header>
+      <div>
+        <h3>美团</h3>
+        <p class="ven">Meituan · 中国</p>
+      </div>
+      <div class="vmeta"><span class="ob ok">开源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">LongCat-2.0</span><span class="mtype">旗舰开源</span></span></div>
+  </article><article class="vcard" id="inclusionai" data-region="cn" data-open="weights" data-name="蚂蚁集团 InclusionAI">
+    <header>
+      <div>
+        <h3>蚂蚁集团</h3>
+        <p class="ven">InclusionAI · 中国</p>
+      </div>
+      <div class="vmeta"><span class="ob ok">开源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">Ling 3.1 Flash</span><span class="mtype">轻量开源</span></span><span class="mchip"><span class="mname">Ling 3.0 Flash</span><span class="mtype">原生多模态</span></span><span class="mchip"><span class="mname">Ling 3.0 Flash Fin</span><span class="mtype">金融特化</span></span></div>
+  </article><article class="vcard" id="xverse" data-region="cn" data-open="weights" data-name="元象 XVERSE">
+    <header>
+      <div>
+        <h3>元象</h3>
+        <p class="ven">XVERSE · 中国</p>
+      </div>
+      <div class="vmeta"><span class="ob ok">开源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">XVERSE-Ent</span><span class="mtype">泛娱乐底座</span></span></div>
+  </article></div>
+    </section>
+
+    <section class="sec" id="os">
+      <h2>海外厂商</h2>
+      <div class="grid"><article class="vcard" id="anthropic" data-region="os" data-open="closed" data-name="Anthropic Anthropic">
+    <header>
+      <div>
+        <h3>Anthropic</h3>
+        <p class="ven">Anthropic · 美国</p>
+      </div>
+      <div class="vmeta"><span class="ob ">闭源</span></div>
+    </header>
+    <div class="mlist"><a class="mchip live" href="claude-opus-5.5.html"><span class="mname">Claude Opus 5.5</span><span class="mtype">旗舰</span><span class="go">横评</span></a><a class="mchip live" href="claude-fable-5.1.html"><span class="mname">Claude Fable 5.1</span><span class="mtype">创意 / 长文本</span><span class="go">横评</span></a><a class="mchip live" href="claude-sonnet-5.5.html"><span class="mname">Claude Sonnet 5.5</span><span class="mtype">主力中档</span><span class="go">横评</span></a><a class="mchip live" href="claude-haiku-5.5.html"><span class="mname">Claude Haiku 5.5</span><span class="mtype">轻量</span><span class="go">横评</span></a><span class="mchip"><span class="mname">Claude Mythos 5</span><span class="mtype">垂直线</span></span></div>
+  </article><article class="vcard" id="openai" data-region="os" data-open="closed" data-name="OpenAI OpenAI">
+    <header>
+      <div>
+        <h3>OpenAI</h3>
+        <p class="ven">OpenAI · 美国</p>
+      </div>
+      <div class="vmeta"><span class="ob ">闭源</span></div>
+    </header>
+    <div class="mlist"><a class="mchip live" href="gpt-6.1-sol.html"><span class="mname">GPT-6.1 Sol</span><span class="mtype">旗舰</span><span class="go">横评</span></a><a class="mchip live" href="gpt-6-astra.html"><span class="mname">GPT-6 Astra</span><span class="mtype">Agent 向</span><span class="go">横评</span></a><a class="mchip live" href="gpt-6-luna.html"><span class="mname">GPT-6 Luna</span><span class="mtype">轻量</span><span class="go">横评</span></a><span class="mchip"><span class="mname">GPT-6 Sol</span><span class="mtype">通用</span></span></div>
+  </article><article class="vcard" id="google" data-region="os" data-open="partial" data-name="Google DeepMind Google DeepMind">
+    <header>
+      <div>
+        <h3>Google DeepMind</h3>
+        <p class="ven">Google DeepMind · 美国</p>
+      </div>
+      <div class="vmeta"><span class="ob mid">部分开源</span></div>
+    </header>
+    <div class="mlist"><a class="mchip live" href="gemini-4-argon.html"><span class="mname">Gemini 4 Argon</span><span class="mtype">旗舰</span><span class="go">横评</span></a><a class="mchip live" href="gemini-3.8-flash.html"><span class="mname">Gemini 3.8 Flash</span><span class="mtype">主力轻量</span><span class="go">横评</span></a><span class="mchip"><span class="mname">Gemini 3.8 Omni</span><span class="mtype">全模态</span></span><span class="mchip"><span class="mname">Gemma 4</span><span class="mtype">开源</span></span></div>
+  </article><article class="vcard" id="xai" data-region="os" data-open="partial" data-name="xAI xAI">
+    <header>
+      <div>
+        <h3>xAI</h3>
+        <p class="ven">xAI · 美国</p>
+      </div>
+      <div class="vmeta"><span class="ob mid">部分开源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">Grok 4.7</span><span class="mtype">旗舰</span></span><span class="mchip"><span class="mname">Grok 4.20</span><span class="mtype">通用</span></span></div>
+  </article><article class="vcard" id="meta" data-region="os" data-open="weights" data-name="Meta Meta">
+    <header>
+      <div>
+        <h3>Meta</h3>
+        <p class="ven">Meta · 美国</p>
+      </div>
+      <div class="vmeta"><span class="ob ok">开源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">Muse Spark 1.3</span><span class="mtype">旗舰开源</span></span><span class="mchip"><span class="mname">Muse Glimmer-30B</span><span class="mtype">开源中等尺寸</span></span></div>
+  </article><article class="vcard" id="mistral" data-region="os" data-open="weights" data-name="Mistral AI Mistral AI">
+    <header>
+      <div>
+        <h3>Mistral AI</h3>
+        <p class="ven">Mistral AI · 法国</p>
+      </div>
+      <div class="vmeta"><span class="ob ok">开源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">Mistral Large 4</span><span class="mtype">旗舰</span></span><span class="mchip"><span class="mname">Mistral Medium 3.5</span><span class="mtype">中等</span></span><span class="mchip"><span class="mname">Devstral 2</span><span class="mtype">编程专用</span></span><span class="mchip"><span class="mname">Shieldstral 1.0</span><span class="mtype">安全小模型</span></span></div>
+  </article><article class="vcard" id="cohere" data-region="os" data-open="unknown" data-name="Cohere Cohere">
+    <header>
+      <div>
+        <h3>Cohere</h3>
+        <p class="ven">Cohere · 加拿大</p>
+      </div>
+      <div class="vmeta"><span class="ob na">—</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">Command A+</span><span class="mtype">旗舰 RAG</span></span><span class="mchip"><span class="mname">North</span><span class="mtype">企业平台</span></span></div>
+  </article><article class="vcard" id="thinkingmachines" data-region="os" data-open="weights" data-name="Thinking Machines Thinking Machines">
+    <header>
+      <div>
+        <h3>Thinking Machines</h3>
+        <p class="ven">Thinking Machines · 美国</p>
+      </div>
+      <div class="vmeta"><span class="ob ok">开源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">Inkling</span><span class="mtype">旗舰</span></span><span class="mchip"><span class="mname">Inkling Small</span><span class="mtype">轻量</span></span></div>
+  </article><article class="vcard" id="nvidia" data-region="os" data-open="weights" data-name="NVIDIA NVIDIA">
+    <header>
+      <div>
+        <h3>NVIDIA</h3>
+        <p class="ven">NVIDIA · 美国</p>
+      </div>
+      <div class="vmeta"><span class="ob ok">开源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">Nemotron 3 Ultra</span><span class="mtype">旗舰开源</span></span><span class="mchip"><span class="mname">Nemotron 3.5 Lightning</span><span class="mtype">轻量开源</span></span></div>
+  </article><article class="vcard" id="ibm" data-region="os" data-open="weights" data-name="IBM IBM">
+    <header>
+      <div>
+        <h3>IBM</h3>
+        <p class="ven">IBM · 美国</p>
+      </div>
+      <div class="vmeta"><span class="ob ok">开源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">Granite 4.2</span><span class="mtype">企业开源</span></span></div>
+  </article><article class="vcard" id="inception" data-region="os" data-open="unknown" data-name="Inception Labs Inception Labs">
+    <header>
+      <div>
+        <h3>Inception Labs</h3>
+        <p class="ven">Inception Labs · 美国</p>
+      </div>
+      <div class="vmeta"><span class="ob na">—</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">Mercury 2.5</span><span class="mtype">扩散语言模型</span></span></div>
+  </article><article class="vcard" id="cursor" data-region="os" data-open="closed" data-name="Cursor Cursor">
+    <header>
+      <div>
+        <h3>Cursor</h3>
+        <p class="ven">Cursor · 美国</p>
+      </div>
+      <div class="vmeta"><span class="ob ">闭源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">Composer 2.5</span><span class="mtype">编程专用</span></span></div>
+  </article><article class="vcard" id="poolside" data-region="os" data-open="unknown" data-name="Poolside Poolside">
+    <header>
+      <div>
+        <h3>Poolside</h3>
+        <p class="ven">Poolside · 美国</p>
+      </div>
+      <div class="vmeta"><span class="ob na">—</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">Laguna M.1</span><span class="mtype">编程专用</span></span></div>
+  </article><article class="vcard" id="fireworks" data-region="os" data-open="unknown" data-name="Fireworks AI Fireworks AI">
+    <header>
+      <div>
+        <h3>Fireworks AI</h3>
+        <p class="ven">Fireworks AI · 美国</p>
+      </div>
+      <div class="vmeta"><span class="ob na">—</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">Ember-1</span><span class="mtype">推理 / 前端</span></span></div>
+  </article><article class="vcard" id="upstage" data-region="os" data-open="weights" data-name="Upstage Upstage">
+    <header>
+      <div>
+        <h3>Upstage</h3>
+        <p class="ven">Upstage · 韩国</p>
+      </div>
+      <div class="vmeta"><span class="ob ok">开源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">Solar Pro 4</span><span class="mtype">旗舰开源</span></span><span class="mchip"><span class="mname">Solar Mini 4</span><span class="mtype">轻量</span></span></div>
+  </article><article class="vcard" id="microsoft" data-region="os" data-open="partial" data-name="微软 Microsoft">
+    <header>
+      <div>
+        <h3>微软</h3>
+        <p class="ven">Microsoft · 美国</p>
+      </div>
+      <div class="vmeta"><span class="ob mid">部分开源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">MAI</span><span class="mtype">通用</span></span><span class="mchip"><span class="mname">Phi</span><span class="mtype">端侧</span></span></div>
+  </article><article class="vcard" id="amazon" data-region="os" data-open="closed" data-name="Amazon Amazon">
+    <header>
+      <div>
+        <h3>Amazon</h3>
+        <p class="ven">Amazon · 美国</p>
+      </div>
+      <div class="vmeta"><span class="ob ">闭源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">Nova 2</span><span class="mtype">通用 + 多模态</span></span></div>
+  </article><article class="vcard" id="apple" data-region="os" data-open="closed" data-name="Apple Apple">
+    <header>
+      <div>
+        <h3>Apple</h3>
+        <p class="ven">Apple · 美国</p>
+      </div>
+      <div class="vmeta"><span class="ob ">闭源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">Foundation Model</span><span class="mtype">端侧</span></span></div>
+  </article><article class="vcard" id="ai21" data-region="os" data-open="partial" data-name="AI21 Labs AI21 Labs">
+    <header>
+      <div>
+        <h3>AI21 Labs</h3>
+        <p class="ven">AI21 Labs · 以色列</p>
+      </div>
+      <div class="vmeta"><span class="ob mid">部分开源</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">Jamba</span><span class="mtype">SSM-Transformer</span></span></div>
+  </article><article class="vcard" id="reka" data-region="os" data-open="unknown" data-name="Reka AI Reka AI">
+    <header>
+      <div>
+        <h3>Reka AI</h3>
+        <p class="ven">Reka AI · 美国</p>
+      </div>
+      <div class="vmeta"><span class="ob na">—</span></div>
+    </header>
+    <div class="mlist"><span class="mchip"><span class="mname">Reka Flash</span><span class="mtype">多模态</span></span><span class="mchip"><span class="mname">Reka Core</span><span class="mtype">多模态</span></span></div>
+  </article></div>
+    </section>
+
+    <p class="foot">来源：《大模型厂商与模型总表》2026.10.08。不收录纯视频 / TTS 厂商。Kimi 官方已暂停销售，条目保留但标红。未建档型号只做目录，不造死链。</p>
+  </div>
+  <script>
+    const btns = [...document.querySelectorAll('.toolbar .btn')];
+    const cards = [...document.querySelectorAll('.vcard')];
+    const secs = [...document.querySelectorAll('.sec')];
+    const q = document.getElementById('q');
+    let region = 'all';
+    function apply() {
+      const term = (q.value || '').trim().toLowerCase();
+      cards.forEach(c => {
+        const regionOk = region === 'all' || c.dataset.region === region;
+        const hay = (c.dataset.name + ' ' + c.textContent).toLowerCase();
+        const textOk = !term || hay.includes(term);
+        c.classList.toggle('hidden', !(regionOk && textOk));
+      });
+      secs.forEach(s => {
+        const any = [...s.querySelectorAll('.vcard')].some(c => !c.classList.contains('hidden'));
+        s.classList.toggle('hidden', !any);
+      });
+    }
+    btns.forEach(b => b.onclick = () => {
+      region = b.dataset.region;
+      btns.forEach(x => x.classList.toggle('on', x === b));
+      apply();
+    });
+    q.addEventListener('input', apply);
+  </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+{
+  "$schema": "自描述。AA 榜单口径评测结果。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "sourceRefs": [
+      "aa-peers"
+    ]
+  },
+  "boards": {
+    "artificialAnalysis": {
+      "displayName": "Artificial Analysis",
+      "indexName": "Artificial Analysis Intelligence Index",
+      "indexVersion": "v4.3.2",
+      "modelEntryName": "GPT-6 Luna (Max)",
+      "intelligenceIndex": 38.1245186869738,
+      "snapshotPeerCount": 25,
+      "rankings": [
+        {
+          "key": "intelligence",
+          "label": "Intelligence",
+          "rank": 19,
+          "of": 25,
+          "note": "本快照 25 个对照模型，不是全站 117 榜"
+        },
+        {
+          "key": "cost",
+          "label": "Cost",
+          "rank": 3,
+          "of": 24,
+          "note": "$0.068/任务"
+        }
+      ],
+      "capabilities": {
+        "financeAndAccounting": 40.2967547784778,
+        "strategyAndOps": 45.7388446388429,
+        "legal": 40.2779942332056,
+        "healthcareAndMedical": 37.397572885301,
+        "engineering": 37.0938567579007,
+        "economics": 45.2162363492431
+      },
+      "costProfile": {
+        "price1mInputTokens": 0.1,
+        "price1mOutputTokens": 0.5,
+        "cacheHitPrice": 0.01,
+        "price1mBlended7To2To1": 0.077,
+        "costPerTaskUSD": 0.06782295669812205,
+        "timePerTaskSec": 393.59547430312165,
+        "outputTokensPerTask": 50011.69043054027
+      }
+    }
+  }
+}

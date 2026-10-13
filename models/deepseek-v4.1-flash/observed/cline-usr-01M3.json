@@ -1,0 +1,122 @@
+{
+  "$schema": "自描述。⚠️ 本文件是【个人实测样本】，不是公开标称额度。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "modelSlug": "deepseek-v4.1-flash",
+
+    "hardRule": "本文件的内容只属于一个具体账号的一段真实用量。它不是该渠道的标称额度，不能代表任何其他用户，不能与 channels/subscription.json 合并成一张表，不能参与任何「最划算」排序或倍数计算。",
+    "why": "用户明确要求：真实使用记录只属于本人，必须与公开标称额度分离建模、分离展示。",
+
+    "displayRules": [
+      "页面上必须放在独立区块，标题含「个人实测」字样",
+      "每个数字旁必须挂「单账号样本，不代表渠道标称额度」徽章",
+      "禁止进入任何排序、排行、推荐、倍数计算（构建期用代码级断言排除）",
+      "账号标识一律匿名化为 usr-01M3…（截断），邮箱不出现"
+    ],
+
+    "anonymization": {
+      "accountIdOriginal": "usr-01M3HFT38BJQ2METJ3A8YT7ZPF",
+      "accountIdShown": "usr-01M3…",
+      "emailShown": null,
+      "displayNameShown": null
+    },
+
+    "sourceNote": "数据来自该账号在 Cline 平台的用量导出与额度接口，由本机 default-workspace 下的分析产物固化而来，非本次重新抓取。",
+    "verificationLevel": "personal-measurement"
+  },
+
+  "channel": {
+    "providerId": "cline-pass",
+    "planId": "monthly",
+    "planNameShown": "ClinePass 月度（已取消，到期不续）",
+    "monthlyFeeUSD": 9.99,
+    "subscription": {
+      "periodStart": "2026-09-27T13:14:26Z",
+      "periodEnd": "2026-10-27T13:14:26Z",
+      "canceledAt": "2026-09-27T13:16:08Z",
+      "note": "订阅已取消，到期不续；下方数据取自 2026-10-08 的窗口快照"
+    }
+  },
+
+  "usage": {
+    "measuredAt": "2026-10-08T02:44:20.003Z",
+
+    "windows": [
+      {
+        "id": "five_hour",
+        "label": "5 小时窗口",
+        "platformPercentUsed": 7,
+        "requests": 518,
+        "tokensTotal": 32404077,
+        "promptTokens": 31616724,
+        "cachedTokens": 30584448,
+        "completionTokens": 787353,
+        "internalQuotaUnits": 71.90043500000002,
+        "internalCap": 1000000000,
+        "resetAt": "2026-10-08T06:23:52Z"
+      },
+      {
+        "id": "weekly",
+        "label": "周窗口",
+        "platformPercentUsed": 16,
+        "requests": 2801,
+        "tokensTotal": 173310180,
+        "promptTokens": 169852107,
+        "cachedTokens": 160103168,
+        "completionTokens": 3458073,
+        "internalQuotaUnits": 417.87751800000007,
+        "internalCap": 2500000000,
+        "resetAt": "2026-10-12T06:19:24Z"
+      },
+      {
+        "id": "monthly",
+        "label": "月窗口",
+        "platformPercentUsed": 53,
+        "requests": 11560,
+        "tokensTotal": 778467977,
+        "promptTokens": 763747846,
+        "cachedTokens": 667604162,
+        "completionTokens": 14720131,
+        "internalQuotaUnits": 2663.9494880000047,
+        "internalCap": 5000000000,
+        "resetAt": "2026-10-27T13:37:32Z"
+      }
+    ],
+
+    "derived": {
+      "cacheHitRateMonthly": 0.874,
+      "cacheHitRateFormula": "cachedTokens / promptTokens = 667604162 / 763747846",
+      "cacheHitRateNote": "这是本项目唯一一个来自真实流量的缓存率锚点，已被 subscription.json 的折算表采用。",
+      "outputToInputRatioMonthly": 0.0193,
+      "outputToInputRatioFormula": "completionTokens / promptTokens = 14720131 / 763747846",
+      "tokensPerRequestMonthly": 67342,
+      "tokensPerRequestFormula": "tokensTotal / requests = 778467977 / 11560"
+    },
+
+    "byModel": [
+      { "model": "cline-pass/deepseek-v4.1-flash", "requests": 11396, "tokensTotal": 778091000, "internalQuotaUnits": 2567.321689000006, "quotaMultipleK": 50.95773367870446 },
+      { "model": "cline-pass/deepseek-v4-pro", "requests": 25, "tokensTotal": 40032, "internalQuotaUnits": 7.315766999999999, "quotaMultipleK": 249.9998974817414 },
+      { "model": "cline-pass/glm-5.3", "requests": 27, "tokensTotal": 53825, "internalQuotaUnits": 8.063798000000002, "quotaMultipleK": 99.99997519779762 },
+      { "model": "cline-pass/glm-5.3-flash", "requests": 34, "tokensTotal": 65403, "internalQuotaUnits": 1.0710849999999998, "quotaMultipleK": 99.99999999999996 },
+      { "model": "cline-pass/kimi-k3", "requests": 30, "tokensTotal": 54381, "internalQuotaUnits": 35.80295700000002, "quotaMultipleK": 199.99998324160924 },
+      { "model": "cline-pass/qwen3.8-max", "requests": 28, "tokensTotal": 55472, "internalQuotaUnits": 14.715223000000003, "quotaMultipleK": 137.47373534721763 },
+      { "model": "cline-pass/qwen3.7-plus", "requests": 6, "tokensTotal": 48820, "internalQuotaUnits": 4.64374, "quotaMultipleK": 167.25278049904915 },
+      { "model": "cline-pass/qwen3.7-max", "requests": 6, "tokensTotal": 47856, "internalQuotaUnits": 24.870652, "quotaMultipleK": 166.76043985516964 }
+    ],
+
+    "byModelNote": "该账号的用量 98.5% 集中在 DeepSeek-V4.1-Flash（11396 / 11560 请求）。其余模型的样本量极小（个位数到数十），不具统计意义，仅作 quotaMultipleK 的旁证。"
+  },
+
+  "observations": [
+    "月窗口已用 53%，但月窗口尚未走完（周期 09-27 → 10-27，快照在 10-08，即第 11 天）——按线性外推整个周期会超限，实际后半段可能被限流。",
+    "5 小时窗口只用 7%，说明瓶颈不在短窗口而在月窗口。",
+    "缓存命中率 87.4% 是这套用量能跑这么多的关键：若缓存率为 0，同样 token 量的成本会高出约 4 倍。",
+    "平台自己报的 percentUsed（7 / 16 / 53）与本机按内部配额单位算出的比例（7.19% / 16.72% / 53.28%）高度一致，说明内部配额单位与平台展示口径同源。"
+  ],
+
+  "excludedFrom": [
+    "channels/api.json 的任何倍数列",
+    "channels/subscription.json 的 quotaConversion 折算表（该表只用公开标称额度）",
+    "任何跨渠道性价比排序"
+  ]
+}

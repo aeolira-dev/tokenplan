@@ -1,0 +1,52 @@
+{
+  "$schema": "自描述。AA 榜单口径评测结果。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "sourceRefs": [
+      "aa-peers"
+    ]
+  },
+  "boards": {
+    "artificialAnalysis": {
+      "displayName": "Artificial Analysis",
+      "indexName": "Artificial Analysis Intelligence Index",
+      "indexVersion": "v4.3.2",
+      "modelEntryName": "GPT-6 Astra (Max)",
+      "intelligenceIndex": 52.673669395513,
+      "snapshotPeerCount": 25,
+      "rankings": [
+        {
+          "key": "intelligence",
+          "label": "Intelligence",
+          "rank": 4,
+          "of": 25,
+          "note": "本快照 25 个对照模型，不是全站 117 榜"
+        },
+        {
+          "key": "cost",
+          "label": "Cost",
+          "rank": 19,
+          "of": 24,
+          "note": "$3.258/任务"
+        }
+      ],
+      "capabilities": {
+        "financeAndAccounting": 55.2438222359299,
+        "strategyAndOps": 57.3406197123196,
+        "legal": 58.5312959598094,
+        "healthcareAndMedical": 51.6668965494132,
+        "engineering": 54.7065681457097,
+        "economics": 59.8311116581711
+      },
+      "costProfile": {
+        "price1mInputTokens": 10,
+        "price1mOutputTokens": 50,
+        "cacheHitPrice": 1,
+        "price1mBlended7To2To1": 7.7,
+        "costPerTaskUSD": 3.2575003134834164,
+        "timePerTaskSec": 585.6828594750334,
+        "outputTokensPerTask": 27205.50491647014
+      }
+    }
+  }
+}

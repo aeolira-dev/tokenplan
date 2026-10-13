@@ -1,0 +1,94 @@
+{
+  "$schema": "自描述。模型身份层；价格在 channels/，榜单在 benchmarks/，出处登记在 sources.json。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "verificationLevel": "official-doc-plus-snapshot",
+    "sources": ["kimi-k3-official-model", "aa-kimi-k3"]
+  },
+  "slug": "kimi-k3",
+  "displayName": "Kimi K3",
+  "vendor": "moonshot",
+  "vendorDisplay": "月之暗面 / Moonshot AI",
+  "family": "Kimi K3",
+  "tier": "旗舰多模态长上下文",
+  "apiModelIds": {
+    "official": "kimi-k3",
+    "aliasNote": "LMArena 快照名称为 kimi-k3-max；本页官方 API 型号以 kimi-k3 为准。"
+  },
+  "release": { "date": "2026-07-16", "knowledgeCutoff": null, "deprecated": false },
+  "openness": {
+    "openWeights": true,
+    "license": "Kimi K3 License",
+    "weightsUrl": null,
+    "opennessIndex": null,
+    "note": "官方快速开始说明 open-source/full weights；许可证名称取工作区 AA 快照。"
+  },
+  "architecture": {
+    "totalParametersB": 2800,
+    "activeParametersB": 104,
+    "sizeClass": "large-moe",
+    "moe": true,
+    "note": "AA 工作区快照记录 2.8T 总参数、104B 激活；官方快速开始另说明 Kimi Delta Attention 与 Attention Residuals。"
+  },
+  "limits": {
+    "contextTokens": 1048576,
+    "maxOutputTokens": 131072,
+    "concurrencyLimit": null,
+    "note": "官方模型列表/快速开始给出 1M context；最大输出取工作区聚合目录交叉值。"
+  },
+  "capabilities": {
+    "reasoning": { "supported": true, "default": true, "note": "官方定位覆盖 reasoning 与 coding。" },
+    "vision": true,
+    "toolCalls": true,
+    "jsonOutput": true,
+    "responsesApi": false,
+    "anthropicApi": false,
+    "chatPrefixCompletion": false,
+    "fimCompletion": { "supported": false },
+    "webSearch": { "supported": null, "note": "未在本页核实独立联网搜索 API。" },
+    "inputModalities": ["text", "image", "video"],
+    "outputModalities": ["text"]
+  },
+  "speed": {
+    "_source": "aa-kimi-k3",
+    "outputTokensPerSecond": null,
+    "timeToFirstChunkSeconds": null,
+    "timePerTaskSec": 1106.3464786876305,
+    "outputTokensPerTask": 48455.23210144532,
+    "note": "AA 对照集只给任务级时长/输出量，未给独立 tok/s。"
+  },
+  "baseline": {
+    "providerId": "moonshot-official",
+    "currency": "USD",
+    "unit": "per 1M tokens",
+    "tiers": [
+      { "id": "standard", "label": "官方 API 标准按量", "usd": { "inputMiss": 3, "inputHit": 0.3, "output": 15, "cacheWrite5m": 3, "cacheWrite1h": 6 } }
+    ]
+  },
+  "card": {
+    "radar": {
+      "shape": "hexagon",
+      "axesCount": 6,
+      "axes": [
+        { "key": "financeAndAccounting", "label": "财会", "value": 46.8896359847019 },
+        { "key": "strategyAndOps", "label": "战略与运营", "value": 50.4712819162407 },
+        { "key": "legal", "label": "法律", "value": 48.6440650427309 },
+        { "key": "healthcareAndMedical", "label": "医疗健康", "value": 45.0434943845881 },
+        { "key": "engineering", "label": "工程", "value": 43.2683161184197 },
+        { "key": "economics", "label": "经济", "value": 53.3939290237875 }
+      ]
+    }
+  },
+  "page": {
+    "file": "kimi-k3.html",
+    "title": "Kimi K3",
+    "endpointPattern": "(?:kimi-k3|moonshotai[/.-]kimi-k3)",
+    "pills": [
+      { "cls": "reason", "text": "旗舰推理" },
+      { "cls": "open", "text": "开放权重" },
+      { "cls": "vision", "text": "原生多模态" }
+    ],
+    "metric1": { "en": "LMArena Overall", "zh": "盲投总榜", "num": "#23", "sub": "1475.9 · 28,280 票", "rankNum": "23", "rankTotal": "—", "barPct": "75%" },
+    "specialty": "2.8T 级多模态长上下文模型，面向复杂代码、知识工作与长时程 Agent。"
+  }
+}

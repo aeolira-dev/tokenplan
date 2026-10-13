@@ -1,0 +1,228 @@
+{
+  "$schema": "自描述。按量渠道列表。",
+  "baseline": {
+    "providerId": "openai-official",
+    "label": "OpenAI 官方（基准）",
+    "tiers": [
+      {
+        "id": "standard",
+        "label": "标准窗口 (≤272K)",
+        "usd": {
+          "inputMiss": 2,
+          "inputHit": 0.1,
+          "output": 10
+        }
+      },
+      {
+        "id": "extended",
+        "label": "长上下文 (>272K)",
+        "usd": {
+          "inputMiss": 4,
+          "inputHit": 0.2,
+          "output": 15
+        }
+      }
+    ]
+  },
+  "channels": [
+    {
+      "providerId": "openai-official",
+      "isOfficial": true,
+      "displayName": "OpenAI 官方 API",
+      "tiers": [
+        {
+          "id": "standard",
+          "label": "标准按量",
+          "usd": {
+            "inputMiss": 2,
+            "inputHit": 0.1,
+            "output": 10
+          }
+        },
+        {
+          "id": "extended",
+          "label": "超长窗口",
+          "usd": {
+            "inputMiss": 4,
+            "inputHit": 0.2,
+            "output": 15
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1050000,
+        "maxOutputTokens": 128000
+      },
+      "notes": [
+        "官方基准行，原生支持自动 Prompt Caching（缓存读降至 $0.10/M）"
+      ]
+    },
+    {
+      "providerId": "azure-openai",
+      "isOfficial": true,
+      "displayName": "Microsoft Azure OpenAI",
+      "tiers": [
+        {
+          "id": "standard",
+          "label": "企业标准",
+          "usd": {
+            "inputMiss": 2,
+            "inputHit": 0.1,
+            "output": 10
+          }
+        },
+        {
+          "id": "extended",
+          "label": "长窗口",
+          "usd": {
+            "inputMiss": 4,
+            "inputHit": 0.2,
+            "output": 15
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1050000,
+        "maxOutputTokens": 128000
+      },
+      "notes": [
+        "微软云合规保障，价格与 OpenAI 官方完全一致 (1.00×)"
+      ]
+    },
+    {
+      "providerId": "openrouter",
+      "displayName": "OpenRouter",
+      "tiers": [
+        {
+          "id": "standard",
+          "label": "默认路由",
+          "usd": {
+            "inputMiss": 2,
+            "inputHit": 0.1,
+            "output": 10
+          }
+        },
+        {
+          "id": "extended",
+          "label": ">200K 阶梯",
+          "usd": {
+            "inputMiss": 4,
+            "inputHit": 0.2,
+            "output": 15
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1050000,
+        "maxOutputTokens": 128000
+      },
+      "notes": [
+        "聚合直通 OpenAI 官方与 Azure 端点，同价 (1.00×)"
+      ]
+    },
+    {
+      "providerId": "cloudflare-ai-gateway",
+      "displayName": "Cloudflare AI Gateway",
+      "tiers": [
+        {
+          "id": "standard",
+          "label": "网关直通",
+          "usd": {
+            "inputMiss": 2,
+            "inputHit": 0.1,
+            "output": 10
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1050000,
+        "maxOutputTokens": 128000
+      },
+      "notes": [
+        "边缘缓存与防爆流控制，1.00×"
+      ]
+    },
+    {
+      "providerId": "vercel-gateway",
+      "displayName": "Vercel AI Gateway",
+      "tiers": [
+        {
+          "id": "standard",
+          "label": "标准通道",
+          "usd": {
+            "inputMiss": 2,
+            "inputHit": 0.1,
+            "output": 10
+          }
+        },
+        {
+          "id": "fast",
+          "label": "Fast 优先通道",
+          "usd": {
+            "inputMiss": 4,
+            "inputHit": 0.2,
+            "output": 20
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1050000,
+        "maxOutputTokens": 128000
+      },
+      "notes": [
+        "标准档 1.00×，Fast 档为 2.00× 加急调度"
+      ]
+    },
+    {
+      "providerId": "nano-gpt",
+      "displayName": "Nano-GPT",
+      "tiers": [
+        {
+          "id": "standard",
+          "label": "加密货币直付",
+          "usd": {
+            "inputMiss": 2,
+            "inputHit": 0.1,
+            "output": 10
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1050000,
+        "maxOutputTokens": 128000
+      },
+      "notes": [
+        "无须信用卡绑定，1.00×"
+      ]
+    },
+    {
+      "providerId": "aihubmix",
+      "displayName": "AIHubMix",
+      "tiers": [
+        {
+          "id": "standard",
+          "label": "国内中继直连",
+          "usd": {
+            "inputMiss": 2.05,
+            "inputHit": 0.11,
+            "output": 10.25
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1050000,
+        "maxOutputTokens": 128000
+      },
+      "notes": [
+        "微幅溢价 2.5%"
+      ]
+    }
+  ]
+}

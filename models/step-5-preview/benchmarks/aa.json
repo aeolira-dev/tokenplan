@@ -1,0 +1,48 @@
+{
+  "$schema": "自描述。AA 榜单评测结果；价格与身份分别见 channels/、model.json。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "verificationLevel": "single-source-unverified",
+    "verificationNote": "工作区 2026-10-08 AA 对照快照，不等于当前实时榜单；原始数据见 raw/_global/2026-10-08/aa-peers.json。",
+    "sourceRefs": ["aa-step-5"]
+  },
+  "boards": {
+    "artificialAnalysis": {
+      "displayName": "Artificial Analysis",
+      "indexName": "Artificial Analysis Intelligence Index",
+      "indexVersion": "v4.3.2",
+      "modelEntryName": "Step 5 Preview",
+      "effortSlug": null,
+      "evaluatedAt": "2026-10-08",
+      "intelligenceIndex": 43.7343049141614,
+      "intelligenceIndexIsEstimated": false,
+      "rankings": [
+        { "key": "intelligence", "label": "Intelligence", "rank": null, "of": 117, "note": "原始 peers 快照未保存全站 rank；只保存指数值。" },
+        { "key": "cost", "label": "Cost", "rank": null, "of": 117, "note": "原始 peers 快照未保存全站 cost rank。" }
+      ],
+      "capabilities": {
+        "financeAndAccounting": 45.3728047646677,
+        "strategyAndOps": 47.1241657884068,
+        "legal": 46.2280066508375,
+        "healthcareAndMedical": 40.8171769208551,
+        "engineering": 44.9763545147623,
+        "economics": 52.8491063677788
+      },
+      "costProfile": {
+        "price1mInputTokens": 1,
+        "price1mOutputTokens": 2.7,
+        "cacheHitPrice": 0.1,
+        "price1mBlended7To2To1": 0.54,
+        "costPerTaskUSD": 1.0264068637684054,
+        "timePerTaskSec": 607.7966779548146,
+        "outputTokensPerTask": 64144.28936512275,
+        "priceNote": "AA 对照集美元口径；官方 Step 5 价格另记录于 channels/api.json。"
+      },
+      "peers": { "list": [
+        { "slug": "step-5", "name": "Step 5 Preview", "creator": "stepfun", "intelligenceIndex": 43.7343049141614 },
+        { "slug": "kimi-k3", "name": "Kimi K3 (Max)", "creator": "kimi", "intelligenceIndex": 43.5938229518782 },
+        { "slug": "mimo-v2-6-pro", "name": "MiMo-V2.6-Pro", "creator": "xiaomi", "intelligenceIndex": 46.3242065310383 }
+      ] }
+    }
+  }
+}

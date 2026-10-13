@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DeepSeek V4.1 Flash · 渠道对照</title>
+  <style>
+    :root {
+      --canvas: #e8edf3;
+      --ink: #17191e;
+      --gold: #9a845c;
+      --blue: #3b6fd8;
+      --orange: #c37b4c;
+      --white: #fff;
+      --line: #d5dce6;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: #d5dce6; color: var(--ink); }
+    body {
+      font-family: "Inter", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.45;
+    }
+    .page { max-width: 1180px; margin: 0 auto; padding: 24px 24px 72px; }
+    .topnav {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 22px; padding: 6px 0 14px; border-bottom: 1px solid var(--line);
+    }
+    .topnav strong { color: var(--ink); font-size: 16px; letter-spacing: -0.02em; }
+    .topnav .nav-group { display: flex; align-items: center; gap: 4px; background: #dfe5ee; padding: 3px; border-radius: 8px; }
+    .topnav .nav-btn {
+      color: #5c6570; text-decoration: none; padding: 3px 9px; font-size: 12.5px; border-radius: 6px; font-weight: 500;
+      transition: all 0.15s ease;
+    }
+    .topnav .nav-btn:hover { color: #17191e; }
+    .topnav .nav-btn.active {
+      background: var(--white); color: var(--ink); font-weight: 650; box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+    }
+    .sec { margin-top: 36px; }
+    .sec h2 {
+      font-size: 13px; font-weight: 650; letter-spacing: 0.12em;
+      color: #6a7380; text-transform: uppercase; margin-bottom: 14px;
+    }
+    .intro {
+      display: grid;
+      grid-template-columns: 430px 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+    .poster {
+      width: 430px;
+      background: var(--canvas);
+      padding: 22px 20px 14px;
+      border-radius: 8px;
+    }
+    header.cardhd {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-bottom: 14px; border-bottom: 1px solid var(--line);
+    }
+    .brand { display: flex; align-items: center; gap: 8px; font-size: 18px; font-weight: 700; }
+    .coord { font-size: 18px; font-weight: 500; letter-spacing: 0.46em; margin-right: -0.46em; color: #4a5260; }
+    .title-row { display: flex; justify-content: space-between; gap: 10px; margin: 22px 0 14px; }
+    h1 { font-size: 28px; font-weight: 650; letter-spacing: -0.038em; line-height: 1.12; }
+    .pills { display: flex; flex-direction: column; gap: 8px; padding-top: 4px; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      border-radius: 999px; padding: 4px 11px 4px 9px; font-size: 13px; background: #fff;
+    }
+    .pill .dot { width: 7px; height: 7px; border-radius: 50%; }
+    .pill.reason { color: #3a63b8; box-shadow: inset 0 0 0 1px #c9d6f0; }
+    .pill.reason .dot { background: #4b78e6; }
+    .pill.open { color: #2f7a4a; box-shadow: inset 0 0 0 1px #c7e3d0; }
+    .pill.open .dot { background: #3aa05c; }
+    .metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .metric { background: var(--white); border-radius: 14px; padding: 12px; }
+    .metric-head { display: flex; justify-content: space-between; color: var(--gold); font-size: 10.5px; }
+    .metric-head .en { font-family: Georgia, "Times New Roman", serif; font-style: italic; }
+    .metric-body { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 6px; }
+    .metric-num { font-size: 26px; font-weight: 620; letter-spacing: -0.04em; line-height: 1; }
+    .metric-sub { margin-top: 4px; color: #8a9099; font-size: 11px; }
+    .rank { color: var(--blue); font-size: 18px; font-weight: 700; }
+    .rank small { font-size: 11px; font-weight: 500; color: #7b95d6; }
+    .bar { margin-top: 8px; height: 4px; background: #e6ebf3; border-radius: 99px; overflow: hidden; }
+    .bar > span { display: block; height: 100%; background: var(--blue); }
+    .radar-card { margin-top: 10px; background: var(--white); border-radius: 14px; padding: 12px 8px 8px; }
+    .radar-head { display: flex; justify-content: space-between; padding: 0 8px; }
+    .radar-head h3 { font-size: 13px; font-weight: 650; }
+    .radar-head h3 em { font-style: normal; color: var(--blue); }
+    .legend { margin-top: 6px; font-size: 11px; color: #5b616a; }
+    .legend i {
+      display: inline-block; width: 11px; height: 8px; border-radius: 2px; margin-right: 6px; vertical-align: middle;
+      box-shadow: inset 0 0 0 1.5px currentColor; background: color-mix(in srgb, currentColor 28%, white);
+    }
+    .legend .me { color: var(--blue); }
+    .legend .avg { color: var(--orange); opacity: 0.4; margin-top: 3px; }
+    .mean { text-align: right; color: var(--blue); font-size: 12px; }
+    .mean b { display: block; font-size: 20px; }
+    .radar-wrap { position: relative; height: 300px; }
+    .radar-wrap svg { width: 100%; height: 100%; display: block; }
+    .lab { position: absolute; font-size: 11px; color: #3a4250; white-space: nowrap; text-align: center; }
+    .lab b { color: var(--blue); font-size: 12px; display: block; }
+    .lab.top { left: 50%; top: 0; transform: translateX(-50%); }
+    .lab.tr { right: 4px; top: 64px; text-align: right; }
+    .lab.br { right: 4px; bottom: 70px; text-align: right; }
+    .lab.bot { left: 50%; bottom: 4px; transform: translateX(-50%); }
+    .lab.bl { left: 4px; bottom: 70px; text-align: left; }
+    .lab.tl { left: 4px; top: 64px; text-align: left; }
+    .src { text-align: center; color: #8a9099; font-size: 11px; padding: 2px 0 6px; }
+    .facts { margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 7px; }
+    .fact { background: var(--white); border-radius: 12px; padding: 10px; min-height: 64px; }
+    .fact .k { color: #8a9099; font-size: 11px; margin-bottom: 6px; display: flex; justify-content: space-between; }
+    .fact .k .tag { color: var(--blue); font-weight: 700; }
+    .fact .v { font-size: 14px; font-weight: 650; }
+    .mods { display: flex; gap: 6px; color: #d5d9e0; font-size: 12px; font-weight: 600; }
+    .mods .on { color: #2a2e35; }
+    .poster footer {
+      margin-top: 10px; color: #8a9099; font-size: 10px; display: flex; justify-content: space-between;
+    }
+    .side {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 22px 24px;
+      min-height: 100%;
+    }
+    .side h3 { font-size: 14px; margin: 18px 0 8px; }
+    .side h3:first-child { margin-top: 0; }
+    .kv { display: grid; grid-template-columns: 96px 1fr; gap: 6px 12px; font-size: 13px; }
+    .kv dt { color: #8a9099; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { background: var(--canvas); border-radius: 999px; padding: 4px 10px; font-size: 12.5px; }
+    .chip b { color: var(--blue); }
+    .call { margin-top: 10px; font-size: 12.5px; color: #5c6570; line-height: 1.55; }
+    .toolbar { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; flex-wrap: wrap; }
+    .btn {
+      border: 1px solid var(--line); background: #fff; border-radius: 999px;
+      padding: 5px 12px; font-size: 13px; cursor: pointer;
+    }
+    .btn.on { background: #1f2a3d; color: #fff; border-color: #1f2a3d; }
+    .hint { font-size: 12.5px; color: #6a7380; }
+    .tbl-wrap { overflow: auto; background: #fff; border-radius: 12px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 9px 10px; border-bottom: 1px solid #eef1f5; vertical-align: top; text-align: left; }
+    th { position: sticky; top: 0; background: #f6f8fb; font-weight: 600; color: #5c6570; font-size: 12px; }
+    td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    td.note { color: #6a7380; font-size: 12px; max-width: 280px; }
+    .sub { color: #8a9099; font-size: 11px; margin-top: 2px; }
+    .badge { display: inline-block; background: #e8eefc; color: #3b6fd8; font-size: 11px; padding: 1px 6px; border-radius: 6px; }
+    .x { font-weight: 700; }
+    .x.ok { color: #2f7a4a; }
+    .x.mid { color: #8a6d2f; }
+    .x.hi { color: #c37b4c; }
+    .x.hot { color: #b54646; }
+    .na { color: #9aa1ab; }
+    details { margin-top: 12px; background: #fff; border-radius: 12px; padding: 10px 14px; }
+    details summary { cursor: pointer; font-weight: 650; font-size: 13px; }
+    .foot { margin-top: 28px; font-size: 12px; color: #6a7380; }
+    @media (max-width: 980px) {
+      .intro { grid-template-columns: 1fr; }
+      .poster { width: 100%; max-width: 460px; }
+    }
+
+    /* company-nav */
+    .topnav-left { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+    a.nav-home {
+      color: #5c6570; text-decoration: none; font-size: 12.5px; font-weight: 650;
+      padding: 3px 9px; border-radius: 6px; background: #dfe5ee;
+    }
+    a.nav-home:hover { color: #17191e; }
+    a.nav-home.active {
+      background: var(--white); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+    }
+    .snap { font-size:11.5px; color:#8a9099; padding:2px 6px; background:#fff; border-radius:4px; }
+    .topnav details.nav-switch {
+      position: relative; display: inline-block;
+      margin-top: 0; background: transparent; border-radius: 6px; padding: 0;
+    }
+    .nav-switch > summary {
+      list-style: none; cursor: pointer; color: #5c6570; padding: 3px 9px;
+      font-size: 12.5px; border-radius: 6px; font-weight: 500;
+    }
+    .nav-switch > summary::-webkit-details-marker { display: none; }
+    .nav-switch > summary::marker { content: ''; }
+    .nav-switch > summary:hover { color: #17191e; }
+    .nav-switch-panel {
+      position: absolute; right: 0; top: calc(100% + 6px); z-index: 30;
+      min-width: 240px; background: #fff; border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(23,25,30,0.12); padding: 8px;
+    }
+    .nav-switch-vendor { padding: 6px 8px; }
+    .nav-switch-vendor .lab { display:block; font-size:11px; color:#8a9099; margin-bottom:4px; }
+    .nav-switch-vendor a { display:inline-block; margin-right:8px; color:#3b6fd8; text-decoration:none; font-size:12.5px; }
+    .nav-switch-all { display:block; margin-top:4px; padding:8px; font-size:12.5px; color:#3b6fd8; text-decoration:none; }
+
+</style>
+</head>
+<body>
+  <div class="page">
+    <div class="topnav">
+      <div class="topnav-left">
+        <a class="nav-home" href="index.html">横评目录</a>
+        <strong>DeepSeek V4.1 Flash</strong>
+        <span class="snap">2026.10.08 快照</span>
+      </div>
+      <nav class="nav-group">
+        <a href="deepseek-v4-pro.html" class="nav-btn">Pro</a><a href="deepseek-v4.1-flash.html" class="nav-btn active">Flash</a>
+        <details class="nav-switch">
+          <summary>其他厂商</summary>
+          <div class="nav-switch-panel">
+            <div class="nav-switch-vendor"><span class="lab">月之暗面</span><a href="kimi-k3.html">Kimi K3</a></div><div class="nav-switch-vendor"><span class="lab">智谱 AI</span><a href="glm-5.3-flash.html">GLM-5.3-Flash</a></div><div class="nav-switch-vendor"><span class="lab">阶跃星辰</span><a href="step-5-preview.html">Step 5 Preview</a></div><div class="nav-switch-vendor"><span class="lab">小米</span><a href="mimo-v2.6-pro.html">MiMo-V2.6-Pro</a></div><div class="nav-switch-vendor"><span class="lab">Anthropic</span><a href="claude-opus-5.5.html">Opus 5.5</a><a href="claude-fable-5.1.html">Fable 5.1</a><a href="claude-sonnet-5.5.html">Sonnet 5.5</a><a href="claude-haiku-5.5.html">Haiku 5.5</a></div><div class="nav-switch-vendor"><span class="lab">OpenAI</span><a href="gpt-6.1-sol.html">6.1 Sol</a><a href="gpt-6-astra.html">Astra</a><a href="gpt-6-luna.html">Luna</a></div><div class="nav-switch-vendor"><span class="lab">Google DeepMind</span><a href="gemini-4-argon.html">4 Argon</a><a href="gemini-3.8-flash.html">3.8 Flash</a></div>
+            <a class="nav-switch-all" href="index.html">全部厂商与在用模型 →</a>
+          </div>
+        </details>
+      </nav>
+    </div>
+
+    <section class="sec">
+      <h2>01 模型介绍</h2>
+      <div class="intro">
+        <article class="poster">
+          <header class="cardhd">
+            <div class="brand">
+              <svg width="24" height="24" viewBox="0 0 28 28" aria-hidden="true">
+      <circle cx="14" cy="14" r="14" fill="#111"/>
+      <path d="M7.2 16.2c1.6 4.8 12 4.8 13.6 0" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/>
+      <path d="M8.6 12.4c.2-3.2 10.6-3.2 10.8 0" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/>
+      <circle cx="11.2" cy="12.2" r="1.15" fill="#fff"/>
+      <circle cx="16.8" cy="12.2" r="1.15" fill="#fff"/>
+    </svg>
+              DeepSeek
+            </div>
+            <div class="coord">图灵坐标</div>
+          </header>
+          <div class="title-row">
+            <h1>DeepSeek V4.1 Flash</h1>
+            <div class="pills">
+              <span class="pill reason"><span class="dot"></span>高速推理</span><span class="pill open"><span class="dot"></span>开源 552B</span>
+            </div>
+          </div>
+          <div class="metrics">
+            <section class="metric">
+              <div class="metric-head"><span class="en">Vals Index</span><span>Vals综合指数</span></div>
+              <div class="metric-body">
+                <div><div class="metric-num">51.32</div><div class="metric-sub">± 1.13 · SWE Verified 88.8%</div></div>
+                <div class="rank">#24<small>/45</small></div>
+              </div>
+              <div class="bar"><span style="width:51.32%"></span></div>
+            </section>
+            <section class="metric">
+              <div class="metric-head"><span class="en">AA Intelligence Index</span><span>AA综合指数</span></div>
+              <div class="metric-body">
+                <div><div class="metric-num">39.5</div><div class="metric-sub">评测费用: $0.265 · Speed #3</div></div>
+                <div class="rank">#7<small>/117</small></div>
+              </div>
+              <div class="bar"><span style="width:39.5%"></span></div>
+            </section>
+          </div>
+          <section class="radar-card">
+            <div class="radar-head">
+              <div>
+                <h3>主客观混合雷达图<em>「原始分数」</em></h3>
+                <div class="legend">
+                  <div class="me"><i></i>DeepSeek V4.1 Flash</div>
+                  <div class="avg"><i></i>本轮模型平均值（未收录）</div>
+                </div>
+              </div>
+              <div class="mean">六维均值<b>54</b></div>
+            </div>
+            <div class="radar-wrap">
+              <svg viewBox="0 0 430 300">
+                <g transform="translate(215,150)">
+                  <polygon points="0,-100 86.6,-50 86.6,50 0,100 -86.6,50 -86.6,-50" fill="none" stroke="#d8dfe8"/>
+                  <polygon points="0,-75 65,-37.5 65,37.5 0,75 -65,37.5 -65,-37.5" fill="none" stroke="#e4e9f0"/>
+                  <polygon points="0,-50 43.3,-25 43.3,25 0,50 -43.3,25 -43.3,-25" fill="none" stroke="#e4e9f0"/>
+                  <polygon points="0,-25 21.7,-12.5 21.7,12.5 0,25 -21.7,12.5 -21.7,-12.5" fill="none" stroke="#e4e9f0"/>
+                  <line x1="0" y1="0" x2="0" y2="-100" stroke="#d8dfe8"/>
+                  <line x1="0" y1="0" x2="86.6" y2="-50" stroke="#d8dfe8"/>
+                  <line x1="0" y1="0" x2="86.6" y2="50" stroke="#d8dfe8"/>
+                  <line x1="0" y1="0" x2="0" y2="100" stroke="#d8dfe8"/>
+                  <line x1="0" y1="0" x2="-86.6" y2="50" stroke="#d8dfe8"/>
+                  <line x1="0" y1="0" x2="-86.6" y2="-50" stroke="#d8dfe8"/>
+                  <polygon points="0,-46 72.7,-42 59.8,34.5 0,27 -44.2,25.5 -39.8,-23"
+                    fill="rgba(59,111,216,0.28)" stroke="#3b6fd8" stroke-width="2" stroke-linejoin="round"/>
+                </g>
+              </svg>
+              <div class="lab top"><b>46</b>科学推理</div>
+              <div class="lab tr"><b>84</b>长上下文推理</div>
+              <div class="lab br"><b>69</b>智能体工作流</div>
+              <div class="lab bot"><b>27</b>编程智能体</div>
+              <div class="lab bl"><b>51</b>知识工作</div>
+              <div class="lab tl"><b>46</b>事实可靠性</div>
+            </div>
+            <p class="src">数据来源 <b>artificialanalysis.ai · 官方数据</b></p>
+          </section>
+          <div class="facts">
+            <div class="fact"><div class="k">发布日期</div><div class="v">2026.09.10</div></div><div class="fact"><div class="k">输入模态</div><div class="mods"><span class="on">T</span><span class="on">图</span><span class="">声</span><span class="">影</span></div></div><div class="fact"><div class="k">输出模态</div><div class="mods"><span class="on">T</span><span class="">图</span><span class="">声</span><span class="">影</span></div></div><div class="fact"><div class="k">上下文窗口</div><div class="v">1M token</div></div><div class="fact"><div class="k">输出速度 <span class="tag">#3</span></div><div class="v">223 token/s</div></div><div class="fact"><div class="k">综合价格 <span class="tag">#21</span></div><div class="v">0.61 ¥/M</div></div>
+          </div>
+          <footer>
+            <div>数据仅供参考，请以个人体感为准</div>
+            <div>2026.10.08</div>
+          </footer>
+        </article>
+
+        <aside class="side">
+          <h3>身份</h3>
+          <dl class="kv">
+            <dt>厂商</dt><dd>DeepSeek（深度求索）</dd><dt>开源</dt><dd>MIT · 权重公开（HF）</dd><dt>规模</dt><dd>552B 总 / 16B 激活 · MoE</dd><dt>官方 ID</dt><dd><code>deepseek-flash</code></dd><dt>能力</dt><dd>默认推理 · 视觉多模态 · 工具调用</dd><dt>窗口</dt><dd>1M 上下文 / 384K 最大输出 / 并发 2500</dd><dt>速度</dt><dd>223 tok/s · TTFC 1.22s · 首答案 10.18s</dd>
+          </dl>
+          <h3>公开榜单</h3>
+          <div class="chips">
+            <span class="chip">AA 智能 <b>#7/117</b> (39.5)</span><span class="chip">AA 速度 <b>#3/117</b></span><span class="chip">AA 成本 <b>#21/117</b></span><span class="chip">LMArena 文本 <b>#37</b> 1462</span><span class="chip">LMArena 编程 <b>#17</b> 1507</span><span class="chip">Vals Index <b>#24/45</b> 51.32</span>
+          </div>
+          <h3>卡片口径与评测分析</h3>
+          <p class="call"><b>卡片口径</b>：雷达六轴取公开原始分：科学推理 = (SciCode 51.9 + HLE 39.3)/2；长上下文 = AA-LCR 84；智能体工作流 = AutomationBench 69；编程智能体 = Terminal-Bench 4.0 的 27；知识工作 = Vals Index 51；事实可靠性 = Omniscience 正确率 46（幻觉率 96.5%）。综合单价按谷时 7:2:1 为 ¥0.61/M。</p><p class="call"><b>渠道比价要点</b>：官方高峰为周一至周五 09:00–12:00、14:00–18:00。国内渠道（火山方舟、百炼北京）按人民币牌价比对；多数海外第三方渠道固定单价等于官方高峰价，对谷价呈现 2.00×。</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h2>02 按量渠道</h2>
+      <div class="toolbar">
+        <button class="btn on" id="btn-t1" type="button">对比空闲时段</button>
+        <button class="btn" id="btn-t2" type="button">对比高峰时段</button>
+        <span class="hint">倍数 = 渠道 7:2:1 / 官方同币种基准。固定价渠道对空闲为 2.00×，对高峰为 1.00×。</span>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>渠道</th><th>币种</th>
+              <th class="num">未命中 /M</th><th class="num">缓存 /M</th><th class="num">输出 /M</th>
+              <th class="num">7:2:1</th><th class="num">vs 官方</th>
+              <th class="num">上下文</th><th class="num">最大输出</th><th>备注</th>
+            </tr>
+          </thead>
+          <tbody id="api-t1"><tr data-id="deepseek-official">
+        <td><span class="badge">官方</span> DeepSeek 官方 API<div class="sub">时段浮动</div></td>
+        <td>USD</td>
+        <td class="num">$0.15</td>
+        <td class="num">$0.003</td>
+        <td class="num">$0.6</td>
+        <td class="num">$0.092</td>
+        <td class="num"><span class="x ok">1.00×</span></td>
+        <td class="num">1M</td>
+        <td class="num">384K</td>
+        <td class="note">基准行，倍数恒为 1x</td>
+      </tr>
+<tr data-id="siliconflow">
+        <td>SiliconFlow 硅基流动</td>
+        <td>USD</td>
+        <td class="num">$0.15</td>
+        <td class="num">$0.003</td>
+        <td class="num">$0.6</td>
+        <td class="num">$0.092</td>
+        <td class="num"><span class="x ok">1.00×</span></td>
+        <td class="num">1.05M</td>
+        <td class="num">—</td>
+        <td class="note">官网直售价与官方谷价完全相同（1x）</td>
+      </tr>
+<tr data-id="302ai">
+        <td>302.AI</td>
+        <td>USD</td>
+        <td class="num">$0.15</td>
+        <td class="num">$0.003</td>
+        <td class="num">$0.6</td>
+        <td class="num">$0.092</td>
+        <td class="num"><span class="x ok">1.00×</span></td>
+        <td class="num">1M</td>
+        <td class="num">384K</td>
+        <td class="note">价格与官方谷价相同</td>
+      </tr>
+<tr data-id="aihubmix">
+        <td>AIHubMix</td>
+        <td>USD</td>
+        <td class="num">$0.155</td>
+        <td class="num">$0.0031</td>
+        <td class="num">$0.62</td>
+        <td class="num">$0.095</td>
+        <td class="num"><span class="x mid">1.03×</span></td>
+        <td class="num">1M</td>
+        <td class="num">384K</td>
+        <td class="note">比官方谷价贵约 3%</td>
+      </tr>
+<tr data-id="deepinfra">
+        <td>DeepInfra</td>
+        <td>USD</td>
+        <td class="num">$0.2</td>
+        <td class="num">$0.006</td>
+        <td class="num">$0.6</td>
+        <td class="num">$0.104</td>
+        <td class="num"><span class="x mid">1.13×</span></td>
+        <td class="num">1.05M</td>
+        <td class="num">131K</td>
+        <td class="note">输入比官方贵 33%，输出与官方持平</td>
+      </tr>
+<tr data-id="wandb-inference">
+        <td>W&amp;B Inference</td>
+        <td>USD</td>
+        <td class="num">$0.2</td>
+        <td class="num">$0.03</td>
+        <td class="num">$0.65</td>
+        <td class="num">$0.126</td>
+        <td class="num"><span class="x hi">1.37×</span></td>
+        <td class="num">1.05M</td>
+        <td class="num">1.05M</td>
+        <td class="note">输入贵 33%、输出贵 8%</td>
+      </tr>
+<tr data-id="novita">
+        <td>Novita AI</td>
+        <td>USD</td>
+        <td class="num">$0.3</td>
+        <td class="num">$0.006</td>
+        <td class="num">$1.2</td>
+        <td class="num">$0.184</td>
+        <td class="num"><span class="x hi">2.00×</span></td>
+        <td class="num">1.05M</td>
+        <td class="num">393K</td>
+        <td class="note">官网 API 标价等于官方峰价（对谷价 2x）</td>
+      </tr>
+<tr data-id="together">
+        <td>Together AI</td>
+        <td>USD</td>
+        <td class="num">$0.3</td>
+        <td class="num">$0.006</td>
+        <td class="num">$1.2</td>
+        <td class="num">$0.184</td>
+        <td class="num"><span class="x hi">2.00×</span></td>
+        <td class="num">1.05M</td>
+        <td class="num">384K</td>
+        <td class="note">等于官方峰价（对谷价 2x，对峰价 1x）</td>
+      </tr>
+<tr data-id="fireworks">
+        <td>Fireworks AI</td>
+        <td>USD</td>
+        <td class="num">$0.3</td>
+        <td class="num">$0.006</td>
+        <td class="num">$1.2</td>
+        <td class="num">$0.184</td>
+        <td class="num"><span class="x hi">2.00×</span></td>
+        <td class="num">1M</td>
+        <td class="num">384K</td>
+        <td class="note">Standard 档等于官方峰价（2x 谷价）</td>
+      </tr>
+<tr data-id="digitalocean">
+        <td>DigitalOcean Gradient</td>
+        <td>USD</td>
+        <td class="num">$0.3</td>
+        <td class="num">$0.006</td>
+        <td class="num">$1.2</td>
+        <td class="num">$0.184</td>
+        <td class="num"><span class="x hi">2.00×</span></td>
+        <td class="num">1.05M</td>
+        <td class="num">1.05M</td>
+        <td class="note">等于官方峰价（2x 谷价）</td>
+      </tr>
+<tr data-id="nebius">
+        <td>Nebius AI Studio</td>
+        <td>USD</td>
+        <td class="num">$0.3</td>
+        <td class="num"><span class="na">未单独公布</span></td>
+        <td class="num">$1.2</td>
+        <td class="num">$0.39</td>
+        <td class="num"><span class="x hot">4.23×</span></td>
+        <td class="num">1.05M</td>
+        <td class="num">1.05M</td>
+        <td class="note">等于官方峰价（2x 谷价）</td>
+      </tr>
+<tr data-id="vercel-gateway">
+        <td>Vercel AI Gateway</td>
+        <td>USD</td>
+        <td class="num">$0.3</td>
+        <td class="num">$0.007</td>
+        <td class="num">$1.2</td>
+        <td class="num">$0.185</td>
+        <td class="num"><span class="x hi">2.01×</span></td>
+        <td class="num">1.05M</td>
+        <td class="num">33K</td>
+        <td class="note">网关不自己定价，转发上游报价；标价取官方峰价</td>
+      </tr>
+<tr data-id="openrouter">
+        <td>OpenRouter</td>
+        <td>USD</td>
+        <td class="num">$0.3</td>
+        <td class="num">$0.006</td>
+        <td class="num">$1.2</td>
+        <td class="num">$0.184</td>
+        <td class="num"><span class="x hi">2.00×</span></td>
+        <td class="num">1.05M</td>
+        <td class="num">944K</td>
+        <td class="note">聚合网关，默认价取官方峰价</td>
+      </tr>
+<tr data-id="volcengine-ark">
+        <td>火山方舟<div class="sub">时段浮动</div></td>
+        <td>CNY</td>
+        <td class="num">¥1</td>
+        <td class="num">¥0.02</td>
+        <td class="num">¥4</td>
+        <td class="num">¥0.614</td>
+        <td class="num"><span class="x ok">1.00×</span></td>
+        <td class="num">—</td>
+        <td class="num">—</td>
+        <td class="note">人民币牌价与官方人民币牌价完全相同（1.00x）</td>
+      </tr>
+<tr data-id="alibaba-bailian-beijing">
+        <td>阿里云百炼·北京<div class="sub">时段浮动</div></td>
+        <td>CNY</td>
+        <td class="num">¥1</td>
+        <td class="num"><span class="na">未单独公布</span></td>
+        <td class="num">¥4</td>
+        <td class="num">¥1.3</td>
+        <td class="num"><span class="x hot">2.12×</span></td>
+        <td class="num">—</td>
+        <td class="num">—</td>
+        <td class="note">价格数字与官方相同，但忙时窗口长达 14 小时/天，实际支出高于官方</td>
+      </tr>
+<tr data-id="alibaba-bailian-singapore">
+        <td>阿里云百炼·新加坡<div class="sub">时段浮动</div></td>
+        <td>USD</td>
+        <td class="num">$0.15</td>
+        <td class="num"><span class="na">未单独公布</span></td>
+        <td class="num">$0.6</td>
+        <td class="num">$0.195</td>
+        <td class="num"><span class="x hot">2.12×</span></td>
+        <td class="num">—</td>
+        <td class="num">—</td>
+        <td class="note">美元牌价与官方美元牌价完全相同（1x 谷 / 1x 峰）</td>
+      </tr>
+<tr data-id="baidu-qianfan">
+        <td>百度千帆<div class="sub">时段浮动</div></td>
+        <td>CNY</td>
+        <td class="num">¥1</td>
+        <td class="num">¥0.02</td>
+        <td class="num">¥4</td>
+        <td class="num">¥0.614</td>
+        <td class="num"><span class="x ok">1.00×</span></td>
+        <td class="num">—</td>
+        <td class="num">—</td>
+        <td class="note">价格数字与官方相同（1x），但高峰窗口 14 小时/天</td>
+      </tr>
+<tr data-id="azure-foundry">
+        <td>微软 Azure (Foundry)</td>
+        <td>USD</td>
+        <td class="num">$0.3</td>
+        <td class="num">$0.006</td>
+        <td class="num">$1.2</td>
+        <td class="num">$0.184</td>
+        <td class="num"><span class="x hi">2.00×</span></td>
+        <td class="num">—</td>
+        <td class="num">—</td>
+        <td class="note">原厂 Glbl 档 $0.30/$0.006/$1.20 与官方美元峰价一致（2x 谷价）；无峰谷，价格恒定</td>
+      </tr>
+<tr data-id="tencent-tokenhub">
+        <td>腾讯云 TokenHub（按量）</td>
+        <td>积分</td>
+        <td class="num">40 分</td>
+        <td class="num">0.8 分</td>
+        <td class="num">160 分</td>
+        <td class="num">—</td>
+        <td class="num"><span class="x ">积分</span></td>
+        <td class="num">—</td>
+        <td class="num">—</td>
+        <td class="note">计费单位是「积分」而非美元，公式 = Σ(token × 对应单价)/1e6</td>
+      </tr></tbody>
+          <tbody id="api-t2" hidden><tr data-id="deepseek-official">
+        <td><span class="badge">官方</span> DeepSeek 官方 API<div class="sub">时段浮动</div></td>
+        <td>USD</td>
+        <td class="num">$0.3</td>
+        <td class="num">$0.006</td>
+        <td class="num">$1.2</td>
+        <td class="num">$0.184</td>
+        <td class="num"><span class="x ok">1.00×</span></td>
+        <td class="num">1M</td>
+        <td class="num">384K</td>
+        <td class="note">基准行，倍数恒为 1x</td>
+      </tr>
+<tr data-id="siliconflow">
+        <td>SiliconFlow 硅基流动</td>
+        <td>USD</td>
+        <td class="num">$0.15</td>
+        <td class="num">$0.003</td>
+        <td class="num">$0.6</td>
+        <td class="num">$0.092</td>
+        <td class="num"><span class="x ok">0.50×</span></td>
+        <td class="num">1.05M</td>
+        <td class="num">—</td>
+        <td class="note">官网直售价与官方谷价完全相同（1x）</td>
+      </tr>
+<tr data-id="302ai">
+        <td>302.AI</td>
+        <td>USD</td>
+        <td class="num">$0.15</td>
+        <td class="num">$0.003</td>
+        <td class="num">$0.6</td>
+        <td class="num">$0.092</td>
+        <td class="num"><span class="x ok">0.50×</span></td>
+        <td class="num">1M</td>
+        <td class="num">384K</td>
+        <td class="note">价格与官方谷价相同</td>
+      </tr>
+<tr data-id="aihubmix">
+        <td>AIHubMix</td>
+        <td>USD</td>
+        <td class="num">$0.155</td>
+        <td class="num">$0.0031</td>
+        <td class="num">$0.62</td>
+        <td class="num">$0.095</td>
+        <td class="num"><span class="x ok">0.52×</span></td>
+        <td class="num">1M</td>
+        <td class="num">384K</td>
+        <td class="note">比官方谷价贵约 3%</td>
+      </tr>
+<tr data-id="deepinfra">
+        <td>DeepInfra</td>
+        <td>USD</td>
+        <td class="num">$0.14</td>
+        <td class="num">$0.0042</td>
+        <td class="num">$0.42</td>
+        <td class="num">$0.073</td>
+        <td class="num"><span class="x ok">0.40×</span></td>
+        <td class="num">1.05M</td>
+        <td class="num">131K</td>
+        <td class="note">输入比官方贵 33%，输出与官方持平</td>
+      </tr>
+<tr data-id="wandb-inference">
+        <td>W&amp;B Inference</td>
+        <td>USD</td>
+        <td class="num">$0.2</td>
+        <td class="num">$0.03</td>
+        <td class="num">$0.65</td>
+        <td class="num">$0.126</td>
+        <td class="num"><span class="x ok">0.68×</span></td>
+        <td class="num">1.05M</td>
+        <td class="num">1.05M</td>
+        <td class="note">输入贵 33%、输出贵 8%</td>
+      </tr>
+<tr data-id="novita">
+        <td>Novita AI</td>
+        <td>USD</td>
+        <td class="num">$0.195</td>
+        <td class="num">$0.0039</td>
+        <td class="num">$0.78</td>
+        <td class="num">$0.12</td>
+        <td class="num"><span class="x ok">0.65×</span></td>
+        <td class="num">1.05M</td>
+        <td class="num">393K</td>
+        <td class="note">官网 API 标价等于官方峰价（对谷价 2x）</td>
+      </tr>
+<tr data-id="together">
+        <td>Together AI</td>
+        <td>USD</td>
+        <td class="num">$0.3</td>
+        <td class="num">$0.006</td>
+        <td class="num">$1.2</td>
+        <td class="num">$0.184</td>
+        <td class="num"><span class="x ok">1.00×</span></td>
+        <td class="num">1.05M</td>
+        <td class="num">384K</td>
+        <td class="note">等于官方峰价（对谷价 2x，对峰价 1x）</td>
+      </tr>
+<tr data-id="fireworks">
+        <td>Fireworks AI</td>
+        <td>USD</td>
+        <td class="num">$0.45</td>
+        <td class="num">$0.009</td>
+        <td class="num">$1.8</td>
+        <td class="num">$0.276</td>
+        <td class="num"><span class="x hi">1.50×</span></td>
+        <td class="num">1M</td>
+        <td class="num">384K</td>
+        <td class="note">Standard 档等于官方峰价（2x 谷价）</td>
+      </tr>
+<tr data-id="digitalocean">
+        <td>DigitalOcean Gradient</td>
+        <td>USD</td>
+        <td class="num">$0.3</td>
+        <td class="num">$0.006</td>
+        <td class="num">$1.2</td>
+        <td class="num">$0.184</td>
+        <td class="num"><span class="x ok">1.00×</span></td>
+        <td class="num">1.05M</td>
+        <td class="num">1.05M</td>
+        <td class="note">等于官方峰价（2x 谷价）</td>
+      </tr>
+<tr data-id="nebius">
+        <td>Nebius AI Studio</td>
+        <td>USD</td>
+        <td class="num">$0.3</td>
+        <td class="num"><span class="na">未单独公布</span></td>
+        <td class="num">$1.2</td>
+        <td class="num">$0.39</td>
+        <td class="num"><span class="x hot">2.12×</span></td>
+        <td class="num">1.05M</td>
+        <td class="num">1.05M</td>
+        <td class="note">等于官方峰价（2x 谷价）</td>
+      </tr>
+<tr data-id="vercel-gateway">
+        <td>Vercel AI Gateway</td>
+        <td>USD</td>
+        <td class="num">$0.14</td>
+        <td class="num"><span class="na">未单独公布</span></td>
+        <td class="num">$0.42</td>
+        <td class="num">$0.168</td>
+        <td class="num"><span class="x ok">0.91×</span></td>
+        <td class="num">1.05M</td>
+        <td class="num">33K</td>
+        <td class="note">网关不自己定价，转发上游报价；标价取官方峰价</td>
+      </tr>
+<tr data-id="openrouter">
+        <td>OpenRouter</td>
+        <td>USD</td>
+        <td class="num">$0.3</td>
+        <td class="num">$0.006</td>
+        <td class="num">$1.2</td>
+        <td class="num">$0.184</td>
+        <td class="num"><span class="x ok">1.00×</span></td>
+        <td class="num">1.05M</td>
+        <td class="num">944K</td>
+        <td class="note">聚合网关，默认价取官方峰价</td>
+      </tr>
+<tr data-id="volcengine-ark">
+        <td>火山方舟<div class="sub">时段浮动</div></td>
+        <td>CNY</td>
+        <td class="num">¥2</td>
+        <td class="num">¥0.04</td>
+        <td class="num">¥8</td>
+        <td class="num">¥1.23</td>
+        <td class="num"><span class="x ok">1.00×</span></td>
+        <td class="num">—</td>
+        <td class="num">—</td>
+        <td class="note">人民币牌价与官方人民币牌价完全相同（1.00x）</td>
+      </tr>
+<tr data-id="alibaba-bailian-beijing">
+        <td>阿里云百炼·北京<div class="sub">时段浮动</div></td>
+        <td>CNY</td>
+        <td class="num">¥2</td>
+        <td class="num"><span class="na">未单独公布</span></td>
+        <td class="num">¥8</td>
+        <td class="num">¥2.6</td>
+        <td class="num"><span class="x hot">2.12×</span></td>
+        <td class="num">—</td>
+        <td class="num">—</td>
+        <td class="note">价格数字与官方相同，但忙时窗口长达 14 小时/天，实际支出高于官方</td>
+      </tr>
+<tr data-id="alibaba-bailian-singapore">
+        <td>阿里云百炼·新加坡<div class="sub">时段浮动</div></td>
+        <td>USD</td>
+        <td class="num">$0.3</td>
+        <td class="num"><span class="na">未单独公布</span></td>
+        <td class="num">$1.2</td>
+        <td class="num">$0.39</td>
+        <td class="num"><span class="x hot">2.12×</span></td>
+        <td class="num">—</td>
+        <td class="num">—</td>
+        <td class="note">美元牌价与官方美元牌价完全相同（1x 谷 / 1x 峰）</td>
+      </tr>
+<tr data-id="baidu-qianfan">
+        <td>百度千帆<div class="sub">时段浮动</div></td>
+        <td>CNY</td>
+        <td class="num">¥2</td>
+        <td class="num">¥0.04</td>
+        <td class="num">¥8</td>
+        <td class="num">¥1.23</td>
+        <td class="num"><span class="x ok">1.00×</span></td>
+        <td class="num">—</td>
+        <td class="num">—</td>
+        <td class="note">价格数字与官方相同（1x），但高峰窗口 14 小时/天</td>
+      </tr>
+<tr data-id="azure-foundry">
+        <td>微软 Azure (Foundry)</td>
+        <td>USD</td>
+        <td class="num">$0.33</td>
+        <td class="num">$0.0066</td>
+        <td class="num">$1.32</td>
+        <td class="num">$0.203</td>
+        <td class="num"><span class="x mid">1.10×</span></td>
+        <td class="num">—</td>
+        <td class="num">—</td>
+        <td class="note">原厂 Glbl 档 $0.30/$0.006/$1.20 与官方美元峰价一致（2x 谷价）；无峰谷，价格恒定</td>
+      </tr>
+<tr data-id="tencent-tokenhub">
+        <td>腾讯云 TokenHub（按量）</td>
+        <td>积分</td>
+        <td class="num">40 分</td>
+        <td class="num">0.8 分</td>
+        <td class="num">160 分</td>
+        <td class="num">—</td>
+        <td class="num"><span class="x ">积分</span></td>
+        <td class="num">—</td>
+        <td class="num">—</td>
+        <td class="note">计费单位是「积分」而非美元，公式 = Σ(token × 对应单价)/1e6</td>
+      </tr></tbody>
+        </table>
+      </div>
+      
+      <details>
+        <summary>OpenRouter 29 个上游端点实测（对官方空闲 7:2:1）</summary>
+        <div class="tbl-wrap" style="margin-top:10px">
+          <table>
+            <thead>
+              <tr>
+                <th>上游 / 供应商</th>
+                <th class="num">未命中</th><th class="num">缓存</th><th class="num">输出</th>
+                <th class="num">7:2:1</th><th class="num">vs 官方基准</th>
+                <th class="num">最大输出</th><th>备注</th>
+              </tr>
+            </thead>
+            <tbody><tr>
+      <td>Relace</td>
+      <td class="num">$0.028</td>
+      <td class="num">$0.01</td>
+      <td class="num">$1</td>
+      <td class="num">$0.113</td>
+      <td class="num"><span class="x hi">1.22×</span></td>
+      <td class="num">944K</td>
+      <td class="note">unknown</td>
+    </tr>
+<tr>
+      <td>Baidu</td>
+      <td class="num">$0.035</td>
+      <td class="num">$0.0007</td>
+      <td class="num">$0.142</td>
+      <td class="num">$0.022</td>
+      <td class="num"><span class="x ok">0.24×</span></td>
+      <td class="num">393K</td>
+      <td class="note">缓存价 $0.000708/M 是全表最低</td>
+    </tr>
+<tr>
+      <td>Morph</td>
+      <td class="num">$0.045</td>
+      <td class="num">$0.01</td>
+      <td class="num">$0.6</td>
+      <td class="num">$0.076</td>
+      <td class="num"><span class="x ok">0.83×</span></td>
+      <td class="num">944K</td>
+      <td class="note">fp8 · 1d 95.6%</td>
+    </tr>
+<tr>
+      <td>Wafer</td>
+      <td class="num">$0.055</td>
+      <td class="num">$0.044</td>
+      <td class="num">$1.5</td>
+      <td class="num">$0.192</td>
+      <td class="num"><span class="x hot">2.08×</span></td>
+      <td class="num">944K</td>
+      <td class="note">unknown</td>
+    </tr>
+<tr>
+      <td>Sail Research</td>
+      <td class="num">$0.08</td>
+      <td class="num">$0.01</td>
+      <td class="num">$0.4</td>
+      <td class="num">$0.063</td>
+      <td class="num"><span class="x ok">0.68×</span></td>
+      <td class="num">384K</td>
+      <td class="note">fp4 · 1d 98.26%</td>
+    </tr>
+<tr>
+      <td>Decart</td>
+      <td class="num">$0.09</td>
+      <td class="num">$0.018</td>
+      <td class="num">$0.18</td>
+      <td class="num">$0.049</td>
+      <td class="num"><span class="x ok">0.53×</span></td>
+      <td class="num">262K</td>
+      <td class="note">fp4</td>
+    </tr>
+<tr>
+      <td>DekaLLM</td>
+      <td class="num">$0.12</td>
+      <td class="num">$0.005</td>
+      <td class="num">$1.2</td>
+      <td class="num">$0.148</td>
+      <td class="num"><span class="x hi">1.60×</span></td>
+      <td class="num">944K</td>
+      <td class="note">unknown</td>
+    </tr>
+<tr>
+      <td>Ionstream</td>
+      <td class="num">$0.133</td>
+      <td class="num">$0.006</td>
+      <td class="num">$1.15</td>
+      <td class="num">$0.146</td>
+      <td class="num"><span class="x hi">1.58×</span></td>
+      <td class="num">944K</td>
+      <td class="note">unknown · 1d 98.94%</td>
+    </tr>
+<tr>
+      <td>DeepInfra</td>
+      <td class="num">$0.14</td>
+      <td class="num">$0.0042</td>
+      <td class="num">$0.42</td>
+      <td class="num">$0.073</td>
+      <td class="num"><span class="x ok">0.79×</span></td>
+      <td class="num">131K</td>
+      <td class="note">fp8</td>
+    </tr>
+<tr>
+      <td>InferenceNet</td>
+      <td class="num">$0.145</td>
+      <td class="num">$0.015</td>
+      <td class="num">$0.6</td>
+      <td class="num">$0.099</td>
+      <td class="num"><span class="x mid">1.08×</span></td>
+      <td class="num">393K</td>
+      <td class="note">fp8</td>
+    </tr>
+<tr>
+      <td>StreamLake</td>
+      <td class="num">$0.15</td>
+      <td class="num">$0.003</td>
+      <td class="num">$0.6</td>
+      <td class="num">$0.092</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">384K</td>
+      <td class="note">fp8</td>
+    </tr>
+<tr>
+      <td>Alibaba</td>
+      <td class="num">$0.15</td>
+      <td class="num">$0.015</td>
+      <td class="num">$0.6</td>
+      <td class="num">$0.1</td>
+      <td class="num"><span class="x mid">1.09×</span></td>
+      <td class="num">393K</td>
+      <td class="note">该端点带 overrides，峰谷区间与官方不同（UTC 0-14 为高价档）</td>
+    </tr>
+<tr>
+      <td>DeepSeek <span class="badge">隐式缓存</span></td>
+      <td class="num">$0.15</td>
+      <td class="num">$0.003</td>
+      <td class="num">$0.6</td>
+      <td class="num">$0.092</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">393K</td>
+      <td class="note">唯一支持隐式缓存的端点；带 overrides，与官方文档峰谷完全一致</td>
+    </tr>
+<tr>
+      <td>GMICloud</td>
+      <td class="num">$0.18</td>
+      <td class="num">$0.0036</td>
+      <td class="num">$0.72</td>
+      <td class="num">$0.111</td>
+      <td class="num"><span class="x hi">1.20×</span></td>
+      <td class="num">944K</td>
+      <td class="note">fp8</td>
+    </tr>
+<tr>
+      <td>Novita</td>
+      <td class="num">$0.195</td>
+      <td class="num">$0.0039</td>
+      <td class="num">$0.78</td>
+      <td class="num">$0.12</td>
+      <td class="num"><span class="x hi">1.30×</span></td>
+      <td class="num">393K</td>
+      <td class="note">fp8</td>
+    </tr>
+<tr>
+      <td>CoreWeave</td>
+      <td class="num">$0.2</td>
+      <td class="num">$0.03</td>
+      <td class="num">$0.65</td>
+      <td class="num">$0.126</td>
+      <td class="num"><span class="x hi">1.37×</span></td>
+      <td class="num">944K</td>
+      <td class="note">fp8</td>
+    </tr>
+<tr>
+      <td>Phala</td>
+      <td class="num">$0.21</td>
+      <td class="num">$0.0042</td>
+      <td class="num">$0.84</td>
+      <td class="num">$0.129</td>
+      <td class="num"><span class="x hi">1.40×</span></td>
+      <td class="num">944K</td>
+      <td class="note">unknown · 1d 94.59%</td>
+    </tr>
+<tr>
+      <td>DigitalOcean</td>
+      <td class="num">$0.225</td>
+      <td class="num">$0.006</td>
+      <td class="num">$0.9</td>
+      <td class="num">$0.139</td>
+      <td class="num"><span class="x hi">1.51×</span></td>
+      <td class="num">944K</td>
+      <td class="note">unknown · 1d 99.37%</td>
+    </tr>
+<tr>
+      <td>Makora</td>
+      <td class="num">$0.27</td>
+      <td class="num">$0.009</td>
+      <td class="num">$1.15</td>
+      <td class="num">$0.175</td>
+      <td class="num"><span class="x hi">1.90×</span></td>
+      <td class="num">393K</td>
+      <td class="note">fp8</td>
+    </tr>
+<tr>
+      <td>Crusoe</td>
+      <td class="num">$0.29</td>
+      <td class="num">$0.007</td>
+      <td class="num">$1.2</td>
+      <td class="num">$0.183</td>
+      <td class="num"><span class="x hi">1.99×</span></td>
+      <td class="num">944K</td>
+      <td class="note">fp8</td>
+    </tr>
+<tr>
+      <td>AtlasCloud</td>
+      <td class="num">$0.3</td>
+      <td class="num">$0.03</td>
+      <td class="num">$1.2</td>
+      <td class="num">$0.201</td>
+      <td class="num"><span class="x hot">2.18×</span></td>
+      <td class="num">393K</td>
+      <td class="note">fp8</td>
+    </tr>
+<tr>
+      <td>BaseTen</td>
+      <td class="num">$0.3</td>
+      <td class="num">$0.007</td>
+      <td class="num">$1.2</td>
+      <td class="num">$0.185</td>
+      <td class="num"><span class="x hi">2.01×</span></td>
+      <td class="num">262K</td>
+      <td class="note">OpenRouter 上出现两条相同条目，渲染时需去重</td>
+    </tr>
+<tr>
+      <td>Together</td>
+      <td class="num">$0.3</td>
+      <td class="num">$0.006</td>
+      <td class="num">$1.2</td>
+      <td class="num">$0.184</td>
+      <td class="num"><span class="x hi">2.00×</span></td>
+      <td class="num">944K</td>
+      <td class="note">unknown</td>
+    </tr>
+<tr>
+      <td>SiliconFlow</td>
+      <td class="num">$0.3</td>
+      <td class="num">$0.006</td>
+      <td class="num">$1.2</td>
+      <td class="num">$0.184</td>
+      <td class="num"><span class="x hi">2.00×</span></td>
+      <td class="num">393K</td>
+      <td class="note">比硅基官网贵一倍</td>
+    </tr>
+<tr>
+      <td>Modal</td>
+      <td class="num">$0.3</td>
+      <td class="num">$0.03</td>
+      <td class="num">$1.2</td>
+      <td class="num">$0.201</td>
+      <td class="num"><span class="x hot">2.18×</span></td>
+      <td class="num">944K</td>
+      <td class="note">unknown</td>
+    </tr>
+<tr>
+      <td>Parasail</td>
+      <td class="num">$0.3</td>
+      <td class="num">$0.006</td>
+      <td class="num">$1.2</td>
+      <td class="num">$0.184</td>
+      <td class="num"><span class="x hi">2.00×</span></td>
+      <td class="num">944K</td>
+      <td class="note">fp8</td>
+    </tr>
+<tr>
+      <td>Fireworks</td>
+      <td class="num">$0.3</td>
+      <td class="num">$0.006</td>
+      <td class="num">$1.2</td>
+      <td class="num">$0.184</td>
+      <td class="num"><span class="x hi">2.00×</span></td>
+      <td class="num">944K</td>
+      <td class="note">30 分钟可用率仅 63.33% · 1d 91.38%</td>
+    </tr>
+<tr>
+      <td>Venice</td>
+      <td class="num">$0.3</td>
+      <td class="num">$0.0075</td>
+      <td class="num">$1.2</td>
+      <td class="num">$0.185</td>
+      <td class="num"><span class="x hi">2.01×</span></td>
+      <td class="num">131K</td>
+      <td class="note">fp8</td>
+    </tr>
+<tr>
+      <td>Fireworks (US)</td>
+      <td class="num">$0.45</td>
+      <td class="num">$0.009</td>
+      <td class="num">$1.8</td>
+      <td class="num">$0.276</td>
+      <td class="num"><span class="x hot">3.00×</span></td>
+      <td class="num">944K</td>
+      <td class="note">全表最贵；状态标记为不可用 · 1d 89.66%</td>
+    </tr></tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <section class="sec">
+      <h2>03 订阅渠道</h2>
+      <p class="hint" style="margin-bottom:10px">额度按官方谷价（$0.15 / $0.003 / $0.60）统一折算。编程 Agent 取 87.4% 缓存率实测口径下的可用请求数。</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>方案</th>
+              <th class="num">月费</th>
+              <th class="num">本模型额度</th>
+              <th class="num">5 小时</th>
+              <th class="num">周</th>
+              <th>窗口</th>
+              <th class="num">编程 Agent @87.4%</th>
+              <th>说明</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+      <td>ClinePass 月度</td>
+      <td class="num">$9.99/月</td>
+      <td class="num">$98.6</td>
+      <td class="num">$19.7</td>
+      <td class="num">$49.3</td>
+      <td>日历月</td>
+      <td class="num">57,016 次</td>
+      <td class="note">Cline 内部月配额上限 5000 单位 ÷ 该模型倍数 k=50 → 约 $98.6（按 Cline 自身官方价表，即官方高峰价口径）。5h = 月 × 20% = $19.7，周 = 月 × 50% = $49.3。</td>
+    </tr>
+<tr>
+      <td>OpenCode Go</td>
+      <td class="num">$10/月</td>
+      <td class="num">$60</td>
+      <td class="num">$12</td>
+      <td class="num">$30</td>
+      <td>日历月</td>
+      <td class="num">34,695 次</td>
+      <td class="note">官方文档直接列出该模型月限 $60；5h = 月 × 20% = $12，周 = 月 × 50% = $30。</td>
+    </tr>
+<tr>
+      <td>OpenCode Go Plus</td>
+      <td class="num">$40/月</td>
+      <td class="num">未公布</td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td>日历月</td>
+      <td class="num">—</td>
+      <td class="note">官方未公布 Go Plus 的该模型月限；Go 与 Go Plus 单价相同，仅月限额不同。</td>
+    </tr>
+<tr>
+      <td>Command Code GOAT</td>
+      <td class="num">$10/月</td>
+      <td class="num">$60</td>
+      <td class="num">$14</td>
+      <td class="num">$35</td>
+      <td>滚动窗口</td>
+      <td class="num">34,695 次</td>
+      <td class="note">官方定价页列出 GOAT 含 $70 credits，其中该模型 $60；滚动窗口 5h $14 / 周 $35。</td>
+    </tr>
+<tr>
+      <td>Command Code Go</td>
+      <td class="num">$1/月</td>
+      <td class="num">$10</td>
+      <td class="num">$2</td>
+      <td class="num">$5</td>
+      <td>滚动窗口</td>
+      <td class="num">5,783 次</td>
+      <td class="note">官方定价页列出 Go 含 $10 credits，全部可用于该模型；滚动窗口 5h $2 / 周 $5。</td>
+    </tr>
+<tr>
+      <td>Command Code Max</td>
+      <td class="num">$100/月</td>
+      <td class="num">未公布</td>
+      <td class="num">$90</td>
+      <td class="num">$180</td>
+      <td>滚动窗口</td>
+      <td class="num">—</td>
+      <td class="note">官方未公布 Max 档的该模型单模型额度；仅给出总 credits $150 与窗口 5h $90 / 周 $180。</td>
+    </tr>
+<tr>
+      <td>Electron Hub DevPass Lite</td>
+      <td class="num">$10/月</td>
+      <td class="num">无硬额度</td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td>软限制</td>
+      <td class="num">—</td>
+      <td class="note">官方口径为 Unlimited tokens / No credits —— 无硬额度，超额进慢车道。无法折算。</td>
+    </tr>
+<tr>
+      <td>Electron Hub DevPass Turbo</td>
+      <td class="num">$40/月</td>
+      <td class="num">无硬额度</td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td>软限制</td>
+      <td class="num">—</td>
+      <td class="note">同上，无硬额度。</td>
+    </tr>
+<tr>
+      <td>腾讯云 Token Plan Lite</td>
+      <td class="num">¥39/月</td>
+      <td class="num">780 积分</td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td>日历月</td>
+      <td class="num">1,691 次</td>
+      <td class="note"></td>
+    </tr>
+<tr>
+      <td>腾讯云 Token Plan Standard</td>
+      <td class="num">¥99/月</td>
+      <td class="num">1980 积分</td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td>日历月</td>
+      <td class="num">4,294 次</td>
+      <td class="note"></td>
+    </tr>
+<tr>
+      <td>腾讯云 Token Plan Pro</td>
+      <td class="num">¥299/月</td>
+      <td class="num">5980 积分</td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td>日历月</td>
+      <td class="num">12,967 次</td>
+      <td class="note"></td>
+    </tr>
+<tr>
+      <td>腾讯云 Token Plan Max</td>
+      <td class="num">¥599/月</td>
+      <td class="num">11980 积分</td>
+      <td class="num">—</td>
+      <td class="num">—</td>
+      <td>日历月</td>
+      <td class="num">25,978 次</td>
+      <td class="note"></td>
+    </tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <p class="foot">数据来源：Artificial Analysis、vals.ai、OpenRouter、各官方文档（2026-10-08 快照）。本页不含个人实测。</p>
+  </div>
+  <script>
+    const t1 = document.getElementById('api-t1');
+    const t2 = document.getElementById('api-t2');
+    const b1 = document.getElementById('btn-t1');
+    const b2 = document.getElementById('btn-t2');
+    b1.onclick = () => { t1.hidden = false; t2.hidden = true; b1.classList.add('on'); b2.classList.remove('on'); };
+    b2.onclick = () => { t1.hidden = true; t2.hidden = false; b2.classList.add('on'); b1.classList.remove('on'); };
+  </script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+# Local/runtime files
+site-preview.log
+*.log
+
+# Local environment and credentials
+.env
+.env.*
+!.env.example
+
+# Raw snapshots are retained locally for data provenance but are not needed by the static site.
+raw/
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

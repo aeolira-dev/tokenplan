@@ -1,0 +1,57 @@
+{
+  "$schema": "自描述。AA 榜单口径评测结果。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "sourceRefs": [
+      "aa-peers"
+    ]
+  },
+  "boards": {
+    "artificialAnalysis": {
+      "displayName": "Artificial Analysis",
+      "indexName": "Artificial Analysis Intelligence Index",
+      "indexVersion": "v4.3.2",
+      "modelEntryName": "Gemini 3.8 Flash (High)",
+      "intelligenceIndex": 40.9262321765904,
+      "rankings": [
+        {
+          "key": "intelligence",
+          "label": "Intelligence",
+          "rank": 6,
+          "of": 117,
+          "note": "超越多数同尺寸模型"
+        },
+        {
+          "key": "speed",
+          "label": "Speed",
+          "rank": 5,
+          "of": 117,
+          "note": "195 tok/s"
+        },
+        {
+          "key": "cost",
+          "label": "Cost",
+          "rank": 18,
+          "of": 117,
+          "note": "$1.24/任务"
+        }
+      ],
+      "capabilities": {
+        "financeAndAccounting": 46.7567637414082,
+        "strategyAndOps": 48.4011506829342,
+        "legal": 51.6298811903287,
+        "healthcareAndMedical": 41.7830626872104,
+        "engineering": 42.8134112164944,
+        "economics": 52.3615117778808
+      },
+      "costProfile": {
+        "price1mInputTokens": 0.75,
+        "price1mOutputTokens": 3.75,
+        "cacheHitPrice": 0.075,
+        "price1mBlended7To2To1": 0.5775,
+        "costPerTaskUSD": 1.2428,
+        "timePerTaskSec": 561.6
+      }
+    }
+  }
+}

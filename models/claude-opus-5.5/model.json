@@ -1,0 +1,148 @@
+{
+  "$schema": "自描述。模型身份层。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "sources": [
+      "aa-peers",
+      "openrouter-models",
+      "modelsdev"
+    ]
+  },
+  "slug": "claude-opus-5.5",
+  "displayName": "Claude Opus 5.5 (Max, Default Fallback)",
+  "vendor": "anthropic",
+  "vendorDisplay": "Anthropic",
+  "family": "Claude",
+  "tier": "旗舰（flagship）",
+  "apiModelIds": {
+    "official": "claude-opus-5.5"
+  },
+  "release": {
+    "date": "2026-09-22",
+    "knowledgeCutoff": null,
+    "deprecated": false
+  },
+  "openness": {
+    "openWeights": false,
+    "license": "Proprietary",
+    "opennessIndex": 0
+  },
+  "architecture": {
+    "sizeClass": "frontier-multimodal"
+  },
+  "limits": {
+    "contextTokens": 1000000,
+    "maxOutputTokens": 128000
+  },
+  "capabilities": {
+    "reasoning": {
+      "supported": true,
+      "default": true
+    },
+    "vision": true,
+    "toolCalls": true,
+    "jsonOutput": true,
+    "inputModalities": [
+      "text",
+      "image"
+    ],
+    "outputModalities": [
+      "text"
+    ]
+  },
+  "speed": {
+    "timePerTaskSec": 782.6521881485841,
+    "outputTokensPerTask": 119166.01575731623
+  },
+  "baseline": {
+    "providerId": "anthropic-official",
+    "currency": "USD",
+    "unit": "per 1M tokens",
+    "tiers": [
+      {
+        "id": "standard",
+        "label": "标准按量",
+        "usd": {
+          "inputMiss": 4,
+          "inputHit": 0.2,
+          "output": 20
+        }
+      },
+      {
+        "id": "batch",
+        "label": "Batch API (50%)",
+        "usd": {
+          "inputMiss": 2,
+          "inputHit": 0.1,
+          "output": 10
+        }
+      }
+    ]
+  },
+  "card": {
+    "radar": {
+      "shape": "hexagon",
+      "axesCount": 6,
+      "axes": [
+        {
+          "key": "engineering",
+          "label": "工程",
+          "value": 60.3546025055266,
+          "estimated": false
+        },
+        {
+          "key": "legal",
+          "label": "法律",
+          "value": 63.2602763791642,
+          "estimated": false
+        },
+        {
+          "key": "strategyAndOps",
+          "label": "战略与运营",
+          "value": 63.6788820379322,
+          "estimated": false
+        },
+        {
+          "key": "financeAndAccounting",
+          "label": "财会",
+          "value": 60.7295442846867,
+          "estimated": false
+        },
+        {
+          "key": "economics",
+          "label": "经济",
+          "value": 65.6045449876429,
+          "estimated": false
+        },
+        {
+          "key": "healthcareAndMedical",
+          "label": "医疗健康",
+          "value": 60.5359874288733,
+          "estimated": false
+        }
+      ]
+    }
+  },
+  "page": {
+    "file": "claude-opus-5.5.html",
+    "title": "Claude Opus 5.5",
+    "pills": [
+      {
+        "cls": "reason",
+        "text": "旗舰推理"
+      },
+      {
+        "cls": "open",
+        "text": "闭源"
+      }
+    ],
+    "endpointPattern": "claude-opus-5[.-]5",
+    "metric1": {
+      "en": "AA Cost / Task",
+      "zh": "对照集任务成本",
+      "highlight": "cost",
+      "note": "Max + Default Fallback；输出 token 偏高"
+    },
+    "specialty": "AA Intelligence Index v4.3.2 对照集榜首"
+  }
+}

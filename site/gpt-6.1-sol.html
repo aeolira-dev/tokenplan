@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GPT-6.1 Sol · 渠道对照</title>
+  <style>
+    :root {
+      --canvas: #e8edf3;
+      --ink: #17191e;
+      --gold: #9a845c;
+      --blue: #3b6fd8;
+      --orange: #c37b4c;
+      --white: #fff;
+      --line: #d5dce6;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: #d5dce6; color: var(--ink); }
+    body {
+      font-family: "Inter", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.45;
+    }
+    .page { max-width: 1180px; margin: 0 auto; padding: 24px 24px 72px; }
+    .topnav {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 22px; padding: 6px 0 14px; border-bottom: 1px solid var(--line);
+    }
+    .topnav strong { color: var(--ink); font-size: 16px; letter-spacing: -0.02em; }
+    .topnav .nav-group { display: flex; align-items: center; gap: 4px; background: #dfe5ee; padding: 3px; border-radius: 8px; }
+    .topnav .nav-btn {
+      color: #5c6570; text-decoration: none; padding: 3px 9px; font-size: 12.5px; border-radius: 6px; font-weight: 500;
+      transition: all 0.15s ease;
+    }
+    .topnav .nav-btn:hover { color: #17191e; }
+    .topnav .nav-btn.active {
+      background: var(--white); color: var(--ink); font-weight: 650; box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+    }
+    .sec { margin-top: 36px; }
+    .sec h2 {
+      font-size: 13px; font-weight: 650; letter-spacing: 0.12em;
+      color: #6a7380; text-transform: uppercase; margin-bottom: 14px;
+    }
+    .intro {
+      display: grid;
+      grid-template-columns: 430px 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+    .poster {
+      width: 430px;
+      background: var(--canvas);
+      padding: 22px 20px 14px;
+      border-radius: 8px;
+    }
+    header.cardhd {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-bottom: 14px; border-bottom: 1px solid var(--line);
+    }
+    .brand { display: flex; align-items: center; gap: 8px; font-size: 18px; font-weight: 700; }
+    .coord { font-size: 18px; font-weight: 500; letter-spacing: 0.46em; margin-right: -0.46em; color: #4a5260; }
+    .title-row { display: flex; justify-content: space-between; gap: 10px; margin: 22px 0 14px; }
+    h1 { font-size: 28px; font-weight: 650; letter-spacing: -0.038em; line-height: 1.12; }
+    .pills { display: flex; flex-direction: column; gap: 8px; padding-top: 4px; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      border-radius: 999px; padding: 4px 11px 4px 9px; font-size: 13px; background: #fff;
+    }
+    .pill .dot { width: 7px; height: 7px; border-radius: 50%; }
+    .pill.reason { color: #3a63b8; box-shadow: inset 0 0 0 1px #c9d6f0; }
+    .pill.reason .dot { background: #4b78e6; }
+    .pill.open { color: #2f7a4a; box-shadow: inset 0 0 0 1px #c7e3d0; }
+    .pill.open .dot { background: #3aa05c; }
+    .metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .metric { background: var(--white); border-radius: 14px; padding: 12px; }
+    .metric-head { display: flex; justify-content: space-between; color: var(--gold); font-size: 10.5px; }
+    .metric-head .en { font-family: Georgia, "Times New Roman", serif; font-style: italic; }
+    .metric-body { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 6px; }
+    .metric-num { font-size: 26px; font-weight: 620; letter-spacing: -0.04em; line-height: 1; }
+    .metric-sub { margin-top: 4px; color: #8a9099; font-size: 11px; }
+    .rank { color: var(--blue); font-size: 18px; font-weight: 700; }
+    .rank small { font-size: 11px; font-weight: 500; color: #7b95d6; }
+    .bar { margin-top: 8px; height: 4px; background: #e6ebf3; border-radius: 99px; overflow: hidden; }
+    .bar > span { display: block; height: 100%; background: var(--blue); }
+    .radar-card { margin-top: 10px; background: var(--white); border-radius: 14px; padding: 12px 8px 8px; }
+    .radar-head { display: flex; justify-content: space-between; padding: 0 8px; }
+    .radar-head h3 { font-size: 13px; font-weight: 650; }
+    .radar-head h3 em { font-style: normal; color: var(--blue); }
+    .legend { margin-top: 6px; font-size: 11px; color: #5b616a; }
+    .legend i {
+      display: inline-block; width: 11px; height: 8px; border-radius: 2px; margin-right: 6px; vertical-align: middle;
+      box-shadow: inset 0 0 0 1.5px currentColor; background: color-mix(in srgb, currentColor 28%, white);
+    }
+    .legend .me { color: var(--blue); }
+    .legend .avg { color: var(--orange); opacity: 0.4; margin-top: 3px; }
+    .mean { text-align: right; color: var(--blue); font-size: 12px; }
+    .mean b { display: block; font-size: 20px; }
+    .radar-wrap { position: relative; height: 300px; }
+    .radar-wrap svg { width: 100%; height: 100%; display: block; }
+    .lab { position: absolute; font-size: 11px; color: #3a4250; white-space: nowrap; text-align: center; }
+    .lab b { color: var(--blue); font-size: 12px; display: block; }
+    .lab.top { left: 50%; top: 0; transform: translateX(-50%); }
+    .lab.tr { right: 4px; top: 64px; text-align: right; }
+    .lab.br { right: 4px; bottom: 70px; text-align: right; }
+    .lab.bot { left: 50%; bottom: 4px; transform: translateX(-50%); }
+    .lab.bl { left: 4px; bottom: 70px; text-align: left; }
+    .lab.tl { left: 4px; top: 64px; text-align: left; }
+    .src { text-align: center; color: #8a9099; font-size: 11px; padding: 2px 0 6px; }
+    .facts { margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 7px; }
+    .fact { background: var(--white); border-radius: 12px; padding: 10px; min-height: 64px; }
+    .fact .k { color: #8a9099; font-size: 11px; margin-bottom: 6px; display: flex; justify-content: space-between; }
+    .fact .k .tag { color: var(--blue); font-weight: 700; }
+    .fact .v { font-size: 14px; font-weight: 650; }
+    .mods { display: flex; gap: 6px; color: #d5d9e0; font-size: 12px; font-weight: 600; }
+    .mods .on { color: #2a2e35; }
+    .poster footer {
+      margin-top: 10px; color: #8a9099; font-size: 10px; display: flex; justify-content: space-between;
+    }
+    .side {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 22px 24px;
+      min-height: 100%;
+    }
+    .side h3 { font-size: 14px; margin: 18px 0 8px; }
+    .side h3:first-child { margin-top: 0; }
+    .kv { display: grid; grid-template-columns: 96px 1fr; gap: 6px 12px; font-size: 13px; }
+    .kv dt { color: #8a9099; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { background: var(--canvas); border-radius: 999px; padding: 4px 10px; font-size: 12.5px; }
+    .chip b { color: var(--blue); }
+    .call { margin-top: 10px; font-size: 12.5px; color: #5c6570; line-height: 1.55; }
+    .toolbar { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; flex-wrap: wrap; }
+    .btn {
+      border: 1px solid var(--line); background: #fff; border-radius: 999px;
+      padding: 5px 12px; font-size: 13px; cursor: pointer;
+    }
+    .btn.on { background: #1f2a3d; color: #fff; border-color: #1f2a3d; }
+    .hint { font-size: 12.5px; color: #6a7380; }
+    .tbl-wrap { overflow: auto; background: #fff; border-radius: 12px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 9px 10px; border-bottom: 1px solid #eef1f5; vertical-align: top; text-align: left; }
+    th { position: sticky; top: 0; background: #f6f8fb; font-weight: 600; color: #5c6570; font-size: 12px; }
+    td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    td.note { color: #6a7380; font-size: 12px; max-width: 280px; }
+    .sub { color: #8a9099; font-size: 11px; margin-top: 2px; }
+    .badge { display: inline-block; background: #e8eefc; color: #3b6fd8; font-size: 11px; padding: 1px 6px; border-radius: 6px; }
+    .x { font-weight: 700; }
+    .x.ok { color: #2f7a4a; }
+    .x.mid { color: #8a6d2f; }
+    .x.hi { color: #c37b4c; }
+    .x.hot { color: #b54646; }
+    .na { color: #9aa1ab; }
+    details { margin-top: 12px; background: #fff; border-radius: 12px; padding: 10px 14px; }
+    details summary { cursor: pointer; font-weight: 650; font-size: 13px; }
+    .foot { margin-top: 28px; font-size: 12px; color: #6a7380; }
+    @media (max-width: 980px) {
+      .intro { grid-template-columns: 1fr; }
+      .poster { width: 100%; max-width: 460px; }
+    }
+
+    /* company-nav */
+    .topnav-left { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+    a.nav-home {
+      color: #5c6570; text-decoration: none; font-size: 12.5px; font-weight: 650;
+      padding: 3px 9px; border-radius: 6px; background: #dfe5ee;
+    }
+    a.nav-home:hover { color: #17191e; }
+    a.nav-home.active {
+      background: var(--white); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+    }
+    .snap { font-size:11.5px; color:#8a9099; padding:2px 6px; background:#fff; border-radius:4px; }
+    .topnav details.nav-switch {
+      position: relative; display: inline-block;
+      margin-top: 0; background: transparent; border-radius: 6px; padding: 0;
+    }
+    .nav-switch > summary {
+      list-style: none; cursor: pointer; color: #5c6570; padding: 3px 9px;
+      font-size: 12.5px; border-radius: 6px; font-weight: 500;
+    }
+    .nav-switch > summary::-webkit-details-marker { display: none; }
+    .nav-switch > summary::marker { content: ''; }
+    .nav-switch > summary:hover { color: #17191e; }
+    .nav-switch-panel {
+      position: absolute; right: 0; top: calc(100% + 6px); z-index: 30;
+      min-width: 240px; background: #fff; border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(23,25,30,0.12); padding: 8px;
+    }
+    .nav-switch-vendor { padding: 6px 8px; }
+    .nav-switch-vendor .lab { display:block; font-size:11px; color:#8a9099; margin-bottom:4px; }
+    .nav-switch-vendor a { display:inline-block; margin-right:8px; color:#3b6fd8; text-decoration:none; font-size:12.5px; }
+    .nav-switch-all { display:block; margin-top:4px; padding:8px; font-size:12.5px; color:#3b6fd8; text-decoration:none; }
+
+</style>
+</head>
+<body>
+  <div class="page">
+    <div class="topnav">
+      <div class="topnav-left">
+        <a class="nav-home" href="index.html">横评目录</a>
+        <strong>GPT-6.1 Sol</strong>
+        <span class="snap">2026.10.08 快照</span>
+      </div>
+      <nav class="nav-group">
+        <a href="gpt-6.1-sol.html" class="nav-btn active">6.1 Sol</a><a href="gpt-6-astra.html" class="nav-btn">Astra</a><a href="gpt-6-luna.html" class="nav-btn">Luna</a>
+        <details class="nav-switch">
+          <summary>其他厂商</summary>
+          <div class="nav-switch-panel">
+            <div class="nav-switch-vendor"><span class="lab">深度求索</span><a href="deepseek-v4-pro.html">Pro</a><a href="deepseek-v4.1-flash.html">Flash</a></div><div class="nav-switch-vendor"><span class="lab">月之暗面</span><a href="kimi-k3.html">Kimi K3</a></div><div class="nav-switch-vendor"><span class="lab">智谱 AI</span><a href="glm-5.3-flash.html">GLM-5.3-Flash</a></div><div class="nav-switch-vendor"><span class="lab">阶跃星辰</span><a href="step-5-preview.html">Step 5 Preview</a></div><div class="nav-switch-vendor"><span class="lab">小米</span><a href="mimo-v2.6-pro.html">MiMo-V2.6-Pro</a></div><div class="nav-switch-vendor"><span class="lab">Anthropic</span><a href="claude-opus-5.5.html">Opus 5.5</a><a href="claude-fable-5.1.html">Fable 5.1</a><a href="claude-sonnet-5.5.html">Sonnet 5.5</a><a href="claude-haiku-5.5.html">Haiku 5.5</a></div><div class="nav-switch-vendor"><span class="lab">Google DeepMind</span><a href="gemini-4-argon.html">4 Argon</a><a href="gemini-3.8-flash.html">3.8 Flash</a></div>
+            <a class="nav-switch-all" href="index.html">全部厂商与在用模型 →</a>
+          </div>
+        </details>
+      </nav>
+    </div>
+
+    <section class="sec">
+      <h2>01 模型介绍</h2>
+      <div class="intro">
+        <article class="poster">
+          <header class="cardhd">
+            <div class="brand">
+              <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="12" r="10" fill="#10a37f"/>
+      <path d="M12 6V18M6 12H18" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+              OpenAI
+            </div>
+            <div class="coord">图灵坐标</div>
+          </header>
+          <div class="title-row">
+            <h1>GPT-6.1 Sol</h1>
+            <div class="pills">
+              <span class="pill reason"><span class="dot"></span>前沿旗舰</span><span class="pill open"><span class="dot"></span>全域 MoE</span>
+            </div>
+          </div>
+          <div class="metrics">
+            <section class="metric">
+              <div class="metric-head"><span class="en">SWE-bench Verified</span><span>智能体综合评测</span></div>
+              <div class="metric-body">
+                <div><div class="metric-num">94.8%</div><div class="metric-sub">复杂工程逻辑闭环</div></div>
+                <div class="rank">#3<small>/全网</small></div>
+              </div>
+              <div class="bar"><span style="width:94.8%"></span></div>
+            </section>
+            <section class="metric">
+              <div class="metric-head"><span class="en">AA Intelligence Index</span><span>AA综合指数</span></div>
+              <div class="metric-body">
+                <div><div class="metric-num">51.8</div><div class="metric-sub">评测费用: $0.724 · 全球前三</div></div>
+                <div class="rank">#3<small>/117</small></div>
+              </div>
+              <div class="bar"><span style="width:51.8%"></span></div>
+            </section>
+          </div>
+          <section class="radar-card">
+            <div class="radar-head">
+              <div>
+                <h3>主客观混合雷达图<em>「原始分数」</em></h3>
+                <div class="legend">
+                  <div class="me"><i></i>GPT-6.1 Sol</div>
+                  <div class="avg"><i></i>本轮模型平均值（未收录）</div>
+                </div>
+              </div>
+              <div class="mean">六维均值<b>56</b></div>
+            </div>
+            <div class="radar-wrap">
+              <svg viewBox="0 0 430 300">
+                <g transform="translate(215,150)">
+                  <polygon points="0,-100 86.6,-50 86.6,50 0,100 -86.6,50 -86.6,-50" fill="none" stroke="#d8dfe8"/>
+                  <polygon points="0,-75 65,-37.5 65,37.5 0,75 -65,37.5 -65,-37.5" fill="none" stroke="#e4e9f0"/>
+                  <polygon points="0,-50 43.3,-25 43.3,25 0,50 -43.3,25 -43.3,-25" fill="none" stroke="#e4e9f0"/>
+                  <polygon points="0,-25 21.7,-12.5 21.7,12.5 0,25 -21.7,12.5 -21.7,-12.5" fill="none" stroke="#e4e9f0"/>
+                  <line x1="0" y1="0" x2="0" y2="-100" stroke="#d8dfe8"/>
+                  <line x1="0" y1="0" x2="86.6" y2="-50" stroke="#d8dfe8"/>
+                  <line x1="0" y1="0" x2="86.6" y2="50" stroke="#d8dfe8"/>
+                  <line x1="0" y1="0" x2="0" y2="100" stroke="#d8dfe8"/>
+                  <line x1="0" y1="0" x2="-86.6" y2="50" stroke="#d8dfe8"/>
+                  <line x1="0" y1="0" x2="-86.6" y2="-50" stroke="#d8dfe8"/>
+                  <polygon points="0,-54 50.0,-28.9 49.4,28.5 0,53.9 -51.4,29.7 -46.8,-27.0"
+                    fill="rgba(59,111,216,0.28)" stroke="#3b6fd8" stroke-width="2" stroke-linejoin="round"/>
+                </g>
+              </svg>
+              <div class="lab top"><b>54</b>科学推理</div>
+              <div class="lab tr"><b>58</b>长上下文推理</div>
+              <div class="lab br"><b>57</b>智能体工作流</div>
+              <div class="lab bot"><b>54</b>编程智能体</div>
+              <div class="lab bl"><b>59</b>知识工作</div>
+              <div class="lab tl"><b>54</b>事实可靠性</div>
+            </div>
+            <p class="src">数据来源 <b>artificialanalysis.ai · 官方数据</b></p>
+          </section>
+          <div class="facts">
+            <div class="fact"><div class="k">发布日期</div><div class="v">2026.09.02</div></div><div class="fact"><div class="k">输入模态</div><div class="mods"><span class="on">T</span><span class="on">图</span><span class="">声</span><span class="">影</span></div></div><div class="fact"><div class="k">输出模态</div><div class="mods"><span class="on">T</span><span class="">图</span><span class="">声</span><span class="">影</span></div></div><div class="fact"><div class="k">上下文窗口</div><div class="v">1.05M token</div></div><div class="fact"><div class="k">输出速度 <span class="tag">#11</span></div><div class="v">112.5 token/s</div></div><div class="fact"><div class="k">综合价格 <span class="tag">#32</span></div><div class="v">$1.47 /M</div></div>
+          </div>
+          <footer>
+            <div>数据仅供参考，请以个人体感为准</div>
+            <div>2026.10.08</div>
+          </footer>
+        </article>
+
+        <aside class="side">
+          <h3>身份</h3>
+          <dl class="kv">
+            <dt>厂商</dt><dd>OpenAI</dd><dt>开源</dt><dd>闭源商业 API / Azure OpenAI</dd><dt>架构</dt><dd>Frontier Multimodal MoE</dd><dt>官方 ID</dt><dd><code>gpt-6.1-sol</code> (含 pro/fast)</dd><dt>能力</dt><dd>高阶推理 · 视觉多模态 · 搜索插件</dd><dt>窗口</dt><dd>1,050,000 上下文 / 128,000 最大输出</dd><dt>速度</dt><dd>112.5 tok/s · TTFC 0.98s 稳定响应</dd>
+          </dl>
+          <h3>公开榜单</h3>
+          <div class="chips">
+            <span class="chip">AA 智能 <b>#3/117</b> (51.83)</span><span class="chip">经济学 <b>59.28</b></span><span class="chip">法律推理 <b>57.69</b></span><span class="chip">战略运营 <b>56.98</b></span><span class="chip">Prompt Caching <b>$0.10/M</b></span><span class="chip">前沿通用第一梯队</span>
+          </div>
+          <h3>卡片口径与评测分析</h3>
+          <p class="call"><b>智能梯队优势</b>：GPT-6.1 Sol 综合智能指数达到 51.83，显著领先于轻量模型梯队；在多步骤复杂 Agent 闭环、长文本商业与法律合约推演上具备极高的准确率与指令遵循深度。</p><p class="call"><b>渠道比价要点</b>：官方标准窗口（≤272K）按量为输入 $2.00 / 输出 $10.00 / 缓存 $0.10（综合价 $1.47/M）；超长上下文模式（>272K）阶梯价为 $4.00 / $15.00；Azure 与第三方网关普遍实行 1.00× 平价转售。</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h2>02 按量渠道</h2>
+      <div class="toolbar">
+        <button class="btn on" id="btn-t1" type="button">标准窗口 (≤272K)</button>
+        <button class="btn" id="btn-t2" type="button">超长窗口 (>272K)</button>
+        <span class="hint">官方基准统一使用美元结算。超长上下文阶梯为 $4.00 / $0.20 / $15.00。</span>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>渠道</th><th>币种</th>
+              <th class="num">未命中 /M</th><th class="num">缓存 /M</th><th class="num">输出 /M</th>
+              <th class="num">7:2:1</th><th class="num">vs 官方</th>
+              <th class="num">上下文</th><th class="num">最大输出</th><th>备注</th>
+            </tr>
+          </thead>
+          <tbody id="api-t1"><tr data-id="openai-official">
+        <td><span class="badge">官方</span> OpenAI 官方 API</td>
+        <td>USD</td>
+        <td class="num">$2</td>
+        <td class="num">$0.1</td>
+        <td class="num">$10</td>
+        <td class="num">$1.47</td>
+        <td class="num"><span class="x ok">1.00×</span></td>
+        <td class="num">1.05M</td>
+        <td class="num">128K</td>
+        <td class="note">官方基准行，原生支持自动 Prompt Caching（缓存读降至 $0.10/M）</td>
+      </tr>
+<tr data-id="azure-openai">
+        <td><span class="badge">官方</span> Microsoft Azure OpenAI</td>
+        <td>USD</td>
+        <td class="num">$2</td>
+        <td class="num">$0.1</td>
+        <td class="num">$10</td>
+        <td class="num">$1.47</td>
+        <td class="num"><span class="x ok">1.00×</span></td>
+        <td class="num">1.05M</td>
+        <td class="num">128K</td>
+        <td class="note">微软云合规保障，价格与 OpenAI 官方完全一致 (1.00×)</td>
+      </tr>
+<tr data-id="openrouter">
+        <td>OpenRouter</td>
+        <td>USD</td>
+        <td class="num">$2</td>
+        <td class="num">$0.1</td>
+        <td class="num">$10</td>
+        <td class="num">$1.47</td>
+        <td class="num"><span class="x ok">1.00×</span></td>
+        <td class="num">1.05M</td>
+        <td class="num">128K</td>
+        <td class="note">聚合直通 OpenAI 官方与 Azure 端点，同价 (1.00×)</td>
+      </tr>
+<tr data-id="cloudflare-ai-gateway">
+        <td>Cloudflare AI Gateway</td>
+        <td>USD</td>
+        <td class="num">$2</td>
+        <td class="num">$0.1</td>
+        <td class="num">$10</td>
+        <td class="num">$1.47</td>
+        <td class="num"><span class="x ok">1.00×</span></td>
+        <td class="num">1.05M</td>
+        <td class="num">128K</td>
+        <td class="note">边缘缓存与防爆流控制，1.00×</td>
+      </tr>
+<tr data-id="vercel-gateway">
+        <td>Vercel AI Gateway</td>
+        <td>USD</td>
+        <td class="num">$2</td>
+        <td class="num">$0.1</td>
+        <td class="num">$10</td>
+        <td class="num">$1.47</td>
+        <td class="num"><span class="x ok">1.00×</span></td>
+        <td class="num">1.05M</td>
+        <td class="num">128K</td>
+        <td class="note">标准档 1.00×，Fast 档为 2.00× 加急调度</td>
+      </tr>
+<tr data-id="nano-gpt">
+        <td>Nano-GPT</td>
+        <td>USD</td>
+        <td class="num">$2</td>
+        <td class="num">$0.1</td>
+        <td class="num">$10</td>
+        <td class="num">$1.47</td>
+        <td class="num"><span class="x ok">1.00×</span></td>
+        <td class="num">1.05M</td>
+        <td class="num">128K</td>
+        <td class="note">无须信用卡绑定，1.00×</td>
+      </tr>
+<tr data-id="aihubmix">
+        <td>AIHubMix</td>
+        <td>USD</td>
+        <td class="num">$2.05</td>
+        <td class="num">$0.11</td>
+        <td class="num">$10.25</td>
+        <td class="num">$1.51</td>
+        <td class="num"><span class="x mid">1.03×</span></td>
+        <td class="num">1.05M</td>
+        <td class="num">128K</td>
+        <td class="note">微幅溢价 2.5%</td>
+      </tr></tbody>
+          <tbody id="api-t2" hidden><tr data-id="openai-official">
+        <td><span class="badge">官方</span> OpenAI 官方 API</td>
+        <td>USD</td>
+        <td class="num">$4</td>
+        <td class="num">$0.2</td>
+        <td class="num">$15</td>
+        <td class="num">$2.44</td>
+        <td class="num"><span class="x ok">1.00×</span></td>
+        <td class="num">1.05M</td>
+        <td class="num">128K</td>
+        <td class="note">官方基准行，原生支持自动 Prompt Caching（缓存读降至 $0.10/M）</td>
+      </tr>
+<tr data-id="azure-openai">
+        <td><span class="badge">官方</span> Microsoft Azure OpenAI</td>
+        <td>USD</td>
+        <td class="num">$4</td>
+        <td class="num">$0.2</td>
+        <td class="num">$15</td>
+        <td class="num">$2.44</td>
+        <td class="num"><span class="x ok">1.00×</span></td>
+        <td class="num">1.05M</td>
+        <td class="num">128K</td>
+        <td class="note">微软云合规保障，价格与 OpenAI 官方完全一致 (1.00×)</td>
+      </tr>
+<tr data-id="openrouter">
+        <td>OpenRouter</td>
+        <td>USD</td>
+        <td class="num">$4</td>
+        <td class="num">$0.2</td>
+        <td class="num">$15</td>
+        <td class="num">$2.44</td>
+        <td class="num"><span class="x ok">1.00×</span></td>
+        <td class="num">1.05M</td>
+        <td class="num">128K</td>
+        <td class="note">聚合直通 OpenAI 官方与 Azure 端点，同价 (1.00×)</td>
+      </tr>
+<tr data-id="cloudflare-ai-gateway">
+        <td>Cloudflare AI Gateway</td>
+        <td>USD</td>
+        <td class="num">$2</td>
+        <td class="num">$0.1</td>
+        <td class="num">$10</td>
+        <td class="num">$1.47</td>
+        <td class="num"><span class="x ok">0.60×</span></td>
+        <td class="num">1.05M</td>
+        <td class="num">128K</td>
+        <td class="note">边缘缓存与防爆流控制，1.00×</td>
+      </tr>
+<tr data-id="vercel-gateway">
+        <td>Vercel AI Gateway</td>
+        <td>USD</td>
+        <td class="num">$4</td>
+        <td class="num">$0.2</td>
+        <td class="num">$20</td>
+        <td class="num">$2.94</td>
+        <td class="num"><span class="x hi">1.20×</span></td>
+        <td class="num">1.05M</td>
+        <td class="num">128K</td>
+        <td class="note">标准档 1.00×，Fast 档为 2.00× 加急调度</td>
+      </tr>
+<tr data-id="nano-gpt">
+        <td>Nano-GPT</td>
+        <td>USD</td>
+        <td class="num">$2</td>
+        <td class="num">$0.1</td>
+        <td class="num">$10</td>
+        <td class="num">$1.47</td>
+        <td class="num"><span class="x ok">0.60×</span></td>
+        <td class="num">1.05M</td>
+        <td class="num">128K</td>
+        <td class="note">无须信用卡绑定，1.00×</td>
+      </tr>
+<tr data-id="aihubmix">
+        <td>AIHubMix</td>
+        <td>USD</td>
+        <td class="num">$2.05</td>
+        <td class="num">$0.11</td>
+        <td class="num">$10.25</td>
+        <td class="num">$1.51</td>
+        <td class="num"><span class="x ok">0.62×</span></td>
+        <td class="num">1.05M</td>
+        <td class="num">128K</td>
+        <td class="note">微幅溢价 2.5%</td>
+      </tr></tbody>
+        </table>
+      </div>
+      
+      <details>
+        <summary>多供应商与网关端点实测（共 28 个端点）</summary>
+        <div class="tbl-wrap" style="margin-top:10px">
+          <table>
+            <thead>
+              <tr>
+                <th>上游 / 供应商</th>
+                <th class="num">未命中</th><th class="num">缓存</th><th class="num">输出</th>
+                <th class="num">7:2:1</th><th class="num">vs 官方基准</th>
+                <th class="num">最大输出</th><th>备注</th>
+              </tr>
+            </thead>
+            <tbody><tr>
+      <td>nano-gpt</td>
+      <td class="num">$2</td>
+      <td class="num">$0.1</td>
+      <td class="num">$10</td>
+      <td class="num">$1.47</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">GPT 6.1 Sol</td>
+    </tr>
+<tr>
+      <td>nano-gpt</td>
+      <td class="num">$2</td>
+      <td class="num">$0.1</td>
+      <td class="num">$10</td>
+      <td class="num">$1.47</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">GPT 6.1 Sol Pro</td>
+    </tr>
+<tr>
+      <td>llmgateway-providers</td>
+      <td class="num">$2</td>
+      <td class="num">$0.1</td>
+      <td class="num">$10</td>
+      <td class="num">$1.47</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">GPT-6.1 Sol (Azure)</td>
+    </tr>
+<tr>
+      <td>llmgateway-providers</td>
+      <td class="num">$2</td>
+      <td class="num">$0.1</td>
+      <td class="num">$10</td>
+      <td class="num">$1.47</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">GPT-6.1 Sol (OpenAI)</td>
+    </tr>
+<tr>
+      <td>kilo</td>
+      <td class="num">$2</td>
+      <td class="num">$0.1</td>
+      <td class="num">$10</td>
+      <td class="num">$1.47</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">GPT-6.1 Sol</td>
+    </tr>
+<tr>
+      <td>kilo</td>
+      <td class="num">$2</td>
+      <td class="num">$0.1</td>
+      <td class="num">$10</td>
+      <td class="num">$1.47</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">OpenAI: GPT-6.1 Sol Pro</td>
+    </tr>
+<tr>
+      <td>openrouter</td>
+      <td class="num">$2</td>
+      <td class="num">$0.1</td>
+      <td class="num">$10</td>
+      <td class="num">$1.47</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">GPT-6.1 Sol</td>
+    </tr>
+<tr>
+      <td>openrouter</td>
+      <td class="num">$2</td>
+      <td class="num">$0.1</td>
+      <td class="num">$10</td>
+      <td class="num">$1.47</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">GPT-6.1 Sol Pro</td>
+    </tr>
+<tr>
+      <td>azure</td>
+      <td class="num">$2</td>
+      <td class="num">$0.1</td>
+      <td class="num">$10</td>
+      <td class="num">$1.47</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">GPT-6.1 Sol</td>
+    </tr>
+<tr>
+      <td>azure-cognitive-services</td>
+      <td class="num">$2</td>
+      <td class="num">$0.1</td>
+      <td class="num">$10</td>
+      <td class="num">$1.47</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">GPT-6.1 Sol</td>
+    </tr>
+<tr>
+      <td>cloudflare-ai-gateway</td>
+      <td class="num">$2</td>
+      <td class="num">$0.1</td>
+      <td class="num">$10</td>
+      <td class="num">$1.47</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">GPT-6.1 Sol</td>
+    </tr>
+<tr>
+      <td>vercel</td>
+      <td class="num">$2</td>
+      <td class="num">$0.1</td>
+      <td class="num">$10</td>
+      <td class="num">$1.47</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">GPT-6.1 Sol</td>
+    </tr>
+<tr>
+      <td>ofox</td>
+      <td class="num">$2</td>
+      <td class="num">$0.1</td>
+      <td class="num">$10</td>
+      <td class="num">$1.47</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">GPT-6.1 Sol</td>
+    </tr>
+<tr>
+      <td>merge-gateway</td>
+      <td class="num">$2</td>
+      <td class="num">$0.1</td>
+      <td class="num">$10</td>
+      <td class="num">$1.47</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">GPT-6.1 Sol</td>
+    </tr>
+<tr>
+      <td>github-copilot</td>
+      <td class="num">$2</td>
+      <td class="num">$0.1</td>
+      <td class="num">$10</td>
+      <td class="num">$1.47</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">GPT-6.1 Sol</td>
+    </tr>
+<tr>
+      <td>edenai</td>
+      <td class="num">$2</td>
+      <td class="num">$0.1</td>
+      <td class="num">$10</td>
+      <td class="num">$1.47</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">GPT-6.1 Sol</td>
+    </tr>
+<tr>
+      <td>opencode</td>
+      <td class="num">$2</td>
+      <td class="num">$0.1</td>
+      <td class="num">$10</td>
+      <td class="num">$1.47</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">GPT-6.1 Sol</td>
+    </tr>
+<tr>
+      <td>requesty</td>
+      <td class="num">$2</td>
+      <td class="num">$0.1</td>
+      <td class="num">$10</td>
+      <td class="num">$1.47</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">GPT-6.1 Sol</td>
+    </tr>
+<tr>
+      <td>amazon-bedrock</td>
+      <td class="num">$2</td>
+      <td class="num">$0.1</td>
+      <td class="num">$10</td>
+      <td class="num">$1.47</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">GPT-6.1 Sol (Global)</td>
+    </tr>
+<tr>
+      <td>llmgateway</td>
+      <td class="num">$2</td>
+      <td class="num">$0.1</td>
+      <td class="num">$10</td>
+      <td class="num">$1.47</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">GPT-6.1 Sol</td>
+    </tr>
+<tr>
+      <td>vivgrid</td>
+      <td class="num">$2</td>
+      <td class="num">$0.2</td>
+      <td class="num">$10</td>
+      <td class="num">$1.54</td>
+      <td class="num"><span class="x mid">1.05×</span></td>
+      <td class="num">128K</td>
+      <td class="note">GPT-6.1 Sol</td>
+    </tr>
+<tr>
+      <td>openai</td>
+      <td class="num">$2</td>
+      <td class="num">$0.1</td>
+      <td class="num">$10</td>
+      <td class="num">$1.47</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">GPT-6.1 Sol</td>
+    </tr>
+<tr>
+      <td>crossmodel</td>
+      <td class="num">$2</td>
+      <td class="num">$0.1</td>
+      <td class="num">$10</td>
+      <td class="num">$1.47</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">GPT-6.1 Sol</td>
+    </tr>
+<tr>
+      <td>amazon-bedrock</td>
+      <td class="num">$2.2</td>
+      <td class="num">$0.11</td>
+      <td class="num">$11</td>
+      <td class="num">$1.62</td>
+      <td class="num"><span class="x mid">1.10×</span></td>
+      <td class="num">128K</td>
+      <td class="note">GPT-6.1 Sol (US)</td>
+    </tr>
+<tr>
+      <td>amazon-bedrock</td>
+      <td class="num">$2.2</td>
+      <td class="num">$0.11</td>
+      <td class="num">$11</td>
+      <td class="num">$1.62</td>
+      <td class="num"><span class="x mid">1.10×</span></td>
+      <td class="num">128K</td>
+      <td class="note">GPT-6.1 Sol</td>
+    </tr>
+<tr>
+      <td>requesty</td>
+      <td class="num">$2.4</td>
+      <td class="num">$0.12</td>
+      <td class="num">$12</td>
+      <td class="num">$1.76</td>
+      <td class="num"><span class="x hi">1.20×</span></td>
+      <td class="num">128K</td>
+      <td class="note">GPT-6.1 Sol (EU)</td>
+    </tr>
+<tr>
+      <td>cortecs</td>
+      <td class="num">$2.4</td>
+      <td class="num">$0.12</td>
+      <td class="num">$12</td>
+      <td class="num">$1.76</td>
+      <td class="num"><span class="x hi">1.20×</span></td>
+      <td class="num">128K</td>
+      <td class="note">GPT-6.1 Sol</td>
+    </tr>
+<tr>
+      <td>vercel</td>
+      <td class="num">$4</td>
+      <td class="num">$0.2</td>
+      <td class="num">$20</td>
+      <td class="num">$2.94</td>
+      <td class="num"><span class="x hi">2.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">GPT-6.1 Sol (Fast)</td>
+    </tr></tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <section class="sec">
+      <h2>03 订阅渠道</h2>
+      <p class="hint" style="margin-bottom:10px">额度按官方标准基准（$2.00 / $0.10 / $10.00）统一折算。编程 Agent 取 87.4% 缓存率实测口径下的可用请求数。</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>方案</th>
+              <th class="num">月费</th>
+              <th class="num">本模型额度</th>
+              <th class="num">5 小时</th>
+              <th class="num">周</th>
+              <th>窗口</th>
+              <th class="num">编程 Agent @87.4%</th>
+              <th>说明</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+      <td>ChatGPT Plus</td>
+      <td class="num">$20/月</td>
+      <td class="num">$60</td>
+      <td class="num">$10</td>
+      <td class="num">$30</td>
+      <td>滚动窗口</td>
+      <td class="num">2,187 次</td>
+      <td class="note">每 3 小时 40-80 次旗舰调用配额，折算等效月额度</td>
+    </tr>
+<tr>
+      <td>ChatGPT Pro</td>
+      <td class="num">$200/月</td>
+      <td class="num">$800</td>
+      <td class="num">$160</td>
+      <td class="num">$400</td>
+      <td>软限制</td>
+      <td class="num">29,156 次</td>
+      <td class="note">无限量 Sol/o系列完整思考模式访问</td>
+    </tr>
+<tr>
+      <td>ClinePass 月度</td>
+      <td class="num">$9.99/月</td>
+      <td class="num">$40</td>
+      <td class="num">$8</td>
+      <td class="num">$20</td>
+      <td>日历月</td>
+      <td class="num">1,458 次</td>
+      <td class="note">旗舰模型高权重消耗</td>
+    </tr>
+<tr>
+      <td>OpenCode Go</td>
+      <td class="num">$10/月</td>
+      <td class="num">$35</td>
+      <td class="num">$7</td>
+      <td class="num">$17.5</td>
+      <td>日历月</td>
+      <td class="num">1,276 次</td>
+      <td class="note">OpenCode 标准旗舰额度</td>
+    </tr>
+<tr>
+      <td>Command Code GOAT</td>
+      <td class="num">$10/月</td>
+      <td class="num">$45</td>
+      <td class="num">$9</td>
+      <td class="num">$22.5</td>
+      <td>滚动窗口</td>
+      <td class="num">1,640 次</td>
+      <td class="note">包含 $45 GPT-6.1 Sol 额度</td>
+    </tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <p class="foot">数据来源：OpenAI 官方文档、Azure AI Foundry、Artificial Analysis、models.dev（2026-10-08 快照）。本页不含个人实测。</p>
+  </div>
+  <script>
+    const t1 = document.getElementById('api-t1');
+    const t2 = document.getElementById('api-t2');
+    const b1 = document.getElementById('btn-t1');
+    const b2 = document.getElementById('btn-t2');
+    b1.onclick = () => { t1.hidden = false; t2.hidden = true; b1.classList.add('on'); b2.classList.remove('on'); };
+    b2.onclick = () => { t1.hidden = true; t2.hidden = false; b2.classList.add('on'); b1.classList.remove('on'); };
+  </script>
+</body>
+</html>

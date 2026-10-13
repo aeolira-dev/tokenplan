@@ -1,0 +1,15 @@
+{
+  "$schema": "自描述。订阅制渠道列表；Token Plan 与按量 API 分开记账。",
+  "_meta": {
+    "modelSlug": "mimo-v2.6-pro",
+    "generatedAt": "2026-10-08",
+    "verificationNote": "官方 Token Plan 发布说明为 2026-06-29 历史产品说明；金额/额度仅作历史参考，不冒充当前动态订阅价。"
+  },
+  "plans": [
+    { "providerId": "xiaomi-mimo-token-plan", "planId": "lite", "label": "MiMo Token Plan Lite（历史参考）", "fee": { "amount": 39, "currency": "CNY", "verification": "official-historical-reference" }, "modelAllowance": { "credits": 60000000, "unit": "credits", "derivation": "官方历史发布说明：60M credits。" }, "limits": { "monthlyCredits": 60000000 }, "rollingWindow": false, "softLimit": false, "quotaConversion": { "codingAgentAt874": null }, "notes": "2026-06-29 历史发布页；请以官方当前订阅页为准。" },
+    { "providerId": "xiaomi-mimo-token-plan", "planId": "standard", "label": "MiMo Token Plan Standard（历史参考）", "fee": { "amount": 99, "currency": "CNY", "verification": "official-historical-reference" }, "modelAllowance": { "credits": 200000000, "unit": "credits", "derivation": "官方历史发布说明：200M credits。" }, "limits": { "monthlyCredits": 200000000 }, "rollingWindow": false, "softLimit": false, "quotaConversion": { "codingAgentAt874": null }, "notes": "2026-06-29 历史发布页；请以官方当前订阅页为准。" },
+    { "providerId": "xiaomi-mimo-token-plan", "planId": "pro", "label": "MiMo Token Plan Pro（历史参考）", "fee": { "amount": 329, "currency": "CNY", "verification": "official-historical-reference" }, "modelAllowance": { "credits": 700000000, "unit": "credits", "derivation": "官方历史发布说明：700M credits。" }, "limits": { "monthlyCredits": 700000000 }, "rollingWindow": false, "softLimit": false, "quotaConversion": { "codingAgentAt874": null }, "notes": "2026-06-29 历史发布页；请以官方当前订阅页为准。" },
+    { "providerId": "xiaomi-mimo-token-plan", "planId": "max", "label": "MiMo Token Plan Max（历史参考）", "fee": { "amount": 659, "currency": "CNY", "verification": "official-historical-reference" }, "modelAllowance": { "credits": 1600000000, "unit": "credits", "derivation": "官方历史发布说明：1.6B credits。" }, "limits": { "monthlyCredits": 1600000000 }, "rollingWindow": false, "softLimit": false, "quotaConversion": { "codingAgentAt874": null }, "notes": "2026-06-29 历史发布页；请以官方当前订阅页为准。" }
+  ],
+  "note": "Token Plan 额度与按量 API 不互通；页面的历史参考标签不可理解为当前保证。"
+}

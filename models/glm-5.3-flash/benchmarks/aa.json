@@ -1,0 +1,57 @@
+{
+  "$schema": "自描述。AA 榜单口径评测结果；价格与身份分别见 channels/、model.json。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "verificationLevel": "single-source-unverified",
+    "verificationNote": "本文件来自工作区 2026-10-08 AA 对照快照，不等于当前实时榜单；原始数据见 raw/_global/2026-10-08/aa-peers.json。",
+    "sourceRefs": ["aa-glm-5-3-flash"]
+  },
+  "boards": {
+    "artificialAnalysis": {
+      "displayName": "Artificial Analysis",
+      "indexName": "Artificial Analysis Intelligence Index",
+      "indexVersion": "v4.3.2",
+      "modelEntryName": "GLM-5.3-Flash",
+      "effortSlug": null,
+      "evaluatedAt": "2026-10-08",
+      "intelligenceIndex": 41.807466113455,
+      "intelligenceIndexIsEstimated": false,
+      "rankings": [
+        { "key": "intelligence", "label": "Intelligence", "rank": null, "of": 117, "note": "工作区 AA peers 快照未保存该模型的全站 rank；仅保存指数值。" },
+        { "key": "cost", "label": "Cost", "rank": null, "of": 117, "note": "工作区 AA peers 快照未保存该模型的全站 rank；仅保存任务成本。" }
+      ],
+      "capabilities": {
+        "financeAndAccounting": 41.9617901866044,
+        "strategyAndOps": 45.1369080014028,
+        "legal": 39.9056902335994,
+        "healthcareAndMedical": 44.8426192521491,
+        "engineering": 43.8299853211046,
+        "economics": 48.8783500926784
+      },
+      "costProfile": {
+        "price1mInputTokens": 0.15,
+        "price1mOutputTokens": 0.5,
+        "cacheHitPrice": 0.026,
+        "price1mBlended7To2To1": 0.0982,
+        "costPerTaskUSD": 0.2532595604307378,
+        "timePerTaskSec": 1035.4483850444958,
+        "outputTokensPerTask": 68673.15205651642,
+        "priceNote": "AA 对照集美元口径；不要与官方人民币 API 牌价混写。"
+      },
+      "peers": {
+        "_note": "保留国内相关对照模型，供页面口径追溯；完整 peers 仍在 raw/_global/2026-10-08/aa-peers.json。",
+        "list": [
+          { "slug": "glm-5-3-flash", "name": "GLM-5.3-Flash", "creator": "zai", "intelligenceIndex": 41.807466113455 },
+          { "slug": "glm-5-3", "name": "GLM-5.3 (Max)", "creator": "zai", "intelligenceIndex": 44.777392385614 },
+          { "slug": "qwen3-8-max-0902", "name": "Qwen3.8 Max (0902)", "creator": "alibaba", "intelligenceIndex": 45.42 },
+          { "slug": "step-5", "name": "Step 5 Preview", "creator": "stepfun", "intelligenceIndex": 43.7343049141614 },
+          { "slug": "minimax-m3", "name": "MiniMax-M3", "creator": "minimax", "intelligenceIndex": 29.22 }
+        ]
+      },
+      "chartAvailability": {
+        "canHotlink": false,
+        "reason": "页面图表数据需按快照值自绘，不能热链 AA 图表。"
+      }
+    }
+  }
+}

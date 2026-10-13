@@ -1,0 +1,202 @@
+{
+  "$schema": "自描述；字段含义见 _meta。随模型变化的字段放这里，不随模型变化的放 providers.json。",
+  "_meta": {
+    "note": "本文件是模型身份层，回答「这是什么模型」。价格在 channels/，榜单在 benchmarks/，出处登记在 sources.json。",
+    "generatedAt": "2026-10-08",
+    "sources": [
+      "deepseek-pricing-doc",
+      "aa-model-pro"
+    ],
+    "relatedFiles": {
+      "benchmarks": [
+        "benchmarks/aa.json",
+        "benchmarks/lmarena.json"
+      ],
+      "channels": [
+        "channels/api.json",
+        "channels/subscription.json"
+      ],
+      "sources": "sources.json"
+    }
+  },
+  "slug": "deepseek-v4-pro",
+  "displayName": "DeepSeek-V4-Pro-0813",
+  "vendor": "deepseek",
+  "vendorDisplay": "DeepSeek（深度求索）",
+  "family": "DeepSeek V4",
+  "tier": "旗舰推理（flagship）",
+  "apiModelIds": {
+    "official": "deepseek-v4-pro",
+    "retiredAliases": [
+      "deepseek-v4-pro-20260423",
+      "deepseek-v4-pro-preview"
+    ],
+    "aliasNote": "官方正式 API ID 为 deepseek-v4-pro，底层版本为 DeepSeek-V4-Pro-0813"
+  },
+  "release": {
+    "date": "2026-08-13",
+    "knowledgeCutoff": null,
+    "deprecated": false
+  },
+  "openness": {
+    "openWeights": true,
+    "license": "MIT",
+    "weightsUrl": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-0813",
+    "opennessIndex": 44.44
+  },
+  "architecture": {
+    "totalParametersB": 1600,
+    "activeParametersB": 49,
+    "sizeClass": "large",
+    "quantizationAvailable": [
+      "fp8",
+      "fp4"
+    ]
+  },
+  "limits": {
+    "contextTokens": 1000000,
+    "maxOutputTokens": 384000,
+    "concurrencyLimit": 500,
+    "note": "并发上限 500 为官方口径；输入输出长度 1M / 384K"
+  },
+  "capabilities": {
+    "reasoning": {
+      "supported": true,
+      "default": true,
+      "note": "支持思考与非思考，默认思考"
+    },
+    "vision": false,
+    "toolCalls": true,
+    "jsonOutput": true,
+    "responsesApi": true,
+    "anthropicApi": true,
+    "chatPrefixCompletion": true,
+    "fimCompletion": {
+      "supported": true,
+      "beta": true,
+      "note": "仅非思考模式"
+    },
+    "webSearch": {
+      "supported": false,
+      "note": "官方 API 不提供内置联网"
+    },
+    "inputModalities": [
+      "text"
+    ],
+    "outputModalities": [
+      "text"
+    ]
+  },
+  "speed": {
+    "_source": "aa-model-pro",
+    "outputTokensPerSecond": 96.16,
+    "timeToFirstChunkSeconds": 1.604,
+    "timeToFirstAnswerTokenSeconds": 22.403,
+    "endToEndResponseTimeSeconds": 27.603,
+    "outputSpeedVariance": {
+      "p05": 73.74,
+      "q25": 80,
+      "median": 96.16,
+      "q75": 122.08,
+      "p95": 152.28
+    },
+    "ttfcVariance": {
+      "p05": 0.976,
+      "q25": 1.194,
+      "median": 1.604,
+      "q75": 1.863,
+      "p95": 2.142
+    }
+  },
+  "baseline": {
+    "providerId": "deepseek-official",
+    "currency": "CNY",
+    "unit": "per 1M tokens",
+    "tiers": [
+      {
+        "id": "offpeak",
+        "label": "空闲",
+        "inputMiss": 4.5,
+        "inputHit": 0.15,
+        "output": 13.5,
+        "usd": {
+          "inputMiss": 0.66,
+          "inputHit": 0.022,
+          "output": 1.98
+        }
+      },
+      {
+        "id": "peak",
+        "label": "高峰",
+        "inputMiss": 9,
+        "inputHit": 0.3,
+        "output": 27,
+        "usd": {
+          "inputMiss": 1.32,
+          "inputHit": 0.044,
+          "output": 3.96
+        }
+      }
+    ],
+    "peakWindow": {
+      "timezone": "Asia/Shanghai",
+      "days": [
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday"
+      ],
+      "ranges": [
+        [
+          "09:00",
+          "12:00"
+        ],
+        [
+          "14:00",
+          "18:00"
+        ]
+      ],
+      "excludeHolidays": "CN",
+      "note": "高峰 = 北京时间周一至周五 9:00-12:00、14:00-18:00，不含法定节假日；其余为空闲。"
+    }
+  },
+  "card": {
+    "radar": {
+      "shape": "hexagon",
+      "axesCount": 6,
+      "axes": [
+        {
+          "key": "financeAndAccounting",
+          "label": "财会",
+          "value": 41.36
+        },
+        {
+          "key": "strategyAndOps",
+          "label": "战略与运营",
+          "value": 46.46
+        },
+        {
+          "key": "legal",
+          "label": "法律",
+          "value": 41.11
+        },
+        {
+          "key": "healthcareAndMedical",
+          "label": "医疗健康",
+          "value": 38.22
+        },
+        {
+          "key": "engineering",
+          "label": "工程",
+          "value": 37.14
+        },
+        {
+          "key": "economics",
+          "label": "经济",
+          "value": 43.71
+        }
+      ]
+    }
+  }
+}

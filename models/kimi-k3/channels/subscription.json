@@ -1,0 +1,10 @@
+{
+  "$schema": "自描述。订阅渠道列表。",
+  "_meta": {
+    "modelSlug": "kimi-k3",
+    "generatedAt": "2026-10-08",
+    "verificationNote": "Kimi 官方 K3 API 文档说明为按量付费；未将 Kimi 会员或 Kimi Code 会员套餐冒充为 K3 API 订阅额度。"
+  },
+  "plans": [],
+  "note": "官方 API 无 K3 专属订阅套餐；Kimi 会员/Kimi Code 产品与 API pay-as-you-go 分开，当前页不折算。"
+}

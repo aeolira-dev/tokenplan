@@ -1,0 +1,25 @@
+{
+  "$schema": "自描述。LMArena 文本总榜评测结果。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "modelEntryName": "kimi-k3-max",
+    "sourceRefs": ["lmarena-text-kimi-k3"],
+    "mappingNote": "LMArena 使用 kimi-k3-max 名称；与官方 API 型号 kimi-k3 的映射来自同一工作区快照，需留意名称差异。",
+    "trustWarning": "LMArena 为人类盲投 Elo，存在风格博弈与快照时效风险；本榜只作参考。"
+  },
+  "boards": {
+    "text": {
+      "displayName": "LMArena",
+      "boardLabel": "Text（通用对话）",
+      "categories": {
+        "overall": {
+          "label": "总榜",
+          "rank": 23,
+          "rating": 1475.9175088156658,
+          "votes": 28280,
+          "publish": "2026-10-02"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "$schema": "自描述。LMArena 评测结果。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "modelEntryName": "deepseek-v4-pro",
+    "sourceRefs": [
+      "lmarena-text"
+    ]
+  },
+  "boards": {
+    "text": {
+      "displayName": "LMArena",
+      "boardLabel": "Text（通用对话）",
+      "categories": {
+        "overall": {
+          "label": "总榜",
+          "rank": 48,
+          "rating": 1451,
+          "ratingLower": 1447.11,
+          "ratingUpper": 1454.89,
+          "variance": 3.94,
+          "votes": 57478
+        }
+      }
+    }
+  }
+}

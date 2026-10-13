@@ -1,0 +1,51 @@
+{
+  "$schema": "自描述。AA 榜单口径评测结果。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "sourceRefs": [
+      "aa-peers"
+    ]
+  },
+  "boards": {
+    "artificialAnalysis": {
+      "displayName": "Artificial Analysis",
+      "indexName": "Artificial Analysis Intelligence Index",
+      "indexVersion": "v4.3.2",
+      "modelEntryName": "Gemini 4 Argon (High)",
+      "intelligenceIndex": 52.5605655745982,
+      "snapshotPeerCount": 25,
+      "rankings": [
+        {
+          "key": "intelligence",
+          "label": "Intelligence",
+          "rank": 5,
+          "of": 25,
+          "note": "本快照 25 个对照模型，不是全站 117 榜"
+        },
+        {
+          "key": "cost",
+          "label": "Cost",
+          "rank": 16,
+          "of": 24,
+          "note": "$1.990/任务"
+        }
+      ],
+      "capabilities": {
+        "financeAndAccounting": 53.7918313752975,
+        "strategyAndOps": 56.2412007125334,
+        "legal": 60.0248854063997,
+        "engineering": 55.2171693400977,
+        "economics": 60.4193601521471
+      },
+      "costProfile": {
+        "price1mInputTokens": 2,
+        "price1mOutputTokens": 10,
+        "cacheHitPrice": 0.1,
+        "price1mBlended7To2To1": 1.47,
+        "costPerTaskUSD": 1.990322379299008,
+        "timePerTaskSec": null,
+        "outputTokensPerTask": 61557.626207648
+      }
+    }
+  }
+}

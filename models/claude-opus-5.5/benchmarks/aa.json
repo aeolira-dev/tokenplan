@@ -1,0 +1,52 @@
+{
+  "$schema": "自描述。AA 榜单口径评测结果。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "sourceRefs": [
+      "aa-peers"
+    ]
+  },
+  "boards": {
+    "artificialAnalysis": {
+      "displayName": "Artificial Analysis",
+      "indexName": "Artificial Analysis Intelligence Index",
+      "indexVersion": "v4.3.2",
+      "modelEntryName": "Claude Opus 5.5 (Max, Default Fallback)",
+      "intelligenceIndex": 57.6223698102963,
+      "snapshotPeerCount": 25,
+      "rankings": [
+        {
+          "key": "intelligence",
+          "label": "Intelligence",
+          "rank": 1,
+          "of": 25,
+          "note": "本快照 25 个对照模型，不是全站 117 榜"
+        },
+        {
+          "key": "cost",
+          "label": "Cost",
+          "rank": 23,
+          "of": 24,
+          "note": "$5.982/任务"
+        }
+      ],
+      "capabilities": {
+        "financeAndAccounting": 60.7295442846867,
+        "strategyAndOps": 63.6788820379322,
+        "legal": 63.2602763791642,
+        "healthcareAndMedical": 60.5359874288733,
+        "engineering": 60.3546025055266,
+        "economics": 65.6045449876429
+      },
+      "costProfile": {
+        "price1mInputTokens": 4,
+        "price1mOutputTokens": 20,
+        "cacheHitPrice": 0.2,
+        "price1mBlended7To2To1": 2.94,
+        "costPerTaskUSD": 5.982012019521066,
+        "timePerTaskSec": 782.6521881485841,
+        "outputTokensPerTask": 119166.01575731623
+      }
+    }
+  }
+}

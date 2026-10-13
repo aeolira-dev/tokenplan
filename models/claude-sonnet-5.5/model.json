@@ -1,0 +1,148 @@
+{
+  "$schema": "自描述。模型身份层。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "sources": [
+      "aa-peers",
+      "openrouter-models",
+      "modelsdev"
+    ]
+  },
+  "slug": "claude-sonnet-5.5",
+  "displayName": "Claude Sonnet 5.5 (Max, Default Fallback)",
+  "vendor": "anthropic",
+  "vendorDisplay": "Anthropic",
+  "family": "Claude",
+  "tier": "主力中档",
+  "apiModelIds": {
+    "official": "claude-sonnet-5.5"
+  },
+  "release": {
+    "date": "2026-09-28",
+    "knowledgeCutoff": null,
+    "deprecated": false
+  },
+  "openness": {
+    "openWeights": false,
+    "license": "Proprietary",
+    "opennessIndex": 0
+  },
+  "architecture": {
+    "sizeClass": "frontier-multimodal"
+  },
+  "limits": {
+    "contextTokens": 1000000,
+    "maxOutputTokens": 128000
+  },
+  "capabilities": {
+    "reasoning": {
+      "supported": true,
+      "default": true
+    },
+    "vision": true,
+    "toolCalls": true,
+    "jsonOutput": true,
+    "inputModalities": [
+      "text",
+      "image"
+    ],
+    "outputModalities": [
+      "text"
+    ]
+  },
+  "speed": {
+    "timePerTaskSec": 939.8383685107094,
+    "outputTokensPerTask": 197430.37161011933
+  },
+  "baseline": {
+    "providerId": "anthropic-official",
+    "currency": "USD",
+    "unit": "per 1M tokens",
+    "tiers": [
+      {
+        "id": "standard",
+        "label": "标准按量",
+        "usd": {
+          "inputMiss": 2,
+          "inputHit": 0.1,
+          "output": 10
+        }
+      },
+      {
+        "id": "batch",
+        "label": "Batch API (50%)",
+        "usd": {
+          "inputMiss": 1,
+          "inputHit": 0.05,
+          "output": 5
+        }
+      }
+    ]
+  },
+  "card": {
+    "radar": {
+      "shape": "hexagon",
+      "axesCount": 6,
+      "axes": [
+        {
+          "key": "engineering",
+          "label": "工程",
+          "value": 58.3711344673399,
+          "estimated": false
+        },
+        {
+          "key": "legal",
+          "label": "法律",
+          "value": 56.435055775641,
+          "estimated": false
+        },
+        {
+          "key": "strategyAndOps",
+          "label": "战略与运营",
+          "value": 59.6247990896574,
+          "estimated": false
+        },
+        {
+          "key": "financeAndAccounting",
+          "label": "财会",
+          "value": 57.2312616854024,
+          "estimated": false
+        },
+        {
+          "key": "economics",
+          "label": "经济",
+          "value": 60.8401739843992,
+          "estimated": false
+        },
+        {
+          "key": "healthcareAndMedical",
+          "label": "医疗健康",
+          "value": 58.0632988915996,
+          "estimated": false
+        }
+      ]
+    }
+  },
+  "page": {
+    "file": "claude-sonnet-5.5.html",
+    "title": "Claude Sonnet 5.5",
+    "pills": [
+      {
+        "cls": "reason",
+        "text": "主力中档"
+      },
+      {
+        "cls": "open",
+        "text": "闭源"
+      }
+    ],
+    "endpointPattern": "claude-sonnet-5[.-]5",
+    "metric1": {
+      "en": "AA Cost / Task",
+      "zh": "对照集任务成本",
+      "highlight": "cost",
+      "note": "智能接近 Opus，单价约为 Opus 一半"
+    },
+    "specialty": "AA Index 与 Opus 5.5 xhigh 同分档"
+  }
+}

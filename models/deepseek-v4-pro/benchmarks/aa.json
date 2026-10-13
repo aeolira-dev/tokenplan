@@ -1,0 +1,138 @@
+{
+  "$schema": "自描述。AA 榜单口径评测结果。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "verificationLevel": "official-html",
+    "sourceRefs": [
+      "aa-model-pro"
+    ]
+  },
+  "boards": {
+    "artificialAnalysis": {
+      "displayName": "Artificial Analysis",
+      "indexName": "Artificial Analysis Intelligence Index",
+      "indexVersion": "v4.3.2",
+      "modelEntryName": "DeepSeek V4 Pro 0813 (Max)",
+      "intelligenceIndex": 35.9967791278402,
+      "rankings": [
+        {
+          "key": "intelligence",
+          "label": "Intelligence",
+          "rank": 9,
+          "of": 117,
+          "note": "综合智能指数"
+        },
+        {
+          "key": "speed",
+          "label": "Speed",
+          "rank": 15,
+          "of": 117,
+          "note": "96.2 tok/s"
+        },
+        {
+          "key": "cost",
+          "label": "Cost",
+          "rank": 29,
+          "of": 117,
+          "note": "$0.67/任务"
+        },
+        {
+          "key": "verbosity",
+          "label": "Verbosity",
+          "rank": 27,
+          "of": 117,
+          "note": "每任务产出 token 量"
+        }
+      ],
+      "capabilities": {
+        "financeAndAccounting": 41.358745632102,
+        "strategyAndOps": 46.4582599166392,
+        "legal": 41.1141460379089,
+        "healthcareAndMedical": 38.2189090158022,
+        "engineering": 37.14334131491,
+        "economics": 43.711609785295
+      },
+      "evaluations": [
+        {
+          "slug": "aa-briefcase",
+          "score": 1256.39,
+          "outputTokensPerTask": 92150.20879120879,
+          "costPerTask": 0.9954881431146125,
+          "timePerTask": 741.5814715179182
+        },
+        {
+          "slug": "gdpval-aa",
+          "score": 1454.14,
+          "outputTokensPerTask": 69326.27272727272,
+          "costPerTask": 0.5804609355867755,
+          "timePerTask": 557.9051856564874
+        },
+        {
+          "slug": "automationbench-aa",
+          "score": 0.5671165546344002,
+          "outputTokensPerTask": 37033.9101978691,
+          "costPerTask": 0.34075024256179043,
+          "timePerTask": 298.03146385511246
+        },
+        {
+          "slug": "terminalbench-4-0",
+          "score": 0.141414141414141,
+          "outputTokensPerTask": 171514.15151515152,
+          "costPerTask": 3.755228533853407,
+          "timePerTask": 1380.2650969021727
+        },
+        {
+          "slug": "scicode",
+          "score": 0.510416666666667,
+          "outputTokensPerTask": 11942.559027777777,
+          "costPerTask": 0.050256222499999996,
+          "timePerTask": 96.10808932159414
+        },
+        {
+          "slug": "humanitys-last-exam",
+          "score": 0.410101946246525,
+          "outputTokensPerTask": 34143.915199258576,
+          "costPerTask": 0.1357293633364226,
+          "timePerTask": 274.77414548478794
+        },
+        {
+          "slug": "gdp-pdf",
+          "score": 0.114,
+          "outputTokensPerTask": 16640.35,
+          "costPerTask": 0.10998977879999998,
+          "timePerTask": 133.91369809625925
+        },
+        {
+          "slug": "critpt",
+          "score": 0.18,
+          "outputTokensPerTask": 84983.88571428572,
+          "costPerTask": 0.35675451428571425,
+          "timePerTask": 683.9102792062582
+        },
+        {
+          "slug": "omniscience",
+          "score": 0.8333333333333334,
+          "outputTokensPerTask": 3088.1975,
+          "costPerTask": 0.01250425968,
+          "timePerTask": 24.85235873503999
+        },
+        {
+          "slug": "artificial-analysis-long-context-reasoning",
+          "score": 0.803333333333333,
+          "outputTokensPerTask": 3237.19,
+          "costPerTask": 0.1388719332,
+          "timePerTask": 26.05138018973336
+        }
+      ],
+      "costProfile": {
+        "price1mInputTokens": 1.32,
+        "price1mOutputTokens": 3.96,
+        "cacheHitPrice": 0.044,
+        "cacheHitDiscountPercent": 0.9667,
+        "price1mBlended7To2To1": 0.6908,
+        "costPerTaskUSD": 0.67402,
+        "timePerTaskSec": 443.86
+      }
+    }
+  }
+}

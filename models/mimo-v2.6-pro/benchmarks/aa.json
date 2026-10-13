@@ -1,0 +1,48 @@
+{
+  "$schema": "自描述。AA 榜单评测结果；价格与身份分别见 channels/、model.json。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "verificationLevel": "single-source-unverified",
+    "verificationNote": "工作区 2026-10-08 AA 对照快照，不等于当前实时榜单；原始数据见 raw/_global/2026-10-08/aa-peers.json。",
+    "sourceRefs": ["aa-mimo-v2-6-pro"]
+  },
+  "boards": {
+    "artificialAnalysis": {
+      "displayName": "Artificial Analysis",
+      "indexName": "Artificial Analysis Intelligence Index",
+      "indexVersion": "v4.3.2",
+      "modelEntryName": "MiMo-V2.6-Pro",
+      "effortSlug": null,
+      "evaluatedAt": "2026-10-08",
+      "intelligenceIndex": 46.3242065310383,
+      "intelligenceIndexIsEstimated": false,
+      "rankings": [
+        { "key": "intelligence", "label": "Intelligence", "rank": null, "of": 117, "note": "原始 peers 快照未保存全站 rank；只保存指数值。" },
+        { "key": "cost", "label": "Cost", "rank": null, "of": 117, "note": "原始 peers 快照未保存全站 cost rank。" }
+      ],
+      "capabilities": {
+        "financeAndAccounting": 46.0835522889743,
+        "strategyAndOps": 47.7833279852225,
+        "legal": 44.75076921106,
+        "healthcareAndMedical": 41.8204296860305,
+        "engineering": 46.898224686759,
+        "economics": 53.2171670721347
+      },
+      "costProfile": {
+        "price1mInputTokens": 0.435,
+        "price1mOutputTokens": 0.87,
+        "cacheHitPrice": 0.0036,
+        "price1mBlended7To2To1": 0.17652,
+        "costPerTaskUSD": 0.13322318937213493,
+        "timePerTaskSec": 1577.9278892097489,
+        "outputTokensPerTask": 64275.70051166789,
+        "priceNote": "AA 对照集美元口径；国内官方人民币按量价另记录于 channels/api.json。"
+      },
+      "peers": { "list": [
+        { "slug": "mimo-v2-6-pro", "name": "MiMo-V2.6-Pro", "creator": "xiaomi", "intelligenceIndex": 46.3242065310383 },
+        { "slug": "step-5", "name": "Step 5 Preview", "creator": "stepfun", "intelligenceIndex": 43.7343049141614 },
+        { "slug": "kimi-k3", "name": "Kimi K3 (Max)", "creator": "kimi", "intelligenceIndex": 43.5938229518782 }
+      ] }
+    }
+  }
+}

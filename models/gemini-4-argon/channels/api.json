@@ -1,0 +1,109 @@
+{
+  "$schema": "自描述。按量渠道列表。",
+  "baseline": {
+    "providerId": "google-ai-studio",
+    "label": "Google AI Studio 官方（基准）",
+    "tiers": [
+      {
+        "id": "standard",
+        "label": "标准按量",
+        "usd": {
+          "inputMiss": 2,
+          "inputHit": 0.1,
+          "output": 10
+        }
+      },
+      {
+        "id": "batch",
+        "label": "Batch API (50%)",
+        "usd": {
+          "inputMiss": 1,
+          "inputHit": 0.05,
+          "output": 5
+        }
+      }
+    ]
+  },
+  "channels": [
+    {
+      "providerId": "google-ai-studio",
+      "isOfficial": true,
+      "displayName": "Google AI Studio 官方 API",
+      "tiers": [
+        {
+          "id": "standard",
+          "label": "标准按量",
+          "usd": {
+            "inputMiss": 2,
+            "inputHit": 0.1,
+            "output": 10
+          }
+        },
+        {
+          "id": "batch",
+          "label": "Batch API",
+          "usd": {
+            "inputMiss": 1,
+            "inputHit": 0.05,
+            "output": 5
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1000000,
+        "maxOutputTokens": 128000
+      },
+      "notes": [
+        "本快照 models.dev / OpenRouter 未列 Argon 端点；Batch 按官方常见 50% 折扣单列"
+      ]
+    },
+    {
+      "providerId": "google-vertex",
+      "isOfficial": true,
+      "displayName": "Google Cloud Vertex AI",
+      "tiers": [
+        {
+          "id": "flat",
+          "label": "企业标准",
+          "usd": {
+            "inputMiss": 2,
+            "inputHit": 0.1,
+            "output": 10
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1000000,
+        "maxOutputTokens": 128000
+      },
+      "notes": [
+        "GCP 企业级合规通道，按官方同价 1.00× 登记"
+      ]
+    },
+    {
+      "providerId": "aihubmix",
+      "displayName": "AIHubMix",
+      "tiers": [
+        {
+          "id": "flat",
+          "label": "国内中继",
+          "usd": {
+            "inputMiss": 2.05,
+            "inputHit": 0.1025,
+            "output": 10.25
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1000000,
+        "maxOutputTokens": 128000
+      },
+      "notes": [
+        "国内中继按约 2.5% 溢价启发式登记；该型号本快照无 OpenRouter 端点"
+      ]
+    }
+  ]
+}

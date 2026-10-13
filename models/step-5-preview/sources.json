@@ -1,0 +1,70 @@
+{
+  "$schema": "自描述。Step 5 Preview 页面数字与口径的出处清单。",
+  "_meta": { "generatedAt": "2026-10-08", "modelSlug": "step-5-preview" },
+  "sources": [
+    {
+      "id": "step-5-official-model",
+      "label": "StepFun Step 5 Preview 官方模型文档",
+      "url": "https://platform.stepfun.ai/docs/en/guides/models/step-5-preview.md",
+      "fetchedAt": "2026-10-08",
+      "verification": "official-doc",
+      "covers": ["official model id", "text/image/video input", "1M context", "64K maximum output", "tool calling", "reasoning"]
+    },
+    {
+      "id": "step-5-official-pricing",
+      "label": "StepFun 官方价格明细",
+      "url": "https://platform.stepfun.ai/docs/en/guides/pricing/details.md",
+      "fetchedAt": "2026-10-08",
+      "verification": "official-doc",
+      "covers": ["channels/api.json baseline", "input/cache hit/output", "per-token billing"]
+    },
+    {
+      "id": "step-plan-overview",
+      "label": "StepFun Step Plan 产品说明",
+      "url": "https://platform.stepfun.ai/docs/en/step-plan/overview",
+      "fetchedAt": "2026-10-08",
+      "verification": "official-doc",
+      "covers": ["subscription product existence"],
+      "notes": "本轮未核实当前套餐价格/积分，故 subscription.json 保持空 plans。"
+    },
+    {
+      "id": "aa-step-5",
+      "label": "Artificial Analysis Step 5 对照快照",
+      "url": "https://artificialanalysis.ai/",
+      "fetchedAt": "2026-10-08",
+      "verification": "single-source-unverified",
+      "rawFile": "../../raw/_global/2026-10-08/aa-peers.json",
+      "covers": ["benchmarks/aa.json", "radar", "AA USD task cost", "architecture snapshot"],
+      "notes": "工作区 peers 快照中的 Step 5 Preview 条目；不是官方定价来源。"
+    },
+    {
+      "id": "lmarena-text-step-5",
+      "label": "LMArena Text 榜工作区原始快照",
+      "url": "https://lmarena.ai/leaderboard",
+      "fetchedAt": "2026-10-08",
+      "verification": "api-endpoint",
+      "rawFile": "../deepseek-v4.1-flash/raw/2026-10-08/lmarena-text.json",
+      "covers": ["benchmarks/lmarena.json overall rank/rating/votes"]
+    },
+    {
+      "id": "step-5-modelsdev-crosscheck",
+      "label": "models.dev Step 5 聚合目录快照",
+      "url": "https://models.dev/",
+      "fetchedAt": "2026-10-08",
+      "verification": "aggregator",
+      "rawFile": "../../raw/_global/2026-10-08/modelsdev.json",
+      "covers": ["canonical model id", "modalities", "context/max output cross-check"],
+      "notes": "聚合目录记录最大输出 128K，与官方 64K 不同；页面优先官方值。"
+    },
+    {
+      "id": "step-5-openrouter-crosscheck",
+      "label": "OpenRouter Step 5 聚合目录快照",
+      "url": "https://openrouter.ai/api/v1/models",
+      "fetchedAt": "2026-10-08",
+      "verification": "aggregator",
+      "rawFile": "../../raw/_global/2026-10-08/openrouter-models.json",
+      "covers": ["aggregated endpoint context/max output/prices"],
+      "notes": "仅作端点交叉核对；未据此生成逐端点渠道行。"
+    }
+  ]
+}

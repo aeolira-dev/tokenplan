@@ -1,0 +1,28 @@
+{
+  "$schema": "自描述。LMArena 评测结果；仅在原始快照有对应条目时展示。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "verificationLevel": "api-endpoint",
+    "modelEntryName": "glm-5.3-flash",
+    "sourceRefs": ["lmarena-text-glm-5-3-flash"],
+    "trustWarning": "LMArena 为人类盲投 Elo，存在风格博弈与刷分风险；本榜只作参考，不作选型依据。"
+  },
+  "boards": {
+    "text": {
+      "displayName": "LMArena",
+      "boardLabel": "Text（通用对话）",
+      "publishDate": "2026-10-02",
+      "categories": {
+        "overall": {
+          "label": "总榜",
+          "rank": 30,
+          "rating": 1469.6236872166521,
+          "ratingLower": 1464.3122744751713,
+          "ratingUpper": 1474.9350999581327,
+          "variance": 7.343852069528345,
+          "votes": 22971
+        }
+      }
+    }
+  }
+}

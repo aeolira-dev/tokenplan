@@ -1,0 +1,41 @@
+{
+  "$schema": "自描述。按量渠道列表；价格单位均为每 1M tokens。",
+  "_meta": {
+    "modelSlug": "glm-5.3-flash",
+    "generatedAt": "2026-10-08",
+    "verificationNote": "本页仅收录已有官方文档证据的智谱 API 行；未拿 AA 美元口径冒充人民币渠道。"
+  },
+  "baseline": {
+    "providerId": "zhipu-official",
+    "label": "智谱官方 API（基准）",
+    "tiers": [
+      {
+        "id": "standard",
+        "label": "标准按量",
+        "cny": { "inputMiss": 0.8, "inputHit": 0.23, "output": 2.8 }
+      }
+    ]
+  },
+  "channels": [
+    {
+      "providerId": "zhipu-official",
+      "isOfficial": true,
+      "displayName": "智谱开放平台官方 API",
+      "priceCurrency": "CNY",
+      "tiers": [
+        {
+          "id": "standard",
+          "label": "标准按量",
+          "cny": { "inputMiss": 0.8, "inputHit": 0.23, "output": 2.8 }
+        }
+      ],
+      "peakValley": false,
+      "limits": { "contextTokens": 1000000, "maxOutputTokens": 128000 },
+      "features": { "vision": true, "toolCalls": true, "implicitCache": true },
+      "notes": [
+        "官方纯文本定价页：GLM-5.3-Flash 输入 ¥0.8/M、缓存命中 ¥0.23/M、输出 ¥2.8/M。",
+        "缓存存储当前限时免费；Batch API 另按官方规则折扣。"
+      ]
+    }
+  ]
+}

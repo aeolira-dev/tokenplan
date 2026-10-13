@@ -1,0 +1,148 @@
+{
+  "$schema": "自描述。模型身份层。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "sources": [
+      "aa-peers",
+      "openrouter-models",
+      "modelsdev"
+    ]
+  },
+  "slug": "claude-haiku-5.5",
+  "displayName": "Claude Haiku 5.5 (Max)",
+  "vendor": "anthropic",
+  "vendorDisplay": "Anthropic",
+  "family": "Claude",
+  "tier": "轻量",
+  "apiModelIds": {
+    "official": "claude-haiku-5.5"
+  },
+  "release": {
+    "date": "2026-10-07",
+    "knowledgeCutoff": null,
+    "deprecated": false
+  },
+  "openness": {
+    "openWeights": false,
+    "license": "Proprietary",
+    "opennessIndex": 0
+  },
+  "architecture": {
+    "sizeClass": "frontier-multimodal"
+  },
+  "limits": {
+    "contextTokens": 1000000,
+    "maxOutputTokens": 128000
+  },
+  "capabilities": {
+    "reasoning": {
+      "supported": true,
+      "default": true
+    },
+    "vision": true,
+    "toolCalls": true,
+    "jsonOutput": true,
+    "inputModalities": [
+      "text",
+      "image"
+    ],
+    "outputModalities": [
+      "text"
+    ]
+  },
+  "speed": {
+    "timePerTaskSec": 423.68107542329057,
+    "outputTokensPerTask": 162164.1932085826
+  },
+  "baseline": {
+    "providerId": "anthropic-official",
+    "currency": "USD",
+    "unit": "per 1M tokens",
+    "tiers": [
+      {
+        "id": "standard",
+        "label": "标准按量",
+        "usd": {
+          "inputMiss": 0.1,
+          "inputHit": 0.01,
+          "output": 0.5
+        }
+      },
+      {
+        "id": "batch",
+        "label": "Batch API (50%)",
+        "usd": {
+          "inputMiss": 0.05,
+          "inputHit": 0.005,
+          "output": 0.25
+        }
+      }
+    ]
+  },
+  "card": {
+    "radar": {
+      "shape": "hexagon",
+      "axesCount": 6,
+      "axes": [
+        {
+          "key": "engineering",
+          "label": "工程",
+          "value": 44.8823073189862,
+          "estimated": false
+        },
+        {
+          "key": "legal",
+          "label": "法律",
+          "value": 42.2752066606861,
+          "estimated": false
+        },
+        {
+          "key": "strategyAndOps",
+          "label": "战略与运营",
+          "value": 40.3835291326876,
+          "estimated": false
+        },
+        {
+          "key": "financeAndAccounting",
+          "label": "财会",
+          "value": 43.899544721027,
+          "estimated": false
+        },
+        {
+          "key": "economics",
+          "label": "经济",
+          "value": 51.2271805877356,
+          "estimated": false
+        },
+        {
+          "key": "healthcareAndMedical",
+          "label": "医疗健康",
+          "value": 44.5335536842245,
+          "estimated": true
+        }
+      ]
+    }
+  },
+  "page": {
+    "file": "claude-haiku-5.5.html",
+    "title": "Claude Haiku 5.5",
+    "pills": [
+      {
+        "cls": "reason",
+        "text": "轻量高速"
+      },
+      {
+        "cls": "open",
+        "text": "闭源"
+      }
+    ],
+    "endpointPattern": "claude-haiku-5[.-]5",
+    "metric1": {
+      "en": "AA Cost / Task",
+      "zh": "对照集任务成本",
+      "highlight": "cost",
+      "note": "2026-10-07 发布，快照内最新 Claude"
+    },
+    "specialty": "轻量高速线"
+  }
+}

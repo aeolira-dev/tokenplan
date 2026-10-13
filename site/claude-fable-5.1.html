@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Claude Fable 5.1 · 渠道对照</title>
+  <style>
+    :root {
+      --canvas: #e8edf3;
+      --ink: #17191e;
+      --gold: #9a845c;
+      --blue: #3b6fd8;
+      --orange: #c37b4c;
+      --white: #fff;
+      --line: #d5dce6;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: #d5dce6; color: var(--ink); }
+    body {
+      font-family: "Inter", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.45;
+    }
+    .page { max-width: 1180px; margin: 0 auto; padding: 24px 24px 72px; }
+    .topnav {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 22px; padding: 6px 0 14px; border-bottom: 1px solid var(--line);
+    }
+    .topnav strong { color: var(--ink); font-size: 16px; letter-spacing: -0.02em; }
+    .topnav .nav-group { display: flex; align-items: center; gap: 4px; background: #dfe5ee; padding: 3px; border-radius: 8px; }
+    .topnav .nav-btn {
+      color: #5c6570; text-decoration: none; padding: 3px 9px; font-size: 12.5px; border-radius: 6px; font-weight: 500;
+      transition: all 0.15s ease;
+    }
+    .topnav .nav-btn:hover { color: #17191e; }
+    .topnav .nav-btn.active {
+      background: var(--white); color: var(--ink); font-weight: 650; box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+    }
+    .sec { margin-top: 36px; }
+    .sec h2 {
+      font-size: 13px; font-weight: 650; letter-spacing: 0.12em;
+      color: #6a7380; text-transform: uppercase; margin-bottom: 14px;
+    }
+    .intro {
+      display: grid;
+      grid-template-columns: 430px 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+    .poster {
+      width: 430px;
+      background: var(--canvas);
+      padding: 22px 20px 14px;
+      border-radius: 8px;
+    }
+    header.cardhd {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-bottom: 14px; border-bottom: 1px solid var(--line);
+    }
+    .brand { display: flex; align-items: center; gap: 8px; font-size: 18px; font-weight: 700; }
+    .coord { font-size: 18px; font-weight: 500; letter-spacing: 0.46em; margin-right: -0.46em; color: #4a5260; }
+    .title-row { display: flex; justify-content: space-between; gap: 10px; margin: 22px 0 14px; }
+    h1 { font-size: 28px; font-weight: 650; letter-spacing: -0.038em; line-height: 1.12; }
+    .pills { display: flex; flex-direction: column; gap: 8px; padding-top: 4px; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      border-radius: 999px; padding: 4px 11px 4px 9px; font-size: 13px; background: #fff;
+    }
+    .pill .dot { width: 7px; height: 7px; border-radius: 50%; }
+    .pill.reason { color: #3a63b8; box-shadow: inset 0 0 0 1px #c9d6f0; }
+    .pill.reason .dot { background: #4b78e6; }
+    .pill.open { color: #2f7a4a; box-shadow: inset 0 0 0 1px #c7e3d0; }
+    .pill.open .dot { background: #3aa05c; }
+    .metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .metric { background: var(--white); border-radius: 14px; padding: 12px; }
+    .metric-head { display: flex; justify-content: space-between; color: var(--gold); font-size: 10.5px; }
+    .metric-head .en { font-family: Georgia, "Times New Roman", serif; font-style: italic; }
+    .metric-body { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 6px; }
+    .metric-num { font-size: 26px; font-weight: 620; letter-spacing: -0.04em; line-height: 1; }
+    .metric-sub { margin-top: 4px; color: #8a9099; font-size: 11px; }
+    .rank { color: var(--blue); font-size: 18px; font-weight: 700; }
+    .rank small { font-size: 11px; font-weight: 500; color: #7b95d6; }
+    .bar { margin-top: 8px; height: 4px; background: #e6ebf3; border-radius: 99px; overflow: hidden; }
+    .bar > span { display: block; height: 100%; background: var(--blue); }
+    .radar-card { margin-top: 10px; background: var(--white); border-radius: 14px; padding: 12px 8px 8px; }
+    .radar-head { display: flex; justify-content: space-between; padding: 0 8px; }
+    .radar-head h3 { font-size: 13px; font-weight: 650; }
+    .radar-head h3 em { font-style: normal; color: var(--blue); }
+    .legend { margin-top: 6px; font-size: 11px; color: #5b616a; }
+    .legend i {
+      display: inline-block; width: 11px; height: 8px; border-radius: 2px; margin-right: 6px; vertical-align: middle;
+      box-shadow: inset 0 0 0 1.5px currentColor; background: color-mix(in srgb, currentColor 28%, white);
+    }
+    .legend .me { color: var(--blue); }
+    .legend .avg { color: var(--orange); opacity: 0.4; margin-top: 3px; }
+    .mean { text-align: right; color: var(--blue); font-size: 12px; }
+    .mean b { display: block; font-size: 20px; }
+    .radar-wrap { position: relative; height: 300px; }
+    .radar-wrap svg { width: 100%; height: 100%; display: block; }
+    .lab { position: absolute; font-size: 11px; color: #3a4250; white-space: nowrap; text-align: center; }
+    .lab b { color: var(--blue); font-size: 12px; display: block; }
+    .lab.top { left: 50%; top: 0; transform: translateX(-50%); }
+    .lab.tr { right: 4px; top: 64px; text-align: right; }
+    .lab.br { right: 4px; bottom: 70px; text-align: right; }
+    .lab.bot { left: 50%; bottom: 4px; transform: translateX(-50%); }
+    .lab.bl { left: 4px; bottom: 70px; text-align: left; }
+    .lab.tl { left: 4px; top: 64px; text-align: left; }
+    .src { text-align: center; color: #8a9099; font-size: 11px; padding: 2px 0 6px; }
+    .facts { margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 7px; }
+    .fact { background: var(--white); border-radius: 12px; padding: 10px; min-height: 64px; }
+    .fact .k { color: #8a9099; font-size: 11px; margin-bottom: 6px; display: flex; justify-content: space-between; }
+    .fact .k .tag { color: var(--blue); font-weight: 700; }
+    .fact .v { font-size: 14px; font-weight: 650; }
+    .mods { display: flex; gap: 6px; color: #d5d9e0; font-size: 12px; font-weight: 600; }
+    .mods .on { color: #2a2e35; }
+    .poster footer {
+      margin-top: 10px; color: #8a9099; font-size: 10px; display: flex; justify-content: space-between;
+    }
+    .side {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 22px 24px;
+      min-height: 100%;
+    }
+    .side h3 { font-size: 14px; margin: 18px 0 8px; }
+    .side h3:first-child { margin-top: 0; }
+    .kv { display: grid; grid-template-columns: 96px 1fr; gap: 6px 12px; font-size: 13px; }
+    .kv dt { color: #8a9099; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { background: var(--canvas); border-radius: 999px; padding: 4px 10px; font-size: 12.5px; }
+    .chip b { color: var(--blue); }
+    .call { margin-top: 10px; font-size: 12.5px; color: #5c6570; line-height: 1.55; }
+    .toolbar { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; flex-wrap: wrap; }
+    .btn {
+      border: 1px solid var(--line); background: #fff; border-radius: 999px;
+      padding: 5px 12px; font-size: 13px; cursor: pointer;
+    }
+    .btn.on { background: #1f2a3d; color: #fff; border-color: #1f2a3d; }
+    .hint { font-size: 12.5px; color: #6a7380; }
+    .tbl-wrap { overflow: auto; background: #fff; border-radius: 12px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 9px 10px; border-bottom: 1px solid #eef1f5; vertical-align: top; text-align: left; }
+    th { position: sticky; top: 0; background: #f6f8fb; font-weight: 600; color: #5c6570; font-size: 12px; }
+    td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    td.note { color: #6a7380; font-size: 12px; max-width: 280px; }
+    .sub { color: #8a9099; font-size: 11px; margin-top: 2px; }
+    .badge { display: inline-block; background: #e8eefc; color: #3b6fd8; font-size: 11px; padding: 1px 6px; border-radius: 6px; }
+    .x { font-weight: 700; }
+    .x.ok { color: #2f7a4a; }
+    .x.mid { color: #8a6d2f; }
+    .x.hi { color: #c37b4c; }
+    .x.hot { color: #b54646; }
+    .na { color: #9aa1ab; }
+    details { margin-top: 12px; background: #fff; border-radius: 12px; padding: 10px 14px; }
+    details summary { cursor: pointer; font-weight: 650; font-size: 13px; }
+    .foot { margin-top: 28px; font-size: 12px; color: #6a7380; }
+    @media (max-width: 980px) {
+      .intro { grid-template-columns: 1fr; }
+      .poster { width: 100%; max-width: 460px; }
+    }
+
+    /* company-nav */
+    .topnav-left { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+    a.nav-home {
+      color: #5c6570; text-decoration: none; font-size: 12.5px; font-weight: 650;
+      padding: 3px 9px; border-radius: 6px; background: #dfe5ee;
+    }
+    a.nav-home:hover { color: #17191e; }
+    a.nav-home.active {
+      background: var(--white); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+    }
+    .snap { font-size:11.5px; color:#8a9099; padding:2px 6px; background:#fff; border-radius:4px; }
+    .topnav details.nav-switch {
+      position: relative; display: inline-block;
+      margin-top: 0; background: transparent; border-radius: 6px; padding: 0;
+    }
+    .nav-switch > summary {
+      list-style: none; cursor: pointer; color: #5c6570; padding: 3px 9px;
+      font-size: 12.5px; border-radius: 6px; font-weight: 500;
+    }
+    .nav-switch > summary::-webkit-details-marker { display: none; }
+    .nav-switch > summary::marker { content: ''; }
+    .nav-switch > summary:hover { color: #17191e; }
+    .nav-switch-panel {
+      position: absolute; right: 0; top: calc(100% + 6px); z-index: 30;
+      min-width: 240px; background: #fff; border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(23,25,30,0.12); padding: 8px;
+    }
+    .nav-switch-vendor { padding: 6px 8px; }
+    .nav-switch-vendor .lab { display:block; font-size:11px; color:#8a9099; margin-bottom:4px; }
+    .nav-switch-vendor a { display:inline-block; margin-right:8px; color:#3b6fd8; text-decoration:none; font-size:12.5px; }
+    .nav-switch-all { display:block; margin-top:4px; padding:8px; font-size:12.5px; color:#3b6fd8; text-decoration:none; }
+
+</style>
+</head>
+<body>
+  <div class="page">
+    <div class="topnav">
+      <div class="topnav-left">
+        <a class="nav-home" href="index.html">横评目录</a>
+        <strong>Claude Fable 5.1</strong>
+        <span class="snap">2026.10.08 快照</span>
+      </div>
+      <nav class="nav-group">
+        <a href="claude-opus-5.5.html" class="nav-btn">Opus 5.5</a><a href="claude-fable-5.1.html" class="nav-btn active">Fable 5.1</a><a href="claude-sonnet-5.5.html" class="nav-btn">Sonnet 5.5</a><a href="claude-haiku-5.5.html" class="nav-btn">Haiku 5.5</a>
+        <details class="nav-switch">
+          <summary>其他厂商</summary>
+          <div class="nav-switch-panel">
+            <div class="nav-switch-vendor"><span class="lab">深度求索</span><a href="deepseek-v4-pro.html">Pro</a><a href="deepseek-v4.1-flash.html">Flash</a></div><div class="nav-switch-vendor"><span class="lab">月之暗面</span><a href="kimi-k3.html">Kimi K3</a></div><div class="nav-switch-vendor"><span class="lab">智谱 AI</span><a href="glm-5.3-flash.html">GLM-5.3-Flash</a></div><div class="nav-switch-vendor"><span class="lab">阶跃星辰</span><a href="step-5-preview.html">Step 5 Preview</a></div><div class="nav-switch-vendor"><span class="lab">小米</span><a href="mimo-v2.6-pro.html">MiMo-V2.6-Pro</a></div><div class="nav-switch-vendor"><span class="lab">OpenAI</span><a href="gpt-6.1-sol.html">6.1 Sol</a><a href="gpt-6-astra.html">Astra</a><a href="gpt-6-luna.html">Luna</a></div><div class="nav-switch-vendor"><span class="lab">Google DeepMind</span><a href="gemini-4-argon.html">4 Argon</a><a href="gemini-3.8-flash.html">3.8 Flash</a></div>
+            <a class="nav-switch-all" href="index.html">全部厂商与在用模型 →</a>
+          </div>
+        </details>
+      </nav>
+    </div>
+
+    <section class="sec">
+      <h2>01 模型介绍</h2>
+      <div class="intro">
+        <article class="poster">
+          <header class="cardhd">
+            <div class="brand">
+              <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+      <rect width="24" height="24" rx="6" fill="#d97757"/>
+      <path d="M12 5.2l6.2 13.6h-2.5l-1.15-2.7H9.45L8.3 18.8H5.8L12 5.2zm-1.35 8.4h2.7L12 10.1l-1.35 3.5z" fill="#fff"/>
+    </svg>
+              Anthropic
+            </div>
+            <div class="coord">图灵坐标</div>
+          </header>
+          <div class="title-row">
+            <h1>Claude Fable 5.1</h1>
+            <div class="pills">
+              <span class="pill reason"><span class="dot"></span>创意长文本</span><span class="pill open"><span class="dot"></span>闭源</span>
+            </div>
+          </div>
+          <div class="metrics">
+            <section class="metric">
+              <div class="metric-head"><span class="en">AA Cost / Task</span><span>对照集任务成本</span></div>
+              <div class="metric-body">
+                <div><div class="metric-num">$7.63</div><div class="metric-sub">同分下比 GPT-6 Astra 贵约 57%</div></div>
+                <div class="rank">#24<small>/24</small></div>
+              </div>
+              <div class="bar"><span style="width:8.0%"></span></div>
+            </section>
+            <section class="metric">
+              <div class="metric-head"><span class="en">AA Intelligence Index</span><span>AA综合指数</span></div>
+              <div class="metric-body">
+                <div><div class="metric-num">53.4</div><div class="metric-sub">对照集 25 模 · $7.63/任务</div></div>
+                <div class="rank">#3<small>/25</small></div>
+              </div>
+              <div class="bar"><span style="width:53.4%"></span></div>
+            </section>
+          </div>
+          <section class="radar-card">
+            <div class="radar-head">
+              <div>
+                <h3>主客观混合雷达图<em>「原始分数」</em></h3>
+                <div class="legend">
+                  <div class="me"><i></i>Claude Fable 5.1</div>
+                  <div class="avg"><i></i>本轮模型平均值（未收录）</div>
+                </div>
+              </div>
+              <div class="mean">六维均值<b>59</b></div>
+            </div>
+            <div class="radar-wrap">
+              <svg viewBox="0 0 430 300">
+                <g transform="translate(215,150)">
+                  <polygon points="0,-100 86.6,-50 86.6,50 0,100 -86.6,50 -86.6,-50" fill="none" stroke="#d8dfe8"/>
+                  <polygon points="0,-75 65,-37.5 65,37.5 0,75 -65,37.5 -65,-37.5" fill="none" stroke="#e4e9f0"/>
+                  <polygon points="0,-50 43.3,-25 43.3,25 0,50 -43.3,25 -43.3,-25" fill="none" stroke="#e4e9f0"/>
+                  <polygon points="0,-25 21.7,-12.5 21.7,12.5 0,25 -21.7,12.5 -21.7,-12.5" fill="none" stroke="#e4e9f0"/>
+                  <line x1="0" y1="0" x2="0" y2="-100" stroke="#d8dfe8"/>
+                  <line x1="0" y1="0" x2="86.6" y2="-50" stroke="#d8dfe8"/>
+                  <line x1="0" y1="0" x2="86.6" y2="50" stroke="#d8dfe8"/>
+                  <line x1="0" y1="0" x2="0" y2="100" stroke="#d8dfe8"/>
+                  <line x1="0" y1="0" x2="-86.6" y2="50" stroke="#d8dfe8"/>
+                  <line x1="0" y1="0" x2="-86.6" y2="-50" stroke="#d8dfe8"/>
+                  <polygon points="0.0,-56.5 52.4,-30.2 51.7,29.8 0.0,56.4 -54.3,31.3 -50.2,-29.0"
+                    fill="rgba(59,111,216,0.28)" stroke="#3b6fd8" stroke-width="2" stroke-linejoin="round"/>
+                </g>
+              </svg>
+              <div class="lab top"><b>56</b>工程</div>
+              <div class="lab tr"><b>60</b>法律</div>
+              <div class="lab br"><b>60</b>战略与运营</div>
+              <div class="lab bot"><b>56</b>财会</div>
+              <div class="lab bl"><b>63</b>经济</div>
+              <div class="lab tl"><b>58</b>医疗健康</div>
+            </div>
+            <p class="src">数据来源 <b>artificialanalysis.ai · 2026-10-08 对照集</b></p>
+          </section>
+          <div class="facts">
+            <div class="fact"><div class="k">发布日期</div><div class="v">2026.09.01</div></div><div class="fact"><div class="k">输入模态</div><div class="mods"><span class="on">T</span><span class="on">图</span><span class="">声</span><span class="">影</span></div></div><div class="fact"><div class="k">输出模态</div><div class="mods"><span class="on">T</span><span class="">图</span><span class="">声</span><span class="">影</span></div></div><div class="fact"><div class="k">上下文窗口</div><div class="v">1M token</div></div><div class="fact"><div class="k">输出速度</div><div class="v">109.6 token/s（任务折算）</div></div><div class="fact"><div class="k">综合价格 <span class="tag">#24</span></div><div class="v">$7.17 /M</div></div>
+          </div>
+          <footer>
+            <div>数据仅供参考，请以个人体感为准</div>
+            <div>2026.10.08</div>
+          </footer>
+        </article>
+
+        <aside class="side">
+          <h3>身份</h3>
+          <dl class="kv">
+            <dt>厂商</dt><dd>Anthropic</dd><dt>开源</dt><dd>闭源商业 API</dd><dt>架构</dt><dd>frontier-multimodal</dd><dt>官方 ID</dt><dd><code>claude-fable-5.1</code></dd><dt>能力</dt><dd>高阶推理 · 视觉输入 · 工具调用</dd><dt>窗口</dt><dd>1M 上下文 / 128K 最大输出</dd><dt>速度</dt><dd>对照集 712 s/任务</dd>
+          </dl>
+          <h3>公开榜单</h3>
+          <div class="chips">
+            <span class="chip">AA 智能 <b>#3/25</b> (53.35)</span><span class="chip">经济学 <b>62.67</b></span><span class="chip">法律推理 <b>60.49</b></span><span class="chip">工程 <b>56.47</b></span><span class="chip">7:2:1 综合 <b>$7.17/M</b></span><span class="chip">创意 / 长文本向旗舰</span>
+          </div>
+          <h3>卡片口径与评测分析</h3>
+          <p class="call"><b>定位</b>：创意 / 长文本向旗舰。本页 AA 名次按 2026-10-08 对照集 25 个模型计算，不是公开全站 117 榜；官方牌价取自同一快照的 AA 字段。</p><p class="call"><b>渠道比价要点</b>：官方标准按量为输入 $10 / 缓存 $0.25 / 输出 $50（7:2:1 综合 $7.17/M）。第二档为 Batch 常见 50% 折扣。第三方网关按 1.00× 平价登记，AIHubMix 约 2.5% 溢价。</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h2>02 按量渠道</h2>
+      <div class="toolbar">
+        <button class="btn on" id="btn-t1" type="button">标准按量模式</button>
+        <button class="btn" id="btn-t2" type="button">对比 Batch 档 (50% 折扣)</button>
+        <span class="hint">官方基准 $10 / $0.25 / $50。倍数 = 渠道 7:2:1 / 官方同档。</span>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>渠道</th><th>币种</th>
+              <th class="num">未命中 /M</th><th class="num">缓存 /M</th><th class="num">输出 /M</th>
+              <th class="num">7:2:1</th><th class="num">vs 官方</th>
+              <th class="num">上下文</th><th class="num">最大输出</th><th>备注</th>
+            </tr>
+          </thead>
+          <tbody id="api-t1"><tr data-id="anthropic-official">
+        <td><span class="badge">官方</span> Anthropic 官方 API</td>
+        <td>USD</td>
+        <td class="num">$10</td>
+        <td class="num">$0.25</td>
+        <td class="num">$50</td>
+        <td class="num">$7.17</td>
+        <td class="num"><span class="x ok">1.00×</span></td>
+        <td class="num">1M</td>
+        <td class="num">128K</td>
+        <td class="note">官方基准行，支持 prompt cache</td>
+      </tr>
+<tr data-id="amazon-bedrock">
+        <td><span class="badge">官方</span> Amazon Bedrock</td>
+        <td>USD</td>
+        <td class="num">$10</td>
+        <td class="num">$0.25</td>
+        <td class="num">$50</td>
+        <td class="num">$7.17</td>
+        <td class="num"><span class="x ok">1.00×</span></td>
+        <td class="num">1M</td>
+        <td class="num">128K</td>
+        <td class="note">AWS 企业合规通道，快照价 1.00×</td>
+      </tr>
+<tr data-id="azure-anthropic">
+        <td><span class="badge">官方</span> Microsoft Azure Anthropic</td>
+        <td>USD</td>
+        <td class="num">$10</td>
+        <td class="num">$0.25</td>
+        <td class="num">$50</td>
+        <td class="num">$7.17</td>
+        <td class="num"><span class="x ok">1.00×</span></td>
+        <td class="num">1M</td>
+        <td class="num">128K</td>
+        <td class="note">Azure 上的 Anthropic 模型，快照价 1.00×</td>
+      </tr>
+<tr data-id="google-vertex-anthropic">
+        <td>Google Vertex Anthropic</td>
+        <td>USD</td>
+        <td class="num">$10</td>
+        <td class="num">$0.25</td>
+        <td class="num">$50</td>
+        <td class="num">$7.17</td>
+        <td class="num"><span class="x ok">1.00×</span></td>
+        <td class="num">1M</td>
+        <td class="num">128K</td>
+        <td class="note">GCP Vertex 托管 Claude，快照价 1.00×</td>
+      </tr>
+<tr data-id="openrouter">
+        <td>OpenRouter</td>
+        <td>USD</td>
+        <td class="num">$10</td>
+        <td class="num">$0.25</td>
+        <td class="num">$50</td>
+        <td class="num">$7.17</td>
+        <td class="num"><span class="x ok">1.00×</span></td>
+        <td class="num">1M</td>
+        <td class="num">128K</td>
+        <td class="note">聚合直通官方 / Bedrock / Azure，同价 (1.00×)</td>
+      </tr>
+<tr data-id="vercel-gateway">
+        <td>Vercel AI Gateway</td>
+        <td>USD</td>
+        <td class="num">$10</td>
+        <td class="num">$0.25</td>
+        <td class="num">$50</td>
+        <td class="num">$7.17</td>
+        <td class="num"><span class="x ok">1.00×</span></td>
+        <td class="num">1M</td>
+        <td class="num">128K</td>
+        <td class="note">转发官方接口，1.00×</td>
+      </tr>
+<tr data-id="nano-gpt">
+        <td>Nano-GPT</td>
+        <td>USD</td>
+        <td class="num">$10</td>
+        <td class="num">$0.25</td>
+        <td class="num">$50</td>
+        <td class="num">$7.17</td>
+        <td class="num"><span class="x ok">1.00×</span></td>
+        <td class="num">1M</td>
+        <td class="num">128K</td>
+        <td class="note">无须信用卡绑定，1.00×</td>
+      </tr>
+<tr data-id="aihubmix">
+        <td>AIHubMix</td>
+        <td>USD</td>
+        <td class="num">$10.25</td>
+        <td class="num">$0.256</td>
+        <td class="num">$51.25</td>
+        <td class="num">$7.35</td>
+        <td class="num"><span class="x mid">1.03×</span></td>
+        <td class="num">1M</td>
+        <td class="num">128K</td>
+        <td class="note">微幅溢价约 2.5%</td>
+      </tr></tbody>
+          <tbody id="api-t2" hidden><tr data-id="anthropic-official">
+        <td><span class="badge">官方</span> Anthropic 官方 API</td>
+        <td>USD</td>
+        <td class="num">$5</td>
+        <td class="num">$0.125</td>
+        <td class="num">$25</td>
+        <td class="num">$3.59</td>
+        <td class="num"><span class="x ok">1.00×</span></td>
+        <td class="num">1M</td>
+        <td class="num">128K</td>
+        <td class="note">官方基准行，支持 prompt cache</td>
+      </tr>
+<tr data-id="amazon-bedrock">
+        <td><span class="badge">官方</span> Amazon Bedrock</td>
+        <td>USD</td>
+        <td class="num">$10</td>
+        <td class="num">$0.25</td>
+        <td class="num">$50</td>
+        <td class="num">$7.17</td>
+        <td class="num"><span class="x hi">2.00×</span></td>
+        <td class="num">1M</td>
+        <td class="num">128K</td>
+        <td class="note">AWS 企业合规通道，快照价 1.00×</td>
+      </tr>
+<tr data-id="azure-anthropic">
+        <td><span class="badge">官方</span> Microsoft Azure Anthropic</td>
+        <td>USD</td>
+        <td class="num">$10</td>
+        <td class="num">$0.25</td>
+        <td class="num">$50</td>
+        <td class="num">$7.17</td>
+        <td class="num"><span class="x hi">2.00×</span></td>
+        <td class="num">1M</td>
+        <td class="num">128K</td>
+        <td class="note">Azure 上的 Anthropic 模型，快照价 1.00×</td>
+      </tr>
+<tr data-id="google-vertex-anthropic">
+        <td>Google Vertex Anthropic</td>
+        <td>USD</td>
+        <td class="num">$10</td>
+        <td class="num">$0.25</td>
+        <td class="num">$50</td>
+        <td class="num">$7.17</td>
+        <td class="num"><span class="x hi">2.00×</span></td>
+        <td class="num">1M</td>
+        <td class="num">128K</td>
+        <td class="note">GCP Vertex 托管 Claude，快照价 1.00×</td>
+      </tr>
+<tr data-id="openrouter">
+        <td>OpenRouter</td>
+        <td>USD</td>
+        <td class="num">$5</td>
+        <td class="num">$0.125</td>
+        <td class="num">$25</td>
+        <td class="num">$3.59</td>
+        <td class="num"><span class="x ok">1.00×</span></td>
+        <td class="num">1M</td>
+        <td class="num">128K</td>
+        <td class="note">聚合直通官方 / Bedrock / Azure，同价 (1.00×)</td>
+      </tr>
+<tr data-id="vercel-gateway">
+        <td>Vercel AI Gateway</td>
+        <td>USD</td>
+        <td class="num">$10</td>
+        <td class="num">$0.25</td>
+        <td class="num">$50</td>
+        <td class="num">$7.17</td>
+        <td class="num"><span class="x hi">2.00×</span></td>
+        <td class="num">1M</td>
+        <td class="num">128K</td>
+        <td class="note">转发官方接口，1.00×</td>
+      </tr>
+<tr data-id="nano-gpt">
+        <td>Nano-GPT</td>
+        <td>USD</td>
+        <td class="num">$10</td>
+        <td class="num">$0.25</td>
+        <td class="num">$50</td>
+        <td class="num">$7.17</td>
+        <td class="num"><span class="x hi">2.00×</span></td>
+        <td class="num">1M</td>
+        <td class="num">128K</td>
+        <td class="note">无须信用卡绑定，1.00×</td>
+      </tr>
+<tr data-id="aihubmix">
+        <td>AIHubMix</td>
+        <td>USD</td>
+        <td class="num">$10.25</td>
+        <td class="num">$0.256</td>
+        <td class="num">$51.25</td>
+        <td class="num">$7.35</td>
+        <td class="num"><span class="x hot">2.05×</span></td>
+        <td class="num">1M</td>
+        <td class="num">128K</td>
+        <td class="note">微幅溢价约 2.5%</td>
+      </tr></tbody>
+        </table>
+      </div>
+      
+      <details>
+        <summary>多供应商与网关端点实测（共 34 个端点）</summary>
+        <div class="tbl-wrap" style="margin-top:10px">
+          <table>
+            <thead>
+              <tr>
+                <th>上游 / 供应商</th>
+                <th class="num">未命中</th><th class="num">缓存</th><th class="num">输出</th>
+                <th class="num">7:2:1</th><th class="num">vs 官方基准</th>
+                <th class="num">最大输出</th><th>备注</th>
+              </tr>
+            </thead>
+            <tbody><tr>
+      <td>nano-gpt</td>
+      <td class="num">$10</td>
+      <td class="num">$0.25</td>
+      <td class="num">$50</td>
+      <td class="num">$7.17</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1</td>
+    </tr>
+<tr>
+      <td>anthropic</td>
+      <td class="num">$10</td>
+      <td class="num">$0.25</td>
+      <td class="num">$50</td>
+      <td class="num">$7.17</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1</td>
+    </tr>
+<tr>
+      <td>llmgateway-providers</td>
+      <td class="num">$10</td>
+      <td class="num">$0.25</td>
+      <td class="num">$50</td>
+      <td class="num">$7.17</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1 (AWS Bedrock)</td>
+    </tr>
+<tr>
+      <td>llmgateway-providers</td>
+      <td class="num">$10</td>
+      <td class="num">$0.25</td>
+      <td class="num">$50</td>
+      <td class="num">$7.17</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1 (Anthropic)</td>
+    </tr>
+<tr>
+      <td>llmgateway-providers</td>
+      <td class="num">$10</td>
+      <td class="num">$0.25</td>
+      <td class="num">$50</td>
+      <td class="num">$7.17</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1 (Azure Anthropic)</td>
+    </tr>
+<tr>
+      <td>kilo</td>
+      <td class="num">$10</td>
+      <td class="num">$0.25</td>
+      <td class="num">$50</td>
+      <td class="num">$7.17</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1</td>
+    </tr>
+<tr>
+      <td>302ai</td>
+      <td class="num">$10</td>
+      <td class="num"><span class="na">同输入</span></td>
+      <td class="num">$50</td>
+      <td class="num">$14</td>
+      <td class="num"><span class="x hi">1.95×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1</td>
+    </tr>
+<tr>
+      <td>openrouter</td>
+      <td class="num">$10</td>
+      <td class="num">$0.25</td>
+      <td class="num">$50</td>
+      <td class="num">$7.17</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1</td>
+    </tr>
+<tr>
+      <td>azure</td>
+      <td class="num">$10</td>
+      <td class="num">$0.25</td>
+      <td class="num">$50</td>
+      <td class="num">$7.17</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1</td>
+    </tr>
+<tr>
+      <td>azure-cognitive-services</td>
+      <td class="num">$10</td>
+      <td class="num">$0.25</td>
+      <td class="num">$50</td>
+      <td class="num">$7.17</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1</td>
+    </tr>
+<tr>
+      <td>zenmux</td>
+      <td class="num">$10</td>
+      <td class="num">$0.25</td>
+      <td class="num">$50</td>
+      <td class="num">$7.17</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1</td>
+    </tr>
+<tr>
+      <td>cloudflare-ai-gateway</td>
+      <td class="num">$10</td>
+      <td class="num">$0.25</td>
+      <td class="num">$50</td>
+      <td class="num">$7.17</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1</td>
+    </tr>
+<tr>
+      <td>vercel</td>
+      <td class="num">$10</td>
+      <td class="num">$0.25</td>
+      <td class="num">$50</td>
+      <td class="num">$7.17</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1</td>
+    </tr>
+<tr>
+      <td>google-vertex-anthropic</td>
+      <td class="num">$10</td>
+      <td class="num">$0.25</td>
+      <td class="num">$50</td>
+      <td class="num">$7.17</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1</td>
+    </tr>
+<tr>
+      <td>ofox</td>
+      <td class="num">$10</td>
+      <td class="num">$0.25</td>
+      <td class="num">$50</td>
+      <td class="num">$7.17</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1</td>
+    </tr>
+<tr>
+      <td>neon</td>
+      <td class="num">$10</td>
+      <td class="num">$0.25</td>
+      <td class="num">$50</td>
+      <td class="num">$7.17</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1</td>
+    </tr>
+<tr>
+      <td>merge-gateway</td>
+      <td class="num">$10</td>
+      <td class="num">$0.25</td>
+      <td class="num">$50</td>
+      <td class="num">$7.17</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1</td>
+    </tr>
+<tr>
+      <td>opper</td>
+      <td class="num">$10</td>
+      <td class="num">$0.25</td>
+      <td class="num">$50</td>
+      <td class="num">$7.17</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1</td>
+    </tr>
+<tr>
+      <td>github-copilot</td>
+      <td class="num">$10</td>
+      <td class="num">$0.25</td>
+      <td class="num">$50</td>
+      <td class="num">$7.17</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1</td>
+    </tr>
+<tr>
+      <td>edenai</td>
+      <td class="num">$10</td>
+      <td class="num">$0.25</td>
+      <td class="num">$50</td>
+      <td class="num">$7.17</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1</td>
+    </tr>
+<tr>
+      <td>tempr</td>
+      <td class="num">$10</td>
+      <td class="num">$0.25</td>
+      <td class="num">$50</td>
+      <td class="num">$7.17</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1</td>
+    </tr>
+<tr>
+      <td>opencode</td>
+      <td class="num">$10</td>
+      <td class="num">$0.25</td>
+      <td class="num">$50</td>
+      <td class="num">$7.17</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1</td>
+    </tr>
+<tr>
+      <td>requesty</td>
+      <td class="num">$10</td>
+      <td class="num">$0.25</td>
+      <td class="num">$50</td>
+      <td class="num">$7.17</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1</td>
+    </tr>
+<tr>
+      <td>amazon-bedrock</td>
+      <td class="num">$10</td>
+      <td class="num">$0.25</td>
+      <td class="num">$50</td>
+      <td class="num">$7.17</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1 (Global)</td>
+    </tr>
+<tr>
+      <td>amazon-bedrock</td>
+      <td class="num">$10</td>
+      <td class="num">$0.25</td>
+      <td class="num">$50</td>
+      <td class="num">$7.17</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1</td>
+    </tr>
+<tr>
+      <td>llmgateway</td>
+      <td class="num">$10</td>
+      <td class="num">$0.25</td>
+      <td class="num">$50</td>
+      <td class="num">$7.17</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1</td>
+    </tr>
+<tr>
+      <td>vivgrid</td>
+      <td class="num">$10</td>
+      <td class="num">$0.5</td>
+      <td class="num">$50</td>
+      <td class="num">$7.35</td>
+      <td class="num"><span class="x mid">1.02×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1</td>
+    </tr>
+<tr>
+      <td>google-vertex</td>
+      <td class="num">$10</td>
+      <td class="num">$0.25</td>
+      <td class="num">$50</td>
+      <td class="num">$7.17</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1</td>
+    </tr>
+<tr>
+      <td>crossmodel</td>
+      <td class="num">$10</td>
+      <td class="num">$0.25</td>
+      <td class="num">$50</td>
+      <td class="num">$7.17</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1</td>
+    </tr>
+<tr>
+      <td>digitalocean</td>
+      <td class="num">$10</td>
+      <td class="num">$0.25</td>
+      <td class="num">$50</td>
+      <td class="num">$7.17</td>
+      <td class="num"><span class="x ok">1.00×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Anthropic Claude Fable 5.1</td>
+    </tr>
+<tr>
+      <td>aihubmix</td>
+      <td class="num">$11</td>
+      <td class="num">$0.275</td>
+      <td class="num">$55</td>
+      <td class="num">$7.89</td>
+      <td class="num"><span class="x mid">1.10×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1</td>
+    </tr>
+<tr>
+      <td>requesty</td>
+      <td class="num">$11</td>
+      <td class="num">$0.275</td>
+      <td class="num">$55</td>
+      <td class="num">$7.89</td>
+      <td class="num"><span class="x mid">1.10×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1 (EU)</td>
+    </tr>
+<tr>
+      <td>amazon-bedrock</td>
+      <td class="num">$11</td>
+      <td class="num">$0.275</td>
+      <td class="num">$55</td>
+      <td class="num">$7.89</td>
+      <td class="num"><span class="x mid">1.10×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1 (US)</td>
+    </tr>
+<tr>
+      <td>venice</td>
+      <td class="num">$12</td>
+      <td class="num">$0.3</td>
+      <td class="num">$60</td>
+      <td class="num">$8.61</td>
+      <td class="num"><span class="x hi">1.20×</span></td>
+      <td class="num">128K</td>
+      <td class="note">Claude Fable 5.1</td>
+    </tr></tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <section class="sec">
+      <h2>03 订阅渠道</h2>
+      <p class="hint" style="margin-bottom:10px">额度按官方标准基准（$10 / $0.25 / $50）统一折算。编程 Agent 取 87.4% 缓存率口径下的可用请求数。</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>方案</th>
+              <th class="num">月费</th>
+              <th class="num">本模型额度</th>
+              <th class="num">5 小时</th>
+              <th class="num">周</th>
+              <th>窗口</th>
+              <th class="num">编程 Agent @87.4%</th>
+              <th>说明</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+      <td>Claude Pro</td>
+      <td class="num">$20/月</td>
+      <td class="num">$60</td>
+      <td class="num">$10</td>
+      <td class="num">$30</td>
+      <td>滚动窗口</td>
+      <td class="num">494 次</td>
+      <td class="note">总表套餐档：Claude Pro $20，额度按 3× 月费启发式折算</td>
+    </tr>
+<tr>
+      <td>Claude Max 5×</td>
+      <td class="num">$100/月</td>
+      <td class="num">$400</td>
+      <td class="num">$80</td>
+      <td class="num">$200</td>
+      <td>滚动窗口</td>
+      <td class="num">3,292 次</td>
+      <td class="note">总表 Max 5x $100</td>
+    </tr>
+<tr>
+      <td>Claude Max 20×</td>
+      <td class="num">$200/月</td>
+      <td class="num">$800</td>
+      <td class="num">$160</td>
+      <td class="num">$400</td>
+      <td>滚动窗口</td>
+      <td class="num">6,583 次</td>
+      <td class="note">总表 Max 20x $200；Opus 折算约 ¥0.2033/M</td>
+    </tr>
+<tr>
+      <td>ClinePass 月度</td>
+      <td class="num">$9.99/月</td>
+      <td class="num">$40</td>
+      <td class="num">$8</td>
+      <td class="num">$20</td>
+      <td>日历月</td>
+      <td class="num">329 次</td>
+      <td class="note">编程 Agent 渠道</td>
+    </tr>
+<tr>
+      <td>OpenCode Go</td>
+      <td class="num">$10/月</td>
+      <td class="num">$35</td>
+      <td class="num">$7</td>
+      <td class="num">$17.5</td>
+      <td>日历月</td>
+      <td class="num">288 次</td>
+      <td class="note">OpenCode 标准额度</td>
+    </tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <p class="foot">数据来源：Artificial Analysis 对照集、OpenRouter、models.dev、各官方文档（2026-10-08 快照）。本页不含个人实测。未收录无 AA 快照的 GPT-6 Sol / Claude Mythos 5 / Gemini 3.8 Omni / Gemma 4。</p>
+  </div>
+  <script>
+    const t1 = document.getElementById('api-t1');
+    const t2 = document.getElementById('api-t2');
+    const b1 = document.getElementById('btn-t1');
+    const b2 = document.getElementById('btn-t2');
+    b1.onclick = () => { t1.hidden = false; t2.hidden = true; b1.classList.add('on'); b2.classList.remove('on'); };
+    b2.onclick = () => { t1.hidden = true; t2.hidden = false; b2.classList.add('on'); b1.classList.remove('on'); };
+  </script>
+</body>
+</html>

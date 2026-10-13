@@ -1,0 +1,70 @@
+{
+  "$schema": "自描述。MiMo-V2.6-Pro 页面数字与口径的出处清单。",
+  "_meta": { "generatedAt": "2026-10-08", "modelSlug": "mimo-v2.6-pro" },
+  "sources": [
+    {
+      "id": "mimo-v2.6-official-model",
+      "label": "MiMo 官方模型目录",
+      "url": "https://mimo.mi.com/docs/en-US/quick-start/summary/model",
+      "fetchedAt": "2026-10-08",
+      "verification": "official-doc",
+      "covers": ["current model id", "MiMo-V2.6-Pro/Flash availability", "model update date"]
+    },
+    {
+      "id": "mimo-v2.6-official-pricing",
+      "label": "MiMo 官方国内按量价格",
+      "url": "https://mimo.mi.com/docs/zh-CN/price/pay-as-you-go",
+      "fetchedAt": "2026-10-08",
+      "verification": "official-doc",
+      "covers": ["channels/api.json CNY standard and batch prices", "Token Plan/API separation", "V2.5 retirement notice"]
+    },
+    {
+      "id": "mimo-token-plan-history",
+      "label": "MiMo Token Plan 历史发布说明",
+      "url": "https://mimo.mi.com/docs/en-US/news/latest/token-plan-release",
+      "fetchedAt": "2026-10-08",
+      "verification": "official-historical-reference",
+      "covers": ["channels/subscription.json historical plans"],
+      "notes": "页面说明发布日期为 2026-06-29；金额/额度仅作历史参考。"
+    },
+    {
+      "id": "aa-mimo-v2-6-pro",
+      "label": "Artificial Analysis MiMo-V2.6-Pro 对照快照",
+      "url": "https://artificialanalysis.ai/",
+      "fetchedAt": "2026-10-08",
+      "verification": "single-source-unverified",
+      "rawFile": "../../raw/_global/2026-10-08/aa-peers.json",
+      "covers": ["benchmarks/aa.json", "radar", "AA USD task cost", "architecture snapshot"],
+      "notes": "工作区 peers 快照中的 MiMo-V2.6-Pro 条目；不是官方定价来源。"
+    },
+    {
+      "id": "lmarena-text-mimo-v2-6-pro",
+      "label": "LMArena Text 榜工作区原始快照",
+      "url": "https://lmarena.ai/leaderboard",
+      "fetchedAt": "2026-10-08",
+      "verification": "api-endpoint",
+      "rawFile": "../deepseek-v4.1-flash/raw/2026-10-08/lmarena-text.json",
+      "covers": ["benchmarks/lmarena.json overall rank/rating/votes"]
+    },
+    {
+      "id": "mimo-v2-6-modelsdev-crosscheck",
+      "label": "models.dev MiMo-V2.6-Pro 聚合目录快照",
+      "url": "https://models.dev/",
+      "fetchedAt": "2026-10-08",
+      "verification": "aggregator",
+      "rawFile": "../../raw/_global/2026-10-08/modelsdev.json",
+      "covers": ["canonical model id", "modalities", "context/max output cross-check"],
+      "notes": "聚合缓存价与官方国内人民币价不一致，不用于主渠道价格。"
+    },
+    {
+      "id": "mimo-v2-6-openrouter-crosscheck",
+      "label": "OpenRouter MiMo-V2.6-Pro 聚合目录快照",
+      "url": "https://openrouter.ai/api/v1/models",
+      "fetchedAt": "2026-10-08",
+      "verification": "aggregator",
+      "rawFile": "../../raw/_global/2026-10-08/openrouter-models.json",
+      "covers": ["aggregated endpoint context/max output/modalities/prices"],
+      "notes": "仅作端点交叉核对；未据此生成逐端点渠道行。"
+    }
+  ]
+}

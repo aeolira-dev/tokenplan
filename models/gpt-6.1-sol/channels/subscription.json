@@ -1,0 +1,121 @@
+{
+  "$schema": "自描述。订阅制渠道列表。",
+  "baselinePrice": "$2.00 / $0.10 / $10.00",
+  "plans": [
+    {
+      "providerId": "chatgpt-plus",
+      "planId": "plus",
+      "label": "ChatGPT Plus",
+      "fee": {
+        "amount": 20,
+        "currency": "USD"
+      },
+      "modelAllowance": {
+        "usd": 60,
+        "derivation": "每 3 小时 40-80 次旗舰调用配额，折算等效月额度"
+      },
+      "limits": {
+        "fiveHourUSD": 10,
+        "weeklyUSD": 30,
+        "monthlyUSD": 60
+      },
+      "rollingWindow": true,
+      "softLimit": false,
+      "quotaConversion": {
+        "codingAgentAt874": 2187
+      }
+    },
+    {
+      "providerId": "chatgpt-pro",
+      "planId": "pro",
+      "label": "ChatGPT Pro",
+      "fee": {
+        "amount": 200,
+        "currency": "USD"
+      },
+      "modelAllowance": {
+        "usd": 800,
+        "derivation": "无限量 Sol/o系列完整思考模式访问"
+      },
+      "limits": {
+        "fiveHourUSD": 160,
+        "weeklyUSD": 400,
+        "monthlyUSD": 800
+      },
+      "rollingWindow": false,
+      "softLimit": true,
+      "quotaConversion": {
+        "codingAgentAt874": 29156
+      }
+    },
+    {
+      "providerId": "cline-pass",
+      "planId": "monthly",
+      "label": "ClinePass 月度",
+      "fee": {
+        "amount": 9.99,
+        "currency": "USD"
+      },
+      "modelAllowance": {
+        "usd": 40,
+        "derivation": "旗舰模型高权重消耗"
+      },
+      "limits": {
+        "fiveHourUSD": 8,
+        "weeklyUSD": 20,
+        "monthlyUSD": 40
+      },
+      "rollingWindow": false,
+      "softLimit": false,
+      "quotaConversion": {
+        "codingAgentAt874": 1458
+      }
+    },
+    {
+      "providerId": "opencode-go",
+      "planId": "go",
+      "label": "OpenCode Go",
+      "fee": {
+        "amount": 10,
+        "currency": "USD"
+      },
+      "modelAllowance": {
+        "usd": 35,
+        "derivation": "OpenCode 标准旗舰额度"
+      },
+      "limits": {
+        "fiveHourUSD": 7,
+        "weeklyUSD": 17.5,
+        "monthlyUSD": 35
+      },
+      "rollingWindow": false,
+      "softLimit": false,
+      "quotaConversion": {
+        "codingAgentAt874": 1276
+      }
+    },
+    {
+      "providerId": "command-code",
+      "planId": "goat",
+      "label": "Command Code GOAT",
+      "fee": {
+        "amount": 10,
+        "currency": "USD"
+      },
+      "modelAllowance": {
+        "usd": 45,
+        "derivation": "包含 $45 GPT-6.1 Sol 额度"
+      },
+      "limits": {
+        "fiveHourUSD": 9,
+        "weeklyUSD": 22.5,
+        "monthlyUSD": 45
+      },
+      "rollingWindow": true,
+      "softLimit": false,
+      "quotaConversion": {
+        "codingAgentAt874": 1640
+      }
+    }
+  ]
+}

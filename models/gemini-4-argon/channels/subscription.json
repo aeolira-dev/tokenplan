@@ -1,0 +1,121 @@
+{
+  "$schema": "自描述。订阅制渠道列表。",
+  "baselinePrice": "$2 / $0.1 / $10",
+  "plans": [
+    {
+      "providerId": "google-one-ai",
+      "planId": "premium",
+      "label": "Google One AI Premium",
+      "fee": {
+        "amount": 19.99,
+        "currency": "USD"
+      },
+      "modelAllowance": {
+        "usd": 120,
+        "derivation": "含 Gemini Advanced + Workspace 插件支持"
+      },
+      "limits": {
+        "fiveHourUSD": 24,
+        "weeklyUSD": 60,
+        "monthlyUSD": 120
+      },
+      "rollingWindow": false,
+      "softLimit": false,
+      "quotaConversion": {
+        "codingAgentAt874": 4373
+      }
+    },
+    {
+      "providerId": "google-ai-ultra",
+      "planId": "ultra",
+      "label": "Google AI Ultra",
+      "fee": {
+        "amount": 249.99,
+        "currency": "USD"
+      },
+      "modelAllowance": {
+        "usd": 800,
+        "derivation": "总表 Google AI Ultra 高档；额度按启发式折算"
+      },
+      "limits": {
+        "fiveHourUSD": 160,
+        "weeklyUSD": 400,
+        "monthlyUSD": 800
+      },
+      "rollingWindow": false,
+      "softLimit": true,
+      "quotaConversion": {
+        "codingAgentAt874": 29156
+      }
+    },
+    {
+      "providerId": "cline-pass",
+      "planId": "monthly",
+      "label": "ClinePass 月度",
+      "fee": {
+        "amount": 9.99,
+        "currency": "USD"
+      },
+      "modelAllowance": {
+        "usd": 60,
+        "derivation": "编程 Agent 渠道"
+      },
+      "limits": {
+        "fiveHourUSD": 12,
+        "weeklyUSD": 30,
+        "monthlyUSD": 60
+      },
+      "rollingWindow": false,
+      "softLimit": false,
+      "quotaConversion": {
+        "codingAgentAt874": 2187
+      }
+    },
+    {
+      "providerId": "opencode-go",
+      "planId": "go",
+      "label": "OpenCode Go",
+      "fee": {
+        "amount": 10,
+        "currency": "USD"
+      },
+      "modelAllowance": {
+        "usd": 50,
+        "derivation": "OpenCode 标准额度"
+      },
+      "limits": {
+        "fiveHourUSD": 10,
+        "weeklyUSD": 25,
+        "monthlyUSD": 50
+      },
+      "rollingWindow": false,
+      "softLimit": false,
+      "quotaConversion": {
+        "codingAgentAt874": 1822
+      }
+    },
+    {
+      "providerId": "command-code",
+      "planId": "goat",
+      "label": "Command Code GOAT",
+      "fee": {
+        "amount": 10,
+        "currency": "USD"
+      },
+      "modelAllowance": {
+        "usd": 55,
+        "derivation": "GOAT 套餐额度"
+      },
+      "limits": {
+        "fiveHourUSD": 11,
+        "weeklyUSD": 27.5,
+        "monthlyUSD": 55
+      },
+      "rollingWindow": true,
+      "softLimit": false,
+      "quotaConversion": {
+        "codingAgentAt874": 2004
+      }
+    }
+  ]
+}

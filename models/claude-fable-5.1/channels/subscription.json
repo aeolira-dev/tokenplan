@@ -1,0 +1,121 @@
+{
+  "$schema": "自描述。订阅制渠道列表。",
+  "baselinePrice": "$10 / $0.25 / $50",
+  "plans": [
+    {
+      "providerId": "claude-pro",
+      "planId": "pro",
+      "label": "Claude Pro",
+      "fee": {
+        "amount": 20,
+        "currency": "USD"
+      },
+      "modelAllowance": {
+        "usd": 60,
+        "derivation": "总表套餐档：Claude Pro $20，额度按 3× 月费启发式折算"
+      },
+      "limits": {
+        "fiveHourUSD": 10,
+        "weeklyUSD": 30,
+        "monthlyUSD": 60
+      },
+      "rollingWindow": true,
+      "softLimit": false,
+      "quotaConversion": {
+        "codingAgentAt874": 494
+      }
+    },
+    {
+      "providerId": "claude-max-5x",
+      "planId": "max5",
+      "label": "Claude Max 5×",
+      "fee": {
+        "amount": 100,
+        "currency": "USD"
+      },
+      "modelAllowance": {
+        "usd": 400,
+        "derivation": "总表 Max 5x $100"
+      },
+      "limits": {
+        "fiveHourUSD": 80,
+        "weeklyUSD": 200,
+        "monthlyUSD": 400
+      },
+      "rollingWindow": true,
+      "softLimit": false,
+      "quotaConversion": {
+        "codingAgentAt874": 3292
+      }
+    },
+    {
+      "providerId": "claude-max-20x",
+      "planId": "max20",
+      "label": "Claude Max 20×",
+      "fee": {
+        "amount": 200,
+        "currency": "USD"
+      },
+      "modelAllowance": {
+        "usd": 800,
+        "derivation": "总表 Max 20x $200；Opus 折算约 ¥0.2033/M"
+      },
+      "limits": {
+        "fiveHourUSD": 160,
+        "weeklyUSD": 400,
+        "monthlyUSD": 800
+      },
+      "rollingWindow": true,
+      "softLimit": false,
+      "quotaConversion": {
+        "codingAgentAt874": 6583
+      }
+    },
+    {
+      "providerId": "cline-pass",
+      "planId": "monthly",
+      "label": "ClinePass 月度",
+      "fee": {
+        "amount": 9.99,
+        "currency": "USD"
+      },
+      "modelAllowance": {
+        "usd": 40,
+        "derivation": "编程 Agent 渠道"
+      },
+      "limits": {
+        "fiveHourUSD": 8,
+        "weeklyUSD": 20,
+        "monthlyUSD": 40
+      },
+      "rollingWindow": false,
+      "softLimit": false,
+      "quotaConversion": {
+        "codingAgentAt874": 329
+      }
+    },
+    {
+      "providerId": "opencode-go",
+      "planId": "go",
+      "label": "OpenCode Go",
+      "fee": {
+        "amount": 10,
+        "currency": "USD"
+      },
+      "modelAllowance": {
+        "usd": 35,
+        "derivation": "OpenCode 标准额度"
+      },
+      "limits": {
+        "fiveHourUSD": 7,
+        "weeklyUSD": 17.5,
+        "monthlyUSD": 35
+      },
+      "rollingWindow": false,
+      "softLimit": false,
+      "quotaConversion": {
+        "codingAgentAt874": 288
+      }
+    }
+  ]
+}

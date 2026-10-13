@@ -1,0 +1,33 @@
+{
+  "$schema": "自描述。按量渠道列表；价格单位均为每 1M tokens。",
+  "_meta": {
+    "modelSlug": "step-5-preview",
+    "generatedAt": "2026-10-08",
+    "verificationNote": "主表仅收录 StepFun 官方 API；聚合平台价格不覆盖官方价。"
+  },
+  "baseline": {
+    "providerId": "stepfun-official",
+    "label": "StepFun 官方 API（基准）",
+    "tiers": [
+      { "id": "standard", "label": "官方标准按量", "usd": { "inputMiss": 1, "inputHit": 0.1, "output": 2.7 } }
+    ]
+  },
+  "channels": [
+    {
+      "providerId": "stepfun-official",
+      "isOfficial": true,
+      "displayName": "阶跃星辰 StepFun 官方 API",
+      "priceCurrency": "USD",
+      "tiers": [
+        { "id": "standard", "label": "官方标准按量", "usd": { "inputMiss": 1, "inputHit": 0.1, "output": 2.7 } }
+      ],
+      "peakValley": false,
+      "limits": { "contextTokens": 1000000, "maxOutputTokens": 64000 },
+      "features": { "vision": true, "video": true, "toolCalls": true, "promptCaching": true },
+      "notes": [
+        "官方价格：输入未命中 $1/M、缓存命中 $0.10/M、输出 $2.70/M。",
+        "官方文档说明输出 token 包含 reasoning 与最终答案；最大输出 64K。"
+      ]
+    }
+  ]
+}

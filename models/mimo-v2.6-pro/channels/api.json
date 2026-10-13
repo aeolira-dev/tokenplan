@@ -1,0 +1,35 @@
+{
+  "$schema": "自描述。按量渠道列表；价格单位均为每 1M tokens。",
+  "_meta": {
+    "modelSlug": "mimo-v2.6-pro",
+    "generatedAt": "2026-10-08",
+    "verificationNote": "主表优先 Xiaomi MiMo 官方国内 CNY API；批量为官方同页列出的另一档，未将海外 USD 聚合价冒充国内牌价。"
+  },
+  "baseline": {
+    "providerId": "xiaomi-mimo-official",
+    "label": "MiMo 官方国内 API（基准）",
+    "tiers": [
+      { "id": "standard", "label": "标准按量", "cny": { "inputMiss": 3, "inputHit": 0.025, "output": 6 } },
+      { "id": "batch", "label": "批量", "cny": { "inputMiss": 1.5, "inputHit": 0.0125, "output": 3 } }
+    ]
+  },
+  "channels": [
+    {
+      "providerId": "xiaomi-mimo-official",
+      "isOfficial": true,
+      "displayName": "小米 MiMo 官方国内 API",
+      "priceCurrency": "CNY",
+      "tiers": [
+        { "id": "standard", "label": "标准按量", "cny": { "inputMiss": 3, "inputHit": 0.025, "output": 6 } },
+        { "id": "batch", "label": "批量", "cny": { "inputMiss": 1.5, "inputHit": 0.0125, "output": 3 } }
+      ],
+      "peakValley": false,
+      "limits": { "contextTokens": 1048576, "maxOutputTokens": 131072 },
+      "features": { "vision": true, "audio": true, "video": true, "toolCalls": true, "promptCaching": true },
+      "notes": [
+        "官方国内实时价格：标准输入未命中 ¥3/M、缓存命中 ¥0.025/M、输出 ¥6/M。",
+        "批量价格：输入未命中 ¥1.5/M、缓存命中 ¥0.0125/M、输出 ¥3/M；Token Plan 与按量 API 额度不互通。"
+      ]
+    }
+  ]
+}

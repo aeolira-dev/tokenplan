@@ -1,0 +1,33 @@
+{
+  "$schema": "自描述。按量渠道列表；价格单位均为每 1M tokens，缓存写入与命中分开记录。",
+  "_meta": {
+    "modelSlug": "kimi-k3",
+    "generatedAt": "2026-10-08",
+    "verificationNote": "主表仅收录 Kimi 官方 API；OpenRouter 聚合价格另作为来源交叉，不覆盖官方价。"
+  },
+  "baseline": {
+    "providerId": "moonshot-official",
+    "label": "Kimi 官方 API（基准）",
+    "tiers": [
+      { "id": "standard", "label": "官方标准按量", "usd": { "inputMiss": 3, "inputHit": 0.3, "output": 15, "cacheWrite5m": 3, "cacheWrite1h": 6 } }
+    ]
+  },
+  "channels": [
+    {
+      "providerId": "moonshot-official",
+      "isOfficial": true,
+      "displayName": "Moonshot AI 官方 API",
+      "priceCurrency": "USD",
+      "tiers": [
+        { "id": "standard", "label": "官方标准按量", "usd": { "inputMiss": 3, "inputHit": 0.3, "output": 15, "cacheWrite5m": 3, "cacheWrite1h": 6 } }
+      ],
+      "peakValley": false,
+      "limits": { "contextTokens": 1048576, "maxOutputTokens": 131072 },
+      "features": { "vision": true, "toolCalls": true, "promptCaching": true },
+      "notes": [
+        "官方 K3 价格：输入未命中 $3/M、缓存命中 $0.30/M、输出 $15/M。",
+        "Prompt Cache 写入另计：5 分钟 TTL $3/M，1 小时 TTL $6/M；默认 TTL 5 分钟。"
+      ]
+    }
+  ]
+}

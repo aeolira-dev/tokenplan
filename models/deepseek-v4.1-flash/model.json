@@ -1,0 +1,153 @@
+{
+  "$schema": "自描述；字段含义见 _meta。随模型变化的字段都放这里或本文件夹内，不随模型变化的放 providers.json。",
+  "_meta": {
+    "note": "本文件是模型身份层，回答「这是什么模型」。价格在 channels/，榜单在 benchmarks/，出处登记在 sources.json。",
+    "generatedAt": "2026-10-08",
+    "sources": ["deepseek-pricing-doc", "aa-model-flash", "aa-metrics-flash"],
+    "relatedFiles": {
+      "benchmarks": ["benchmarks/aa.json", "benchmarks/lmarena.json"],
+      "channels": ["channels/api.json", "channels/subscription.json"],
+      "observed": ["observed/cline-usr-01M3.json"],
+      "sources": "sources.json"
+    }
+  },
+
+  "slug": "deepseek-v4.1-flash",
+  "displayName": "DeepSeek-V4.1-Flash",
+  "vendor": "deepseek",
+  "vendorDisplay": "DeepSeek（深度求索）",
+  "family": "DeepSeek V4",
+  "tier": "主力（fast）",
+
+  "apiModelIds": {
+    "official": "deepseek-flash",
+    "retiredAliases": ["deepseek-v4-flash", "deepseek-v4-flash-vision-exp"],
+    "aliasNote": "旧名仍可调用，但对应模型已退役，请求由 DeepSeek-V4.1-Flash 承接并按 Flash 价格计费"
+  },
+
+  "release": { "date": "2026-09-10", "knowledgeCutoff": null, "deprecated": false },
+
+  "openness": {
+    "openWeights": true,
+    "license": "MIT",
+    "weightsUrl": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash",
+    "opennessIndex": 44.44
+  },
+
+  "architecture": {
+    "totalParametersB": 552,
+    "activeParametersB": 16,
+    "sizeClass": "large",
+    "quantizationAvailable": ["fp8", "fp4"]
+  },
+
+  "limits": {
+    "contextTokens": 1000000,
+    "maxOutputTokens": 384000,
+    "concurrencyLimit": 2500,
+    "note": "并发上限为官方口径；第三方渠道的 maxOutput 常被下调（如 DeepInfra/Venice 仅 131072），逐渠道差异见 channels/api.json"
+  },
+
+  "capabilities": {
+    "reasoning": { "supported": true, "default": true, "note": "支持思考与非思考，默认思考" },
+    "vision": true,
+    "toolCalls": true,
+    "jsonOutput": true,
+    "responsesApi": true,
+    "anthropicApi": true,
+    "chatPrefixCompletion": true,
+    "fimCompletion": { "supported": true, "beta": true, "note": "仅非思考模式" },
+    "webSearch": { "supported": false, "note": "官方 API 不提供内置联网，需自接工具" },
+    "inputModalities": ["text", "image"],
+    "outputModalities": ["text"]
+  },
+
+  "speed": {
+    "_source": "aa-metrics-flash",
+    "outputTokensPerSecond": 223.11,
+    "timeToFirstChunkSeconds": 1.217,
+    "timeToFirstAnswerTokenSeconds": 10.18,
+    "endToEndResponseTimeSeconds": 12.42,
+    "outputSpeedVariance": { "p05": 187.12, "q25": 201.22, "median": 223.11, "q75": 235.15, "p95": 255.79 },
+    "ttfcVariance": { "p05": 0.779, "q25": 0.895, "median": 1.217, "q75": 1.402, "p95": 1.644 },
+    "byPromptType": {
+      "medium": { "outputSpeed": 219.27, "ttfc": 0.858 },
+      "long": { "outputSpeed": 223.11, "ttfc": 1.217 },
+      "hundredK": { "outputSpeed": 243.97, "ttfc": 2.237 }
+    },
+    "note": "TTFC = 首个 chunk 延迟；首答案 token 需 10.18s 是因为默认思考模式会先产出推理 token"
+  },
+
+  "baseline": {
+    "providerId": "deepseek-official",
+    "currency": "CNY",
+    "unit": "per 1M tokens",
+    "tiers": [
+      {
+        "id": "offpeak",
+        "label": "空闲",
+        "inputMiss": 1,
+        "inputHit": 0.02,
+        "output": 4,
+        "usd": { "inputMiss": 0.15, "inputHit": 0.003, "output": 0.6 }
+      },
+      {
+        "id": "peak",
+        "label": "高峰",
+        "inputMiss": 2,
+        "inputHit": 0.04,
+        "output": 8,
+        "usd": { "inputMiss": 0.3, "inputHit": 0.006, "output": 1.2 }
+      }
+    ],
+    "peakWindow": {
+      "timezone": "Asia/Shanghai",
+      "days": ["monday", "tuesday", "wednesday", "thursday", "friday"],
+      "ranges": [["09:00", "12:00"], ["14:00", "18:00"]],
+      "excludeHolidays": "CN",
+      "note": "高峰 = 北京时间周一至周五 9:00-12:00、14:00-18:00，不含中国法定节假日；其余含周末与节假日全天为空闲。空闲恒为高峰一半。"
+    },
+    "warning": "AA 报的 $0.30/$1.20 是高峰价，OpenRouter 官方端点基础价 $0.15/$0.60 是空闲价。倍数列必须声明用哪个 tier 作基准，否则整体差一倍。"
+  },
+
+  "notes": [
+    "官方 API 模型名必须用 deepseek-flash",
+    "1M 上下文 / 384K 最大输出 / 并发 2500",
+    "官方同时提供 OpenAI 与 Anthropic 两种协议端点"
+  ],
+
+  "card": {
+    "_note": "第一部分「模型卡」要展示的字段清单与取值来源。每一项都指向一个具体字段，不在这里重抄数值，避免两处不一致。",
+    "radar": {
+      "shape": "hexagon",
+      "axesCount": 6,
+      "axesSource": "benchmarks/aa.json#boards.artificialAnalysis.capabilities",
+      "axes": [
+        { "key": "financeAndAccounting", "label": "财会" },
+        { "key": "strategyAndOps", "label": "战略与运营" },
+        { "key": "legal", "label": "法律" },
+        { "key": "healthcareAndMedical", "label": "医疗健康" },
+        { "key": "engineering", "label": "工程" },
+        { "key": "economics", "label": "经济" }
+      ],
+      "scale": { "min": 0, "max": 100 },
+      "note": "AA 自带 6 个能力维度，恰好六边形；不再自行编造维度。若需更多轴，可另用 benchmarks/lmarena.json 的 8 个代表分类叠一层八边形，但两套分数口径不同，不可混在同一张图里。"
+    },
+    "fields": [
+      { "label": "模型名称", "value": "displayName", "source": "本文件" },
+      { "label": "厂商", "value": "vendorDisplay", "source": "本文件" },
+      { "label": "发布时间", "value": "release.date", "source": "本文件" },
+      { "label": "参数规模", "value": "architecture", "source": "本文件（552B 总参 / 16B 激活）" },
+      { "label": "上下文长度", "value": "limits.contextTokens", "source": "本文件（1M）" },
+      { "label": "最大输出", "value": "limits.maxOutputTokens", "source": "本文件（384K）" },
+      { "label": "首字速度", "value": "speed.timeToFirstChunkSeconds", "source": "本文件（1.217 s）" },
+      { "label": "输出速度", "value": "speed.outputTokensPerSecond", "source": "本文件（223.11 tok/s）" },
+      { "label": "是否支持视觉", "value": "capabilities.vision", "source": "本文件（支持，text+image 输入）" },
+      { "label": "是否支持联网", "value": "capabilities.webSearch", "source": "本文件（不支持，需自接工具）" },
+      { "label": "是否支持工具调用", "value": "capabilities.toolCalls", "source": "本文件（支持）" },
+      { "label": "开源与许可", "value": "openness", "source": "本文件（MIT，权重公开）" },
+      { "label": "综合智能指数", "value": "benchmarks/aa.json#intelligenceIndex", "source": "AA（39.46）" },
+      { "label": "综合排名", "value": "benchmarks/aa.json#rankings", "source": "AA（Intelligence #7 / 117）" }
+    ]
+  }
+}

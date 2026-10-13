@@ -1,0 +1,234 @@
+{
+  "$schema": "自描述。按量渠道列表。",
+  "baseline": {
+    "providerId": "anthropic-official",
+    "label": "Anthropic 官方（基准）",
+    "tiers": [
+      {
+        "id": "standard",
+        "label": "标准按量",
+        "usd": {
+          "inputMiss": 10,
+          "inputHit": 0.25,
+          "output": 50
+        }
+      },
+      {
+        "id": "batch",
+        "label": "Batch API (50%)",
+        "usd": {
+          "inputMiss": 5,
+          "inputHit": 0.125,
+          "output": 25
+        }
+      }
+    ]
+  },
+  "channels": [
+    {
+      "providerId": "anthropic-official",
+      "isOfficial": true,
+      "displayName": "Anthropic 官方 API",
+      "tiers": [
+        {
+          "id": "standard",
+          "label": "标准按量",
+          "usd": {
+            "inputMiss": 10,
+            "inputHit": 0.25,
+            "output": 50
+          }
+        },
+        {
+          "id": "batch",
+          "label": "Batch API",
+          "usd": {
+            "inputMiss": 5,
+            "inputHit": 0.125,
+            "output": 25
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1000000,
+        "maxOutputTokens": 128000
+      },
+      "notes": [
+        "官方基准行，支持 prompt cache"
+      ]
+    },
+    {
+      "providerId": "amazon-bedrock",
+      "isOfficial": true,
+      "displayName": "Amazon Bedrock",
+      "tiers": [
+        {
+          "id": "standard",
+          "label": "企业标准",
+          "usd": {
+            "inputMiss": 10,
+            "inputHit": 0.25,
+            "output": 50
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1000000,
+        "maxOutputTokens": 128000
+      },
+      "notes": [
+        "AWS 企业合规通道，快照价 1.00×"
+      ]
+    },
+    {
+      "providerId": "azure-anthropic",
+      "isOfficial": true,
+      "displayName": "Microsoft Azure Anthropic",
+      "tiers": [
+        {
+          "id": "standard",
+          "label": "企业标准",
+          "usd": {
+            "inputMiss": 10,
+            "inputHit": 0.25,
+            "output": 50
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1000000,
+        "maxOutputTokens": 128000
+      },
+      "notes": [
+        "Azure 上的 Anthropic 模型，快照价 1.00×"
+      ]
+    },
+    {
+      "providerId": "google-vertex-anthropic",
+      "displayName": "Google Vertex Anthropic",
+      "tiers": [
+        {
+          "id": "standard",
+          "label": "Vertex 托管",
+          "usd": {
+            "inputMiss": 10,
+            "inputHit": 0.25,
+            "output": 50
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1000000,
+        "maxOutputTokens": 128000
+      },
+      "notes": [
+        "GCP Vertex 托管 Claude，快照价 1.00×"
+      ]
+    },
+    {
+      "providerId": "openrouter",
+      "displayName": "OpenRouter",
+      "tiers": [
+        {
+          "id": "standard",
+          "label": "默认路由",
+          "usd": {
+            "inputMiss": 10,
+            "inputHit": 0.25,
+            "output": 50
+          }
+        },
+        {
+          "id": "batch",
+          "label": "Batch 路由",
+          "usd": {
+            "inputMiss": 5,
+            "inputHit": 0.125,
+            "output": 25
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1000000,
+        "maxOutputTokens": 128000
+      },
+      "notes": [
+        "聚合直通官方 / Bedrock / Azure，同价 (1.00×)"
+      ]
+    },
+    {
+      "providerId": "vercel-gateway",
+      "displayName": "Vercel AI Gateway",
+      "tiers": [
+        {
+          "id": "standard",
+          "label": "标准转发",
+          "usd": {
+            "inputMiss": 10,
+            "inputHit": 0.25,
+            "output": 50
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1000000,
+        "maxOutputTokens": 128000
+      },
+      "notes": [
+        "转发官方接口，1.00×"
+      ]
+    },
+    {
+      "providerId": "nano-gpt",
+      "displayName": "Nano-GPT",
+      "tiers": [
+        {
+          "id": "standard",
+          "label": "加密货币直付",
+          "usd": {
+            "inputMiss": 10,
+            "inputHit": 0.25,
+            "output": 50
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1000000,
+        "maxOutputTokens": 128000
+      },
+      "notes": [
+        "无须信用卡绑定，1.00×"
+      ]
+    },
+    {
+      "providerId": "aihubmix",
+      "displayName": "AIHubMix",
+      "tiers": [
+        {
+          "id": "standard",
+          "label": "国内中继直连",
+          "usd": {
+            "inputMiss": 10.25,
+            "inputHit": 0.2563,
+            "output": 51.25
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1000000,
+        "maxOutputTokens": 128000
+      },
+      "notes": [
+        "微幅溢价约 2.5%"
+      ]
+    }
+  ]
+}

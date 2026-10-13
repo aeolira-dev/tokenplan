@@ -1,0 +1,196 @@
+{
+  "$schema": "自描述。订阅制渠道列表。",
+  "_meta": {
+    "modelSlug": "deepseek-v4-pro",
+    "generatedAt": "2026-10-08",
+    "baselinePrice": "$0.66 / $0.022 / $1.98"
+  },
+  "plans": [
+    {
+      "providerId": "cline-pass",
+      "planId": "monthly",
+      "label": "ClinePass 月度",
+      "fee": {
+        "amount": 9.99,
+        "currency": "USD"
+      },
+      "modelAllowance": {
+        "usd": 49.3,
+        "derivation": "根据月额度折算（旗舰模型消耗配额速率高于 Flash）"
+      },
+      "limits": {
+        "fiveHourUSD": 9.8,
+        "weeklyUSD": 24.6,
+        "monthlyUSD": 49.3
+      },
+      "rollingWindow": false,
+      "softLimit": false,
+      "quotaConversion": {
+        "codingAgentAt874": 6197
+      }
+    },
+    {
+      "providerId": "opencode-go",
+      "planId": "go",
+      "label": "OpenCode Go",
+      "fee": {
+        "amount": 10,
+        "currency": "USD"
+      },
+      "modelAllowance": {
+        "usd": 30,
+        "derivation": "旗舰模型额度按官方对应梯度设置"
+      },
+      "limits": {
+        "fiveHourUSD": 6,
+        "weeklyUSD": 15,
+        "monthlyUSD": 30
+      },
+      "rollingWindow": false,
+      "softLimit": false,
+      "quotaConversion": {
+        "codingAgentAt874": 3771
+      }
+    },
+    {
+      "providerId": "command-code",
+      "planId": "goat",
+      "label": "Command Code GOAT",
+      "fee": {
+        "amount": 10,
+        "currency": "USD"
+      },
+      "modelAllowance": {
+        "usd": 35,
+        "derivation": "GOAT 套餐额度"
+      },
+      "limits": {
+        "fiveHourUSD": 7,
+        "weeklyUSD": 17.5,
+        "monthlyUSD": 35
+      },
+      "rollingWindow": true,
+      "softLimit": false,
+      "quotaConversion": {
+        "codingAgentAt874": 4399
+      }
+    },
+    {
+      "providerId": "command-code",
+      "planId": "go",
+      "label": "Command Code Go",
+      "fee": {
+        "amount": 1,
+        "currency": "USD"
+      },
+      "modelAllowance": {
+        "usd": 5,
+        "derivation": "Go 套餐额度"
+      },
+      "limits": {
+        "fiveHourUSD": 1,
+        "weeklyUSD": 2.5,
+        "monthlyUSD": 5
+      },
+      "rollingWindow": true,
+      "softLimit": false,
+      "quotaConversion": {
+        "codingAgentAt874": 628
+      }
+    },
+    {
+      "providerId": "electron-hub",
+      "planId": "lite",
+      "label": "Electron Hub DevPass Lite",
+      "fee": {
+        "amount": 10,
+        "currency": "USD"
+      },
+      "modelAllowance": null,
+      "softLimit": true,
+      "limits": {
+        "fiveHourUSD": null,
+        "weeklyUSD": null,
+        "monthlyUSD": null
+      },
+      "quotaConversion": {}
+    },
+    {
+      "providerId": "electron-hub",
+      "planId": "turbo",
+      "label": "Electron Hub DevPass Turbo",
+      "fee": {
+        "amount": 20,
+        "currency": "USD"
+      },
+      "modelAllowance": null,
+      "softLimit": true,
+      "limits": {
+        "fiveHourUSD": null,
+        "weeklyUSD": null,
+        "monthlyUSD": null
+      },
+      "quotaConversion": {}
+    },
+    {
+      "providerId": "tencent-token-plan",
+      "planId": "lite",
+      "label": "腾讯云 Token Plan Lite",
+      "fee": {
+        "amount": 39,
+        "currency": "CNY"
+      },
+      "limits": {
+        "monthlyCredits": 780
+      },
+      "quotaConversion": {
+        "codingAgentAt874": 380
+      }
+    },
+    {
+      "providerId": "tencent-token-plan",
+      "planId": "standard",
+      "label": "腾讯云 Token Plan Standard",
+      "fee": {
+        "amount": 99,
+        "currency": "CNY"
+      },
+      "limits": {
+        "monthlyCredits": 2200
+      },
+      "quotaConversion": {
+        "codingAgentAt874": 1080
+      }
+    },
+    {
+      "providerId": "tencent-token-plan",
+      "planId": "pro",
+      "label": "腾讯云 Token Plan Pro",
+      "fee": {
+        "amount": 399,
+        "currency": "CNY"
+      },
+      "limits": {
+        "monthlyCredits": 10000
+      },
+      "quotaConversion": {
+        "codingAgentAt874": 4900
+      }
+    },
+    {
+      "providerId": "tencent-token-plan",
+      "planId": "max",
+      "label": "腾讯云 Token Plan Max",
+      "fee": {
+        "amount": 999,
+        "currency": "CNY"
+      },
+      "limits": {
+        "monthlyCredits": 28000
+      },
+      "quotaConversion": {
+        "codingAgentAt874": 13800
+      }
+    }
+  ]
+}

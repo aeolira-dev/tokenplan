@@ -1,0 +1,323 @@
+{
+  "$schema": "自描述。本文件登记每个数据字段的出处与核验等级。页面上的每个数字都应能通过 sourceId 追到这里的 URL。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "fetchedAtNote": "所有 URL 的抓取时间均为 2026-10-08（Asia/Shanghai）。raw 快照存于 ../raw/2026-10-08/ 与 ../../../raw/_global/2026-10-08/。",
+    "verificationLevels": {
+      "official-doc": "渠道官方文档/定价页直接读到",
+      "api-endpoint": "渠道公开 API 返回值读到",
+      "aggregator": "仅聚合平台列出，官网未逐项证实",
+      "single-source-unverified": "仅第三方单源，未获官方佐证",
+      "personal-measurement": "本机真实账号实测，非公开数据"
+    },
+    "coverageRule": "凡是本页展示的数字，其 sourceId 必须在本文件里出现；找不到出处的数字一律不展示。"
+  },
+
+  "sources": [
+    {
+      "id": "deepseek-pricing-doc",
+      "label": "DeepSeek 官方定价页（简体中文）",
+      "url": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing",
+      "fetchedAt": "2026-10-08",
+      "verification": "official-doc",
+      "rawFile": "deepseek-pricing.zh.html",
+      "covers": ["baseline.tiers.cny", "baseline.peakWindow", "官方渠道 modelIds/limits/capabilities"],
+      "notes": "人民币牌价来源。页面明确「空闲为高峰一半」「高峰 = 北京时间周一至周五 9:00-12:00、14:00-18:00，不含中国法定节假日」。"
+    },
+    {
+      "id": "deepseek-pricing-doc-en",
+      "label": "DeepSeek 官方定价页（英文）",
+      "url": "https://api-docs.deepseek.com/quick_start/pricing",
+      "fetchedAt": "2026-10-08",
+      "verification": "official-doc",
+      "rawFile": "deepseek-pricing.en.html",
+      "covers": ["baseline.tiers.usd"],
+      "notes": "美元牌价来源：Flash 缓存 $0.003/$0.006、输入 $0.15/$0.30、输出 $0.60/$1.20。"
+    },
+    {
+      "id": "aa-model-flash",
+      "label": "Artificial Analysis — DeepSeek V4.1 Flash 模型页",
+      "url": "https://artificialanalysis.ai/models/deepseek-v4-1-flash",
+      "fetchedAt": "2026-10-08",
+      "verification": "api-endpoint",
+      "rawFile": "aa-model-flash.html",
+      "covers": ["benchmarks/aa.json 全部字段（含 rankings 徽章、capabilities 六轴、evaluations、costProfile）"],
+      "notes": "AA 官方 API /api/v2/data/llms/models 返回 401 需 key；改从页面内嵌的 Next.js Flight 数据（self.__next_f 分片）解析，数值与页面渲染一致。页面上的排名徽章（Intelligence #7 / 117 等）另行从同一份 HTML 抓取。"
+    },
+    {
+      "id": "aa-metrics-flash",
+      "label": "AA 指标派生文件（本机从 aa-model-flash 解出）",
+      "url": "https://artificialanalysis.ai/models/deepseek-v4-1-flash",
+      "fetchedAt": "2026-10-08",
+      "verification": "api-endpoint",
+      "rawFile": "aa-metrics-flash.json",
+      "covers": ["model.json 的 speed 字段", "benchmarks/aa.json 的逐评测明细与成本拆分"],
+      "notes": "派生文件，非独立来源；保留它是因为字段层级比原始 HTML 更易读。"
+    },
+    {
+      "id": "aa-peers",
+      "label": "AA 同页 25 个对照模型（本机派生）",
+      "url": "https://artificialanalysis.ai/models/deepseek-v4-1-flash",
+      "fetchedAt": "2026-10-08",
+      "verification": "api-endpoint",
+      "rawFile": "../../../raw/_global/2026-10-08/aa-peers.json",
+      "covers": ["benchmarks/aa.json 的 peers.list"],
+      "notes": "从同页 initialModels 数组抽出，25 个模型的 intelligenceIndex 与 capabilities 同源同口径，可直接并排比较。"
+    },
+    {
+      "id": "lmarena-subleaderboards",
+      "label": "LMArena 分榜数据（经 HuggingFace datasets-server）",
+      "url": "https://datasets-server.huggingface.co/filter?dataset=lmarena-ai/leaderboard-dataset&config=<config>&split=latest&where=\"model_name\"='deepseek-v4.1-flash-max'",
+      "fetchedAt": "2026-10-08",
+      "verification": "api-endpoint",
+      "rawFile": "lmarena-subleaderboards.json",
+      "covers": ["benchmarks/lmarena.json 全部字段"],
+      "notes": "LMArena 官网 API /api/leaderboard 对非浏览器返回 403（Route not allowed）；改走 HuggingFace 上的官方数据集。text 榜 25 类、text_factuality 18 类、webdev 4 类抓取成功。"
+    },
+    {
+      "id": "openrouter-flash-endpoints",
+      "label": "OpenRouter — DeepSeek V4.1 Flash 逐供应商端点",
+      "url": "https://openrouter.ai/api/v1/models/deepseek/deepseek-v4.1-flash/endpoints",
+      "fetchedAt": "2026-10-08",
+      "verification": "api-endpoint",
+      "rawFile": "openrouter-endpoints-flash.json",
+      "covers": ["channels/api.json 的 openrouter.endpoints 全部 30 条", "fireworks / deepinfra / novita / siliconflow / together / venice / baseten / digitalocean 等渠道价的交叉核对"],
+      "notes": "字段含 provider_name / tag（带量化信息）/ pricing{prompt,completion,input_cache_read,overrides} / context_length / max_completion_tokens / quantization / uptime_last_30m / uptime_last_1d / supports_implicit_caching。只有 DeepSeek 官方端点 supports_implicit_caching=true。"
+    },
+    {
+      "id": "openrouter-models",
+      "label": "OpenRouter 全量模型目录",
+      "url": "https://openrouter.ai/api/v1/models",
+      "fetchedAt": "2026-10-08",
+      "verification": "api-endpoint",
+      "rawFile": "../../../raw/_global/2026-10-08/openrouter-models.json",
+      "covers": ["跨模型扩展时的模型索引"],
+      "notes": "本次未直接用于 V4.1-Flash 页，留作 P4 扩展性验证的模型清单来源。"
+    },
+    {
+      "id": "modelsdev",
+      "label": "models.dev 全量模型数据库",
+      "url": "https://models.dev/api.json",
+      "fetchedAt": "2026-10-08",
+      "verification": "aggregator",
+      "rawFile": "../../../raw/_global/2026-10-08/modelsdev.json",
+      "covers": ["302ai / aihubmix / wandb / digitalocean / nebius / baseten / nano-gpt / venice / kilo 等渠道价"],
+      "notes": "226 个 provider。⚠️ 含 252 条 deepseek+flash 条目，其中同名 deepseek-v4-flash 指的是上一代（V4-Flash-0731），价格不同，不可与 V4.1-Flash 混用。"
+    },
+    {
+      "id": "volc-model-pricing",
+      "label": "火山方舟 — 模型价格",
+      "url": "https://docs.volcengine.com/docs/ark/model-pricing",
+      "fetchedAt": "2026-10-08",
+      "verification": "official-doc",
+      "rawFile": "volcengine-model-pricing.md",
+      "covers": ["channels/api.json 的 volcengine-ark"],
+      "notes": "deepseek-v4-1-flash 空闲 输入 1.00 / 缓存 0.02 / 输出 4.00 元，高峰 2.00 / 0.04 / 8.00 元，与官方完全同价；另有一列 0.017 为缓存存储费。"
+    },
+    {
+      "id": "aliyun-bailian-pricing",
+      "label": "阿里云百炼 — 模型大全功能规格与计费",
+      "url": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "fetchedAt": "2026-10-08",
+      "verification": "official-doc",
+      "rawFile": "_probe-aliyun-bailian-price.txt",
+      "covers": ["channels/api.json 的 alibaba-bailian-beijing"],
+      "notes": "华北 2（北京）忙时 输入 2 元 / 输出 8 元，闲时 1 元 / 4 元；忙时 = 8:00-22:00。缓存「享有折扣」但未公布具体数字。免费额度 100 万 token / 90 天。"
+    },
+    {
+      "id": "aliyun-intl-price4",
+      "label": "Alibaba Cloud Model Studio — Billing（国际站英文）",
+      "url": "https://www.alibabacloud.com/help/en/model-studio/billing-for-model-studio",
+      "fetchedAt": "2026-10-08",
+      "verification": "official-doc",
+      "rawFile": "_probe-aliyun-intl-price4.txt",
+      "covers": ["channels/api.json 的 alibaba-bailian-singapore"],
+      "notes": "新加坡 忙时 $0.3 / 闲时 $0.15（输入），输出 $1.2 / $0.6；busy hours = UTC+8 8:00-22:00。法兰克福与香港 Global 部署 $0.283/$1.131。"
+    },
+    {
+      "id": "baidu-qianfan-price",
+      "label": "百度千帆 — 模型服务计费",
+      "url": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
+      "fetchedAt": "2026-10-08",
+      "verification": "official-doc",
+      "rawFile": "_probe-baidu-model-price.txt",
+      "covers": ["channels/api.json 的 baidu-qianfan"],
+      "notes": "DeepSeek-V4.1-Flash：高峰时段（8:00-22:00）输入 0.002 / 命中缓存 0.00004 / 输出 0.008 元每千 token；空闲时段（22:00-次日 8:00）0.001 / 0.00002 / 0.004。已换算为每百万 token。"
+    },
+    {
+      "id": "azure-retail-v4",
+      "label": "Azure Retail Prices API — contains(meterName,'V4.1')",
+      "url": "https://prices.azure.com/api/retail/prices?$filter=contains(meterName,'V4.1')",
+      "fetchedAt": "2026-10-08",
+      "verification": "api-endpoint",
+      "rawFile": "_probe-azure-retail-v4.txt",
+      "covers": ["channels/api.json 的 azure-foundry 全部 6 个档位"],
+      "notes": "⚠️ 关键教训：SKU 名不含「DeepSeek」字样（形如 V4.1 Flash Input Glbl），按 DeepSeek 过滤会漏掉整条原厂直供线。effectiveStartDate 2026-10-01。"
+    },
+    {
+      "id": "azure-retail-flash2",
+      "label": "Azure Retail Prices API — Flash 明细",
+      "url": "https://prices.azure.com/api/retail/prices?$filter=contains(meterName,'V4.1')&$top=200",
+      "fetchedAt": "2026-10-08",
+      "verification": "api-endpoint",
+      "rawFile": "_probe-azure-retail-flash2.txt",
+      "covers": ["channels/api.json 的 azure-foundry 区域数"],
+      "notes": "用于交叉核对区域分布：Global 42 个区域、Data Zone 24 个（美国 9 / 欧洲 13 / usgov 2）、Fireworks 转售线 20 个区域同价。"
+    },
+    {
+      "id": "deepinfra-models-api",
+      "label": "DeepInfra — 模型列表 API",
+      "url": "https://api.deepinfra.com/models/list",
+      "fetchedAt": "2026-10-08",
+      "verification": "api-endpoint",
+      "rawFile": "_probe-deepinfra-models-api.txt",
+      "covers": ["channels/api.json 的 deepinfra"],
+      "notes": "386 个模型。DeepSeek-V4.1-Flash pricing = {discount:0.3, cents_per_input_token:0.00002, cents_per_output_token:0.00006, rate_per_input_token_cached:0.03}，quantization fp8，max_tokens 1048576。"
+    },
+    {
+      "id": "novita-models-api",
+      "label": "Novita AI — 模型列表 API",
+      "url": "https://api.novita.ai/v3/openai/models",
+      "fetchedAt": "2026-10-08",
+      "verification": "api-endpoint",
+      "rawFile": "_probe-novita-models-api.txt",
+      "covers": ["channels/api.json 的 novita"],
+      "notes": "95 个模型。deepseek/deepseek-v4.1-flash input_token_price_per_m=3000 / output=12000（单位 1e-4 USD，即 $0.30/$1.20）。"
+    },
+    {
+      "id": "together-pricing",
+      "label": "Together AI — 模型定价表",
+      "url": "https://www.together.ai/models/deepseek-v4-1-flash",
+      "fetchedAt": "2026-10-08",
+      "verification": "official-doc",
+      "rawFile": "_probe-together-pricing.txt",
+      "covers": ["channels/api.json 的 together"],
+      "notes": "Webflow 页面内嵌表格行：DeepSeek V4.1 Flash $0.30 / $0.006 (cached) / $1.20。页面 Last Published 2026-10-08。"
+    },
+    {
+      "id": "siliconflow-pricing2",
+      "label": "SiliconFlow — 定价页（国际站）",
+      "url": "https://www.siliconflow.com/pricing",
+      "fetchedAt": "2026-10-08",
+      "verification": "official-doc",
+      "rawFile": "_probe-siliconflow-pricing2.txt",
+      "covers": ["channels/api.json 的 siliconflow"],
+      "notes": "DeepSeek-V4.1-Flash 1049K 上下文，输入 $0.15 / 缓存 $0.003 / 输出 $0.6 —— 与官方谷价完全相同，比 OpenRouter 上挂的硅基报价便宜一半。"
+    },
+    {
+      "id": "vercel-flash",
+      "label": "Vercel AI Gateway — DeepSeek V4.1 Flash",
+      "url": "https://vercel.com/ai-gateway/models/deepseek-v4.1-flash",
+      "fetchedAt": "2026-10-08",
+      "verification": "official-doc",
+      "rawFile": "_probe-vercel-flash.txt",
+      "covers": ["channels/api.json 的 vercel-gateway"],
+      "notes": "页面写「30% off，Prices from: Input $0.14, Output $0.42 per 1M tokens」—— 这是路由到最便宜上游后的促销价，非网关固定价。"
+    },
+    {
+      "id": "tencent-tokenhub-doc",
+      "label": "腾讯云 TokenHub — Token Plan 个人版套餐概览",
+      "url": "https://cloud.tencent.com/document/product/1823/130060",
+      "fetchedAt": "2026-10-08",
+      "verification": "official-doc",
+      "rawFile": "_probe-tencent-tokenhub-price.txt",
+      "covers": ["channels/api.json 的 tencent-tokenhub（积分单价）", "channels/subscription.json 的 tencent-token-plan 四档"],
+      "notes": "通用 Token Plan 四档 780/1980/5980/11980 积分 = ¥39/99/299/599。DeepSeek-V4.1-Flash 标注「原厂直供」，Model ID deepseek/deepseek-flash。积分抵扣价 输入 40 / 输出 160 / 缓存命中 0.8 每百万 token。文档更新 2026-09-30。"
+    },
+    {
+      "id": "opencode-go-docs",
+      "label": "OpenCode Go 官方文档",
+      "url": "https://opencode.ai/docs/go",
+      "fetchedAt": "2026-10-08",
+      "verification": "official-doc",
+      "covers": ["channels/subscription.json 的 opencode-go"],
+      "notes": "DeepSeek V4.1 Flash 月限 $60（Off-Peak）/ $60（Peak）；官方预估 5h 26,000 / 周 65,000 / 月 130,000 请求（每请求 410 输入 + 71,300 缓存 + 310 输出）。Go $10 / Go Plus $40。⚠️ 官方把 DeepSeek Harness 列进 Known Problematic clients。",
+      "unverified": "Go Plus 档的该模型月限未公布"
+    },
+    {
+      "id": "clinepass-docs",
+      "label": "ClinePass 官方文档",
+      "url": "https://docs.cline.bot/getting-started/clinepass",
+      "fetchedAt": "2026-10-08",
+      "verification": "official-doc",
+      "covers": ["providers.json 的 cline-pass"],
+      "notes": "月费 $9.99。上游构成未披露。"
+    },
+    {
+      "id": "cline-pass-audit",
+      "label": "ClinePass 本机额度审计（个人实测）",
+      "url": "local://default-workspace/cline-pass-audit.json",
+      "fetchedAt": "2026-10-08",
+      "verification": "personal-measurement",
+      "rawFile": "../observed/cline-usr-01M3.json",
+      "covers": ["observed/cline-usr-01M3.json 全部字段", "channels/subscription.json 的 cline-pass 额度倍数 k=50"],
+      "notes": "⚠️ 个人实测，只属于一个账号。entitlements.cline_pass.inferenceCapThreshold = {last5HoursUsageCostUSDPerUser: 1e9, last7days: 2.5e9, last30days: 5e9}。该模型的额度倍数 k = 50（由多模型回归解出）。"
+    },
+    {
+      "id": "commandcode-pricing",
+      "label": "Command Code — 定价页",
+      "url": "https://commandcode.ai/pricing",
+      "fetchedAt": "2026-10-08",
+      "verification": "official-doc",
+      "covers": ["channels/subscription.json 的 command-code 三档"],
+      "notes": "Go $1/月含 $10 credits；GOAT $10/月含 $70 credits（其中该模型 $60）；Max $100/月含 $150 credits。滚动窗口：Go $2/5h + $5/周，GOAT $14/5h + $35/周，Max $90/5h + $180/周。",
+      "unverified": "Max 档的该模型单模型额度未公布"
+    },
+    {
+      "id": "electronhub-coding-plan",
+      "label": "Electron Hub DevPass — Coding Plan",
+      "url": "https://docs.electronhub.ai/billing/coding-plan",
+      "fetchedAt": "2026-10-08",
+      "verification": "official-doc",
+      "covers": ["providers.json 的 electron-hub", "channels/subscription.json 的 electron-hub 两档"],
+      "notes": "Lite $10 / Turbo $40，「Unlimited tokens. No credits.」无硬额度，超额进慢车道。含 deepseek-v4.1-flash:dev（Standard 1× 权重）。并发槽 Lite 2 / Turbo 5。"
+    },
+    {
+      "id": "cloudflare-models",
+      "label": "Cloudflare Workers AI 模型目录",
+      "url": "https://developers.cloudflare.com/workers-ai/models/",
+      "fetchedAt": "2026-10-08",
+      "verification": "official-doc",
+      "covers": ["channels/api.json 的 cloudflare-workers-ai（available:false）"],
+      "notes": "已核实未上架 DeepSeek-V4.1-Flash；自有目录只有 v4-flash-0731 与 v4-pro-0813。"
+    },
+    {
+      "id": "bedrock-models",
+      "label": "AWS Bedrock 模型目录",
+      "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/models-supported.html",
+      "fetchedAt": "2026-10-08",
+      "verification": "official-doc",
+      "covers": ["channels/api.json 的 aws-bedrock（available:false）"],
+      "notes": "已核实未上架；Bedrock 的 DeepSeek 目录仅 V3.2 / V3.1 / R1。"
+    },
+    {
+      "id": "vals-model-flash",
+      "label": "Vals AI — DeepSeek V4.1 Flash 模型页",
+      "url": "https://www.vals.ai/models/deepseek_deepseek-v4.1-flash",
+      "fetchedAt": "2026-10-08",
+      "verification": "official-doc",
+      "rawFile": "vals-model-flash.html",
+      "covers": ["介绍卡 Vals Index 51.32 ±1.13、#24/45、Cost/Test $0.332", "雷达「知识工作」轴用 Vals Index 原始分"],
+      "notes": "2026-10-08 从 vals.ai 模型页抓取。Vals Index 全榜 45 模，与图灵坐标视频里的 /21 同轮子集不是同一口径。"
+    },
+    {
+      "id": "vertex-partner-models",
+      "label": "Google Vertex AI — partner models",
+      "url": "https://docs.cloud.google.com/vertex-ai/generative-ai/docs/partner-models/use-deepseek-models",
+      "fetchedAt": "2026-10-08",
+      "verification": "official-doc",
+      "covers": ["channels/api.json 的 google-vertex（available:false）"],
+      "notes": "已核实未上架；partner-models 仅 V3.2 / V3.1 / R1-0528 / OCR。"
+    }
+  ],
+
+  "knownGaps": [
+    { "field": "阿里云百炼的缓存命中价", "reason": "官方只写「上下文缓存享有折扣」，未公布数字", "impact": "该行倍数列的缓存维度无法计算" },
+    { "field": "腾讯云 TokenHub 的积分→人民币换算率", "reason": "官方未公布积分与本币的对应关系", "impact": "该行无法给出与官方相比的倍数，只能显示「积分计价」" },
+    { "field": "Nebius 的缓存价", "reason": "models.dev 报 cache_read=0.3（等于输入价，即无折扣），与其它渠道普遍 $0.006 差异极大", "impact": "上线前需向 Nebius 复核，否则该行成本会严重高估" },
+    { "field": "Fireworks 官网逐模型价", "reason": "定价页为 JS 渲染，未从官网直接读到", "impact": "价格来自 OpenRouter 端点与 models.dev 两处一致，属 aggregator 级" },
+    { "field": "Azure 该模型的上下文/最大输出", "reason": "Azure 零售价 API 只给价格，不给模型规格", "impact": "该行 limits 为空，需从 Azure 模型卡另行核实" },
+    { "field": "LMArena agent / vision / search 子榜", "reason": "该模型未出现在这些子榜（返回 0 行）", "impact": "第二部分只能展示 text / text_factuality / webdev 三个榜" },
+    { "field": "AA 的 indexComposition 权重", "reason": "权重口径来自工作区文档《大模型榜单说明书.md》，未从 AA 页面直接抓到", "impact": "已标注为 single-source-unverified" }
+  ]
+}

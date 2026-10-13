@@ -1,0 +1,150 @@
+{
+  "$schema": "自描述。模型身份层。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "sources": [
+      "aa-peers",
+      "openrouter-models",
+      "modelsdev"
+    ]
+  },
+  "slug": "gemini-4-argon",
+  "displayName": "Gemini 4 Argon (High)",
+  "vendor": "google",
+  "vendorDisplay": "Google DeepMind",
+  "family": "Gemini",
+  "tier": "旗舰",
+  "apiModelIds": {
+    "official": "gemini-4-argon"
+  },
+  "release": {
+    "date": "2026-09-30",
+    "knowledgeCutoff": null,
+    "deprecated": false
+  },
+  "openness": {
+    "openWeights": false,
+    "license": "Proprietary",
+    "opennessIndex": 0
+  },
+  "architecture": {
+    "sizeClass": "frontier-multimodal"
+  },
+  "limits": {
+    "contextTokens": 1000000,
+    "maxOutputTokens": 128000
+  },
+  "capabilities": {
+    "reasoning": {
+      "supported": true,
+      "default": true
+    },
+    "vision": true,
+    "toolCalls": true,
+    "jsonOutput": true,
+    "inputModalities": [
+      "text",
+      "image",
+      "audio",
+      "video"
+    ],
+    "outputModalities": [
+      "text"
+    ]
+  },
+  "speed": {
+    "timePerTaskSec": null,
+    "outputTokensPerTask": 61557.626207648
+  },
+  "baseline": {
+    "providerId": "google-ai-studio",
+    "currency": "USD",
+    "unit": "per 1M tokens",
+    "tiers": [
+      {
+        "id": "standard",
+        "label": "标准按量",
+        "usd": {
+          "inputMiss": 2,
+          "inputHit": 0.1,
+          "output": 10
+        }
+      },
+      {
+        "id": "batch",
+        "label": "Batch API (50%)",
+        "usd": {
+          "inputMiss": 1,
+          "inputHit": 0.05,
+          "output": 5
+        }
+      }
+    ]
+  },
+  "card": {
+    "radar": {
+      "shape": "hexagon",
+      "axesCount": 6,
+      "axes": [
+        {
+          "key": "engineering",
+          "label": "工程",
+          "value": 55.2171693400977,
+          "estimated": false
+        },
+        {
+          "key": "legal",
+          "label": "法律",
+          "value": 60.0248854063997,
+          "estimated": false
+        },
+        {
+          "key": "strategyAndOps",
+          "label": "战略与运营",
+          "value": 56.2412007125334,
+          "estimated": false
+        },
+        {
+          "key": "financeAndAccounting",
+          "label": "财会",
+          "value": 53.7918313752975,
+          "estimated": false
+        },
+        {
+          "key": "economics",
+          "label": "经济",
+          "value": 60.4193601521471,
+          "estimated": false
+        },
+        {
+          "key": "healthcareAndMedical",
+          "label": "医疗健康",
+          "value": 57.138889397295074,
+          "estimated": true
+        }
+      ]
+    }
+  },
+  "page": {
+    "file": "gemini-4-argon.html",
+    "title": "Gemini 4 Argon",
+    "pills": [
+      {
+        "cls": "reason",
+        "text": "旗舰多模态"
+      },
+      {
+        "cls": "open",
+        "text": "闭源"
+      }
+    ],
+    "endpointPattern": "gemini-4-argon",
+    "metric1": {
+      "en": "AA Cost / Task",
+      "zh": "对照集任务成本",
+      "highlight": "cost",
+      "note": "High 档；本快照无 models.dev 端点"
+    },
+    "specialty": "Gemini 4 旗舰；AA Index 53（high）"
+  }
+}

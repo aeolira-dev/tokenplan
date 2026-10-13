@@ -1,0 +1,130 @@
+{
+  "$schema": "自描述。模型身份层。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "sources": [
+      "google-ai-doc",
+      "aa-peers"
+    ]
+  },
+  "slug": "gemini-3.8-flash",
+  "displayName": "Gemini 3.8 Flash (High)",
+  "vendor": "google",
+  "vendorDisplay": "Google DeepMind",
+  "family": "Gemini",
+  "tier": "轻量高速（flash）",
+  "apiModelIds": {
+    "official": "gemini-3.8-flash",
+    "vertex": "gemini-3.8-flash@001"
+  },
+  "release": {
+    "date": "2026-08-20",
+    "knowledgeCutoff": "2026-03",
+    "deprecated": false
+  },
+  "openness": {
+    "openWeights": false,
+    "license": "Proprietary",
+    "opennessIndex": 0
+  },
+  "architecture": {
+    "sizeClass": "fast-multimodal",
+    "moe": true
+  },
+  "limits": {
+    "contextTokens": 1048576,
+    "maxOutputTokens": 65536,
+    "concurrencyLimit": 2000
+  },
+  "capabilities": {
+    "reasoning": {
+      "supported": true,
+      "default": true
+    },
+    "vision": true,
+    "audio": true,
+    "video": true,
+    "toolCalls": true,
+    "jsonOutput": true,
+    "webSearch": {
+      "supported": true,
+      "note": "Google Search Grounding 原生内置"
+    },
+    "inputModalities": [
+      "text",
+      "image",
+      "audio",
+      "video"
+    ],
+    "outputModalities": [
+      "text"
+    ]
+  },
+  "speed": {
+    "outputTokensPerSecond": 195.4,
+    "timeToFirstChunkSeconds": 0.62
+  },
+  "baseline": {
+    "providerId": "google-ai-studio",
+    "currency": "USD",
+    "unit": "per 1M tokens",
+    "tiers": [
+      {
+        "id": "standard",
+        "label": "标准按量",
+        "usd": {
+          "inputMiss": 0.75,
+          "inputHit": 0.075,
+          "output": 3.75
+        }
+      },
+      {
+        "id": "batch",
+        "label": "Batch API (50% 折扣)",
+        "usd": {
+          "inputMiss": 0.375,
+          "inputHit": 0.0375,
+          "output": 1.875
+        }
+      }
+    ]
+  },
+  "card": {
+    "radar": {
+      "shape": "hexagon",
+      "axesCount": 6,
+      "axes": [
+        {
+          "key": "financeAndAccounting",
+          "label": "财会",
+          "value": 46.76
+        },
+        {
+          "key": "strategyAndOps",
+          "label": "战略与运营",
+          "value": 48.4
+        },
+        {
+          "key": "legal",
+          "label": "法律",
+          "value": 51.63
+        },
+        {
+          "key": "healthcareAndMedical",
+          "label": "医疗健康",
+          "value": 41.78
+        },
+        {
+          "key": "engineering",
+          "label": "工程",
+          "value": 42.81
+        },
+        {
+          "key": "economics",
+          "label": "经济",
+          "value": 52.36
+        }
+      ]
+    }
+  }
+}

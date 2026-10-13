@@ -1,0 +1,116 @@
+{
+  "$schema": "自描述。模型身份层；价格在 channels/，榜单在 benchmarks/，出处登记在 sources.json。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "sources": ["glm-official-model", "aa-glm-5-3-flash"]
+  },
+  "slug": "glm-5.3-flash",
+  "displayName": "GLM-5.3-Flash",
+  "vendor": "zhipu",
+  "vendorDisplay": "智谱 AI / Z.ai",
+  "family": "GLM-5.3",
+  "tier": "轻量高速原生多模态",
+  "apiModelIds": {
+    "official": "glm-5.3-flash",
+    "flashX": "glm-5.3-flashx",
+    "aliasNote": "FlashX 是官方高速变体；本页仅对照 GLM-5.3-Flash。"
+  },
+  "release": {
+    "date": "2026-08-26",
+    "knowledgeCutoff": null,
+    "deprecated": false
+  },
+  "openness": {
+    "openWeights": true,
+    "license": "MIT",
+    "weightsUrl": "https://huggingface.co/zai-org/GLM-5.3-Flash",
+    "opennessIndex": null
+  },
+  "architecture": {
+    "totalParametersB": 320,
+    "activeParametersB": 18,
+    "sizeClass": "large-moe",
+    "moe": true,
+    "note": "官方模型页给出总参数 320B、激活参数 18B。"
+  },
+  "limits": {
+    "contextTokens": 1000000,
+    "maxOutputTokens": 128000,
+    "concurrencyLimit": null,
+    "note": "官方模型页口径：上下文 1M，最大输出 128K。"
+  },
+  "capabilities": {
+    "reasoning": {
+      "supported": true,
+      "default": true,
+      "note": "支持思考与非思考模式。"
+    },
+    "vision": true,
+    "toolCalls": true,
+    "jsonOutput": true,
+    "responsesApi": false,
+    "anthropicApi": true,
+    "chatPrefixCompletion": false,
+    "fimCompletion": { "supported": false },
+    "webSearch": { "supported": true, "note": "以官方支持的工具/产品环境为准。" },
+    "inputModalities": ["text", "image", "video", "audio", "file"],
+    "outputModalities": ["text"]
+  },
+  "speed": {
+    "_source": "aa-glm-5-3-flash",
+    "outputTokensPerSecond": null,
+    "timeToFirstChunkSeconds": null,
+    "timePerTaskSec": 1035.4483850444958,
+    "outputTokensPerTask": 68673.15205651642,
+    "note": "本地 AA 对照快照提供任务时长与输出量，未提供独立 tok/s；不要将 FlashX 官方‘最高 200 tokens/s’套用至本型号。"
+  },
+  "baseline": {
+    "providerId": "zhipu-official",
+    "currency": "CNY",
+    "unit": "per 1M tokens",
+    "tiers": [
+      {
+        "id": "standard",
+        "label": "标准按量",
+        "inputMiss": 0.8,
+        "inputHit": 0.23,
+        "output": 2.8,
+        "cny": { "inputMiss": 0.8, "inputHit": 0.23, "output": 2.8 }
+      }
+    ]
+  },
+  "card": {
+    "radar": {
+      "shape": "hexagon",
+      "axesCount": 6,
+      "axes": [
+        { "key": "financeAndAccounting", "label": "财会", "value": 41.9617901866044 },
+        { "key": "strategyAndOps", "label": "战略与运营", "value": 45.1369080014028 },
+        { "key": "legal", "label": "法律", "value": 39.9056902335994 },
+        { "key": "healthcareAndMedical", "label": "医疗健康", "value": 44.8426192521491 },
+        { "key": "engineering", "label": "工程", "value": 43.8299853211046 },
+        { "key": "economics", "label": "经济", "value": 48.8783500926784 }
+      ]
+    }
+  },
+  "page": {
+    "file": "glm-5.3-flash.html",
+    "title": "GLM-5.3 Flash",
+    "endpointPattern": "(?:glm-5[.-]3[.-]flash|glm-5\\.3-flash)",
+    "pills": [
+      { "cls": "reason", "text": "轻量高速" },
+      { "cls": "open", "text": "开源 MIT" },
+      { "cls": "vision", "text": "原生多模态" }
+    ],
+    "metric1": {
+      "en": "AA Cost / Task",
+      "zh": "对照集任务成本",
+      "num": "$0.25",
+      "sub": "AA Intelligence Index 任务",
+      "rankNum": "—",
+      "rankTotal": "—",
+      "barPct": "—"
+    },
+    "specialty": "原生多模态轻量线；320B-A18B，适合代码与长上下文 Agent"
+  }
+}

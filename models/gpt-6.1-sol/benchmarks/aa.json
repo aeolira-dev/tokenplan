@@ -1,0 +1,57 @@
+{
+  "$schema": "自描述。AA 榜单口径评测结果。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "sourceRefs": [
+      "aa-peers"
+    ]
+  },
+  "boards": {
+    "artificialAnalysis": {
+      "displayName": "Artificial Analysis",
+      "indexName": "Artificial Analysis Intelligence Index",
+      "indexVersion": "v4.3.2",
+      "modelEntryName": "GPT-6.1 Sol (Max)",
+      "intelligenceIndex": 51.8332597011541,
+      "rankings": [
+        {
+          "key": "intelligence",
+          "label": "Intelligence",
+          "rank": 3,
+          "of": 117,
+          "note": "仅次于 Opus 5.5 与 Astra"
+        },
+        {
+          "key": "speed",
+          "label": "Speed",
+          "rank": 11,
+          "of": 117,
+          "note": "112 tok/s"
+        },
+        {
+          "key": "cost",
+          "label": "Cost",
+          "rank": 32,
+          "of": 117,
+          "note": "$0.72/任务"
+        }
+      ],
+      "capabilities": {
+        "financeAndAccounting": 53.9844924520062,
+        "strategyAndOps": 56.9785355034937,
+        "legal": 57.6948991540986,
+        "healthcareAndMedical": 51.1786037255156,
+        "engineering": 53.9031392342597,
+        "economics": 59.2824044253939
+      },
+      "costProfile": {
+        "price1mInputTokens": 2,
+        "price1mOutputTokens": 10,
+        "cacheHitPrice": 0.1,
+        "price1mBlended7To2To1": 1.47,
+        "costPerTaskUSD": 0.72417,
+        "timePerTaskSec": 686.7
+      }
+    }
+  }
+}

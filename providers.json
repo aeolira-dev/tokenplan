@@ -1,0 +1,621 @@
+{
+  "_meta": {
+    "purpose": "渠道身份层：只放不随模型变化的字段（月费、官网、上游路由策略、限额类型、API 暴露情况）。随模型变化的字段（价格、额度倍数 k、该模型在渠道上的 context/max_output）放在 models/<slug>/channels/ 下。",
+    "boundaryRule": "随模型变化的 → 模型文件夹；不随模型变化的 → 本文件。",
+    "fxRates": { "USD_CNY": 7.1, "asOf": "2026-10-08", "note": "人民币折算统一用此汇率，页面需标注" },
+    "verificationLevels": {
+      "official-doc": "渠道官方文档页/API 直接核实",
+      "api-endpoint": "渠道公开 API 端点返回值核实",
+      "aggregator": "仅聚合平台（OpenRouter/models.dev 等）列出，官网未证",
+      "single-source-unverified": "仅第三方单源，未获官方佐证"
+    },
+    "byModelFields": ["tiers（价格与峰谷窗口）", "quotaMultiple（额度倍数 k）", "quota（该模型折算额度）", "limits.contextTokens", "limits.maxOutputTokens", "notes 中与模型相关者"]
+  },
+
+  "providers": {
+    "zhipu-official": {
+      "displayName": "智谱开放平台官方 API",
+      "shortName": "智谱官方",
+      "vendor": "Z.ai",
+      "type": "api",
+      "official": true,
+      "docs": "https://docs.bigmodel.cn/cn/guide/start/pricing.md",
+      "api": { "exposed": true, "baseUrl": "https://open.bigmodel.cn/api/paas/v4", "authEnv": "ZHIPUAI_API_KEY" },
+      "billing": { "kind": "per-token", "currency": "CNY", "peakValley": false },
+      "notes": ["模型相关价格与额度存于 models/<slug>/channels/；GLM-5.3-Flash 价格以官方文档为准"],
+      "sources": ["glm-official-pricing"]
+    },
+    "zhipu-coding-plan": {
+      "displayName": "GLM Coding Plan",
+      "shortName": "GLM Plan",
+      "vendor": "Z.ai",
+      "type": "subscription",
+      "official": true,
+      "docs": "https://docs.bigmodel.cn/cn/coding-plan/overview",
+      "billing": { "kind": "token-credit", "currency": "CNY", "creditUnit": "积分" },
+      "notes": ["5 小时与每周积分窗口、模型系数随模型变化，见模型 channels/subscription.json"],
+      "sources": ["glm-coding-plan-overview"]
+    },
+    "moonshot-official": {
+      "displayName": "Moonshot AI 官方 API",
+      "shortName": "Kimi 官方",
+      "vendor": "Moonshot AI",
+      "type": "api",
+      "official": true,
+      "docs": "https://platform.kimi.ai/docs/pricing/chat.md",
+      "api": { "exposed": true, "baseUrl": "https://api.moonshot.ai/v1", "authEnv": "MOONSHOT_API_KEY" },
+      "billing": { "kind": "per-token", "currency": "USD", "peakValley": false },
+      "notes": ["Kimi K3 cache write 与 cache hit 分开计费，模型相关价格见 channels/api.json"],
+      "sources": ["kimi-k3-official-pricing"]
+    },
+    "stepfun-official": {
+      "displayName": "阶跃星辰 StepFun 官方 API",
+      "shortName": "StepFun 官方",
+      "vendor": "StepFun",
+      "type": "api",
+      "official": true,
+      "docs": "https://platform.stepfun.ai/docs/en/guides/pricing/details.md",
+      "api": { "exposed": true, "baseUrl": "https://api.stepfun.com/v1", "authEnv": "STEPFUN_API_KEY" },
+      "billing": { "kind": "per-token", "currency": "USD", "peakValley": false },
+      "notes": ["Step 5 Preview 官方价格与模型相关限制见 channels/api.json"],
+      "sources": ["step-5-official-pricing"]
+    },
+    "xiaomi-mimo-official": {
+      "displayName": "小米 MiMo 官方国内 API",
+      "shortName": "MiMo 官方",
+      "vendor": "Xiaomi MiMo",
+      "type": "api",
+      "official": true,
+      "docs": "https://mimo.mi.com/docs/zh-CN/price/pay-as-you-go",
+      "api": { "exposed": true, "baseUrl": "https://api.mimo.mi.com/v1", "authEnv": "MIMO_API_KEY" },
+      "billing": { "kind": "per-token", "currency": "CNY", "peakValley": false },
+      "notes": ["MiMo-V2.6-Pro 国内标准/批量价格见 channels/api.json"],
+      "sources": ["mimo-v2.6-official-pricing"]
+    },
+    "xiaomi-mimo-token-plan": {
+      "displayName": "MiMo Token Plan",
+      "shortName": "MiMo Plan",
+      "vendor": "Xiaomi MiMo",
+      "type": "subscription",
+      "official": true,
+      "docs": "https://mimo.mi.com/docs/en-US/news/latest/token-plan-release",
+      "billing": { "kind": "token-credit", "currency": "CNY", "creditUnit": "credits" },
+      "notes": ["历史 Token Plan 参考额度见模型 channels/subscription.json；Token Plan 与按量 API 不互通"],
+      "sources": ["mimo-token-plan-history"]
+    },
+    "deepseek-official": {
+      "displayName": "DeepSeek 官方",
+      "shortName": "官方",
+      "vendor": "DeepSeek",
+      "type": "api",
+      "official": true,
+      "docs": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing",
+      "api": { "exposed": true, "baseUrl": "https://api.deepseek.com", "anthropicBaseUrl": "https://api.deepseek.com/anthropic", "authEnv": "DEEPSEEK_API_KEY" },
+      "billing": { "kind": "per-token", "currency": "USD", "peakValley": true },
+      "notes": ["基准渠道，与官方价格相比恒为 1x", "官方人民币牌价与美元牌价并存，需声明口径"],
+      "sources": ["deepseek-pricing-doc", "deepseek-pricing-doc-en", "openrouter-flash-endpoints"]
+    },
+
+    "alibaba-bailian-beijing": {
+      "displayName": "阿里云百炼·北京",
+      "shortName": "百炼北京",
+      "vendor": "Alibaba Cloud",
+      "type": "api",
+      "official": false,
+      "docs": "https://help.aliyun.com/zh/model-studio/",
+      "api": { "exposed": true, "baseUrl": "https://dashscope.aliyuncs.com/compatible-mode/v1", "authEnv": "DASHSCOPE_API_KEY" },
+      "billing": { "kind": "per-token", "currency": "CNY", "peakValley": true },
+      "notes": ["峰谷时段与官方不同（忙 08:00–22:00、错峰 22:00–次日 08:00）", "不支持前缀续写 / 批量推理 / 微调"],
+      "sources": ["alibaba-bailian-doc"]
+    },
+
+    "alibaba-bailian-singapore": {
+      "displayName": "阿里云百炼·新加坡",
+      "shortName": "百炼新加坡",
+      "vendor": "Alibaba Cloud",
+      "type": "api",
+      "official": false,
+      "docs": "https://www.alibabacloud.com/help/en/model-studio/",
+      "api": { "exposed": true, "baseUrl": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1", "authEnv": "DASHSCOPE_API_KEY" },
+      "billing": { "kind": "per-token", "currency": "USD", "peakValley": true },
+      "notes": ["国际站口径；价格与缓存价均按美元计"],
+      "sources": ["alibaba-intl-doc"]
+    },
+
+    "volcengine-ark": {
+      "displayName": "火山方舟",
+      "shortName": "火山",
+      "vendor": "ByteDance",
+      "type": "api",
+      "official": false,
+      "docs": "https://docs.volcengine.com/docs/ark/model-pricing",
+      "api": { "exposed": true, "baseUrl": "https://ark.cn-beijing.volces.com/api/v3", "authEnv": "ARK_API_KEY" },
+      "billing": { "kind": "per-token", "currency": "CNY", "peakValley": true },
+      "notes": ["峰谷时段与官方一致，但按请求完成时间判定（官方按收到请求时间）", "另收缓存存储费"],
+      "sources": ["volc-model-pricing"]
+    },
+
+    "tencent-tokenhub": {
+      "displayName": "腾讯云 TokenHub",
+      "shortName": "腾讯",
+      "vendor": "Tencent Cloud",
+      "type": "api",
+      "official": false,
+      "docs": "https://cloud.tencent.com/document/product/1823",
+      "api": { "exposed": true, "baseUrl": "https://api.lkeap.cloud.tencent.com/v3", "authEnv": "TENCENT_API_KEY" },
+      "billing": { "kind": "per-token", "currency": "USD", "peakValley": true },
+      "notes": ["峰谷按收到请求时间判定，与原厂同价", "标注「原厂直供」"],
+      "sources": ["tencent-tokenhub-doc"]
+    },
+
+    "baidu-qianfan": {
+      "displayName": "百度千帆",
+      "shortName": "千帆",
+      "vendor": "Baidu",
+      "type": "api",
+      "official": false,
+      "docs": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
+      "api": { "exposed": true, "baseUrl": "https://qianfan.baidubce.com/v2", "authEnv": "QIANFAN_API_KEY" },
+      "billing": { "kind": "per-token", "currency": "CNY", "peakValley": true },
+      "notes": ["高峰 08:00–22:00、空闲 22:00–08:00，时段划分与官方不同"],
+      "sources": ["baidu-qianfan-doc"]
+    },
+
+    "azure-foundry": {
+      "displayName": "微软 Azure (Foundry)",
+      "shortName": "Azure",
+      "vendor": "Microsoft",
+      "type": "api",
+      "official": false,
+      "docs": "https://learn.microsoft.com/en-us/azure/foundry/how-to/fireworks/enable-fireworks-models",
+      "api": { "exposed": true, "baseUrl": "https://<resource>.services.ai.azure.com/models", "authEnv": "AZURE_AI_KEY" },
+      "billing": { "kind": "per-token", "currency": "USD", "peakValley": false },
+      "productLines": [
+        { "id": "deepseek-models", "label": "Azure Deepseek Models（原厂直供）", "regionTiers": ["Global", "Data Zone"] },
+        { "id": "fireworks-models", "label": "Azure Fireworks Models（转售）", "resaleChain": ["fireworks"] }
+      ],
+      "notes": [
+        "⚠️ 有两条独立产品线：Azure Deepseek Models（原厂直供，2026-10-01 生效）与 Azure Fireworks Models（经 Fireworks 转售）",
+        "原厂 Global 档 $0.30/$1.20/缓存 $0.006 与官方美元峰价一致；Data Zone 档更贵，usgov 区域最贵",
+        "转售线 $0.375/$0.008/$1.50，比 Fireworks 自身 Standard 档贵 25%",
+        "无峰谷，价格恒定 —— 因此对官方谷价是 2x，对官方峰价是 1x",
+        "⚠️ Azure 零售价 API 的 SKU 名不含「DeepSeek」字样（形如 V4.1 Flash Input Glbl），按 DeepSeek 关键字过滤会漏掉整个原厂线"
+      ],
+      "sources": ["azure-retail-api", "azure-retail-v4", "azure-retail-flash2"]
+    },
+
+    "siliconflow": {
+      "displayName": "SiliconFlow 硅基流动",
+      "shortName": "硅基",
+      "vendor": "SiliconFlow",
+      "type": "api",
+      "official": false,
+      "docs": "https://www.siliconflow.com/pricing",
+      "api": { "exposed": true, "baseUrl": "https://api.siliconflow.com/v1", "authEnv": "SILICONFLOW_API_KEY" },
+      "billing": { "kind": "per-token", "currency": "USD", "peakValley": false },
+      "notes": ["官网直售价低于 OpenRouter 上挂的硅基报价"],
+      "sources": ["siliconflow-pricing"]
+    },
+
+    "fireworks": {
+      "displayName": "Fireworks AI",
+      "shortName": "Fireworks",
+      "vendor": "Fireworks AI",
+      "type": "api",
+      "official": false,
+      "docs": "https://docs.fireworks.ai/serverless/pricing",
+      "api": { "exposed": true, "baseUrl": "https://api.fireworks.ai/inference/v1", "authEnv": "FIREWORKS_API_KEY" },
+      "billing": { "kind": "per-token", "currency": "USD", "peakValley": false },
+      "notes": ["分 Standard / Priority / US 三档定价", "Azure 的 DeepSeek 即由其转售"],
+      "sources": ["fireworks-pricing"]
+    },
+
+    "together": {
+      "displayName": "Together AI",
+      "shortName": "Together",
+      "vendor": "Together AI",
+      "type": "api",
+      "official": false,
+      "docs": "https://docs.together.ai/docs/serverless-models",
+      "api": { "exposed": true, "baseUrl": "https://api.together.xyz/v1", "authEnv": "TOGETHER_API_KEY" },
+      "billing": { "kind": "per-token", "currency": "USD", "peakValley": false },
+      "notes": ["FP8 量化"],
+      "sources": ["together-models"]
+    },
+
+    "deepinfra": {
+      "displayName": "DeepInfra",
+      "shortName": "DeepInfra",
+      "vendor": "DeepInfra",
+      "type": "api",
+      "official": false,
+      "docs": "https://deepinfra.com/pricing",
+      "api": { "exposed": true, "baseUrl": "https://api.deepinfra.com/v1/openai", "authEnv": "DEEPINFRA_API_KEY" },
+      "billing": { "kind": "per-token", "currency": "USD", "peakValley": false },
+      "notes": ["常驻折扣（标价与折后价需区分展示）"],
+      "sources": ["deepinfra-models"]
+    },
+
+    "wandb-inference": {
+      "displayName": "W&B Inference",
+      "shortName": "W&B",
+      "vendor": "Weights & Biases",
+      "type": "api",
+      "official": false,
+      "docs": "https://site.wandb.ai/inference-model/deepseek_deepseek-v4.1-flash/",
+      "api": { "exposed": true, "baseUrl": "https://api.inference.wandb.ai/v1", "authEnv": "WANDB_API_KEY" },
+      "billing": { "kind": "per-token", "currency": "USD", "peakValley": false },
+      "notes": ["缓存读价显著高于同行（0.03）"],
+      "sources": ["wandb-model"]
+    },
+
+    "novita": {
+      "displayName": "Novita AI",
+      "shortName": "Novita",
+      "vendor": "Novita",
+      "type": "api",
+      "official": false,
+      "docs": "https://novita.ai/pricing",
+      "api": { "exposed": true, "baseUrl": "https://api.novita.ai/v3/openai", "authEnv": "NOVITA_API_KEY" },
+      "billing": { "kind": "per-token", "currency": "USD", "peakValley": false },
+      "notes": ["官网直接标价，与 OpenRouter 挂价一致"],
+      "sources": ["novita-pricing"]
+    },
+
+    "nebius": {
+      "displayName": "Nebius AI Studio",
+      "shortName": "Nebius",
+      "vendor": "Nebius",
+      "type": "api",
+      "official": false,
+      "docs": "https://tokenfactory.nebius.com/model-catalog",
+      "api": { "exposed": true, "baseUrl": "https://api.studio.nebius.ai/v1", "authEnv": "NEBIUS_API_KEY" },
+      "billing": { "kind": "per-token", "currency": "USD", "peakValley": false },
+      "notes": ["不提供独立缓存读写价（数据层显式 null，不填 0）"],
+      "sources": ["nebius-catalog"]
+    },
+
+    "digitalocean": {
+      "displayName": "DigitalOcean Gradient",
+      "shortName": "DO",
+      "vendor": "DigitalOcean",
+      "type": "api",
+      "official": false,
+      "docs": "https://docs.digitalocean.com/products/gradient-ai-platform/details/pricing/",
+      "api": { "exposed": true, "baseUrl": "https://inference.do-ai.run/v1", "authEnv": "DO_API_KEY" },
+      "billing": { "kind": "per-token", "currency": "USD", "peakValley": false },
+      "notes": [],
+      "sources": ["digitalocean-pricing"]
+    },
+
+    "vercel-gateway": {
+      "displayName": "Vercel AI Gateway",
+      "shortName": "Vercel",
+      "vendor": "Vercel",
+      "type": "api",
+      "official": false,
+      "docs": "https://vercel.com/docs/ai-gateway",
+      "api": { "exposed": true, "baseUrl": "https://ai-gateway.vercel.sh/v1", "authEnv": "AI_GATEWAY_API_KEY" },
+      "billing": { "kind": "per-token", "currency": "USD", "peakValley": false },
+      "notes": ["网关型服务，max_output 常被显著下调，需逐模型核对"],
+      "sources": ["vercel-models"]
+    },
+
+    "aihubmix": {
+      "displayName": "AIHubMix",
+      "shortName": "AIHubMix",
+      "vendor": "AIHubMix",
+      "type": "api",
+      "official": false,
+      "aggregator": true,
+      "docs": "https://aihubmix.com/model/deepseek-v4.1-flash",
+      "api": { "exposed": true, "baseUrl": "https://aihubmix.com/v1", "authEnv": "AIHUBMIX_API_KEY" },
+      "billing": { "kind": "per-token", "currency": "USD", "peakValley": false },
+      "notes": ["聚合平台，价格接近官方人民币牌价折算值"],
+      "sources": ["aihubmix-model"]
+    },
+
+    "302ai": {
+      "displayName": "302.AI",
+      "shortName": "302",
+      "vendor": "302.AI",
+      "type": "api",
+      "official": false,
+      "aggregator": true,
+      "docs": "https://302.ai/product/detail/deepseek-v4.1-flash",
+      "api": { "exposed": true, "baseUrl": "https://api.302.ai/v1", "authEnv": "302AI_API_KEY" },
+      "billing": { "kind": "per-token", "currency": "USD", "peakValley": false },
+      "notes": ["聚合平台，起步价与官方一致，实际按量阶梯需以控制台为准"],
+      "sources": ["302ai-model"]
+    },
+
+    "openrouter": {
+      "displayName": "OpenRouter",
+      "shortName": "OpenRouter",
+      "vendor": "OpenRouter",
+      "type": "api",
+      "official": false,
+      "aggregator": true,
+      "multiEndpoint": true,
+      "docs": "https://openrouter.ai/docs",
+      "api": { "exposed": true, "baseUrl": "https://openrouter.ai/api/v1", "authEnv": "OPENROUTER_API_KEY" },
+      "billing": { "kind": "per-token", "currency": "USD", "peakValley": false },
+      "notes": ["聚合平台，其下每个 provider 端点价格/上下文/max_output 各不相同，需展开为子表", "页面展开明细来自 detailRef"],
+      "sources": ["openrouter-flash-endpoints"]
+    },
+
+    "cloudflare-workers-ai": {
+      "displayName": "Cloudflare Workers AI",
+      "shortName": "Cloudflare",
+      "vendor": "Cloudflare",
+      "type": "api",
+      "official": false,
+      "available": false,
+      "docs": "https://developers.cloudflare.com/workers-ai/models/",
+      "billing": { "kind": "per-token", "currency": "USD", "peakValley": false },
+      "notes": ["自有模型目录中无该模型条目（仅有 v4-flash-0731 / v4-pro-0813）；AI Gateway 可作代理但非目录内供应商"],
+      "sources": ["cloudflare-models"]
+    },
+
+    "aws-bedrock": {
+      "displayName": "AWS Bedrock",
+      "shortName": "Bedrock",
+      "vendor": "Amazon",
+      "type": "api",
+      "official": false,
+      "available": false,
+      "docs": "https://docs.aws.amazon.com/bedrock/latest/userguide/models-supported.html",
+      "billing": { "kind": "per-token", "currency": "USD", "peakValley": false },
+      "notes": ["已核实未上架该模型（DeepSeek 目录仅 V3.2 / V3.1 / R1）"],
+      "sources": ["aws-bedrock-models"]
+    },
+
+    "google-vertex": {
+      "displayName": "Google Vertex AI",
+      "shortName": "Vertex",
+      "vendor": "Google",
+      "type": "api",
+      "official": false,
+      "available": false,
+      "docs": "https://docs.cloud.google.com/vertex-ai/generative-ai/docs/partner-models/use-deepseek-models",
+      "billing": { "kind": "per-token", "currency": "USD", "peakValley": false },
+      "notes": ["已核实未上架该模型（partner-models 列表仅 V3.2 / V3.1 / R1-0528 / OCR）"],
+      "sources": ["vertex-partner-models"]
+    },
+
+    "cline-pass": {
+      "displayName": "ClinePass",
+      "shortName": "Cline",
+      "vendor": "Cline",
+      "type": "subscription",
+      "docs": "https://docs.cline.bot/getting-started/clinepass",
+      "plans": [
+        { "id": "monthly", "label": "月度", "price": { "amount": 9.99, "currency": "USD", "period": "month" }, "refundable": false }
+      ],
+      "billing": { "kind": "platform-quota" },
+      "api": { "exposed": true, "baseUrl": "https://api.cline.bot/api/v1", "authEnv": "CLINE_API_KEY", "note": "可脱离客户端直接调用" },
+      "upstream": { "routing": "multi-undisclosed", "pinnable": true, "degradeRisk": "unknown", "banRisk": "unknown" },
+      "limitType": { "fiveHour": true, "weekly": true, "monthly": true, "concurrency": null, "rpm": null },
+      "notes": ["上游构成未披露（插件支持探测后 strict/preferred 钉住，但渠道本身不公开名单）"],
+      "sources": ["clinepass-docs", "cline-pass-audit"]
+    },
+
+    "opencode-go": {
+      "displayName": "OpenCode Go",
+      "shortName": "OpenCode",
+      "vendor": "OpenCode",
+      "type": "subscription",
+      "docs": "https://opencode.ai/docs/go",
+      "plans": [
+        { "id": "go", "label": "Go", "price": { "amount": 10, "currency": "USD", "period": "month" }, "refundable": false },
+        { "id": "go-plus", "label": "Go Plus", "price": { "amount": 40, "currency": "USD", "period": "month" }, "refundable": false }
+      ],
+      "billing": { "kind": "dollar-credit" },
+      "api": { "exposed": true, "baseUrl": "https://opencode.ai/zen/go/v1", "authEnv": "OPENCODE_API_KEY" },
+      "upstream": { "routing": "original-manufacturer", "pinnable": false, "degradeRisk": "low", "banRisk": "unknown" },
+      "limitType": { "fiveHour": true, "weekly": true, "monthly": true, "concurrency": null, "rpm": null },
+      "notes": [
+        "原厂直供，单价与官方相同，Go / Go Plus 仅月限额不同",
+        "达到限制后仍可使用免费模型；超额可勾 Use balance 走 Zen 余额兜底",
+        "⚠️ DeepSeek Harness 被官方列为 Known Problematic client（缺 x-opencode-session 头，Discussion #5495）"
+      ],
+      "sources": ["opencode-go-docs"]
+    },
+
+    "command-code": {
+      "displayName": "Command Code",
+      "shortName": "CommandCode",
+      "vendor": "Command Code",
+      "type": "subscription",
+      "docs": "https://commandcode.ai/pricing",
+      "plans": [
+        { "id": "go", "label": "Go", "price": { "amount": 1, "currency": "USD", "period": "month", "plusFees": true }, "creditsUSD": 10, "apiAccess": false, "support": "Discord only", "refundable": false },
+        { "id": "goat", "label": "GOAT", "price": { "amount": 10, "currency": "USD", "period": "month", "plusFees": true }, "creditsUSD": 70, "apiAccess": true, "refundable": false },
+        { "id": "max", "label": "Max", "price": { "amount": 100, "currency": "USD", "period": "month" }, "creditsUSD": 150, "apiAccess": true, "refundable": false }
+      ],
+      "billing": { "kind": "dollar-credit" },
+      "payment": { "processor": "Creem", "monthlyNonRefundable": true },
+      "upstream": { "routing": "direct-claimed", "pinnable": false, "degradeRisk": "unknown", "banRisk": "medium" },
+      "limitType": { "fiveHour": true, "weekly": true, "monthly": false, "concurrency": null, "rpm": null, "rollingWindow": true },
+      "notes": [
+        "滚动窗口自首次请求开启、按固定时长重置、无日历边界，窗口间额度不结转",
+        "额外按量购买的 credits 永不受窗口限制、永不过期，且优先消耗",
+        "禁止多席位 / 共享 key / 池化 / 转售"
+      ],
+      "sources": ["commandcode-pricing"]
+    },
+
+    "electron-hub": {
+      "displayName": "Electron Hub DevPass",
+      "shortName": "ElectronHub",
+      "vendor": "Electron Hub",
+      "type": "subscription",
+      "docs": "https://docs.electronhub.ai/billing/coding-plan",
+      "plans": [
+        { "id": "lite", "label": "Lite", "price": { "amount": 10, "currency": "USD", "period": "month" }, "concurrencySlots": 2, "rpm": 8, "rpmBurst": 4, "refundable": false },
+        { "id": "turbo", "label": "Turbo", "price": { "amount": 40, "currency": "USD", "period": "month" }, "concurrencySlots": 5, "rpm": 20, "rpmBurst": 8, "refundable": false }
+      ],
+      "billing": { "kind": "unlimited-soft" },
+      "payment": { "processor": "Creem", "monthlyNonRefundable": true },
+      "api": { "exposed": true, "baseUrl": "https://api.electronhub.ai/v1", "authEnv": "ELECTRON_HUB_API_KEY", "note": "ek-dev- 前缀 key 只能调 :dev 模型" },
+      "upstream": { "routing": "third-party", "pinnable": false, "degradeRisk": "medium", "banRisk": "low" },
+      "limitType": { "fiveHour": false, "weekly": false, "monthly": false, "dailySoft": true, "rollingSoft": true, "concurrency": true, "rpm": true },
+      "notes": [
+        "Unlimited tokens. No credits. 无硬额度，超额进慢车道不硬停",
+        "一天内数百次 429 → 临时 403 暂停数小时（重发 key 可清除）",
+        "严格 fair use，禁共享 / 池化 / 无人值守生产流量"
+      ],
+      "sources": ["electronhub-coding-plan"]
+    },
+
+    "llm-gateway": {
+      "displayName": "LLM Gateway DevPass",
+      "shortName": "LLMGateway",
+      "vendor": "LLM Gateway",
+      "type": "subscription",
+      "docs": "https://devpass.llmgateway.io/pricing",
+      "plans": [
+        { "id": "starter", "label": "Starter", "price": { "amount": 29, "currency": "USD", "period": "month" } },
+        { "id": "pro", "label": "Pro", "price": { "amount": 79, "currency": "USD", "period": "month" } },
+        { "id": "scale", "label": "Scale", "price": { "amount": 179, "currency": "USD", "period": "month" } }
+      ],
+      "billing": { "kind": "dollar-credit", "creditMultiple": 3, "creditMultipleFrom": "2026-10-15", "creditMultipleAfter": 2 },
+      "upstream": { "routing": "third-party", "pinnable": false, "degradeRisk": "unknown", "banRisk": "unknown" },
+      "limitType": { "fiveHour": false, "weekly": true, "monthly": false, "daily": true, "premiumSharePct": [12, 15, 18] },
+      "notes": [
+        "⚠️ 2026-10-15 起同价额度由 3× 降为 2×，并新增日上限、收紧 premium 周上限",
+        "可购买 Reset Pass 重置额度"
+      ],
+      "sources": ["llmgateway-pricing"]
+    },
+
+    "tencent-token-plan": {
+      "displayName": "腾讯云 TokenHub Token Plan",
+      "shortName": "腾讯TokenPlan",
+      "vendor": "Tencent Cloud",
+      "type": "subscription",
+      "docs": "https://cloud.tencent.com/document/product/1823/130060",
+      "plans": [
+        { "id": "p1", "label": "个人版一档", "price": { "amount": 39, "currency": "CNY", "period": "month" }, "credits": 780 },
+        { "id": "p2", "label": "个人版二档", "price": { "amount": 99, "currency": "CNY", "period": "month" }, "credits": 1980 },
+        { "id": "p3", "label": "个人版三档", "price": { "amount": 299, "currency": "CNY", "period": "month" }, "credits": 5980 },
+        { "id": "p4", "label": "个人版四档", "price": { "amount": 599, "currency": "CNY", "period": "month" }, "credits": 11980 }
+      ],
+      "billing": { "kind": "token-credit", "creditUnit": "积分" },
+      "api": { "exposed": true, "baseUrl": "https://api.lkeap.cloud.tencent.com/plan/v3", "anthropicBaseUrl": "https://api.lkeap.cloud.tencent.com/plan/anthropic", "authEnv": "TENCENT_TOKEN_PLAN_API_KEY" },
+      "upstream": { "routing": "original-manufacturer", "pinnable": false, "degradeRisk": "low", "banRisk": "unknown" },
+      "limitType": { "fiveHour": null, "weekly": null, "monthly": true },
+      "notes": [
+        "积分抵扣制，自 2026-08-31 17:00（北京时间）起生效",
+        "积分不结转、每系列限一档；耗尽直接报错不转按量；禁脚本化调用",
+        "与 Coding Plan 共用同一 API Key"
+      ],
+      "sources": ["tencent-token-plan-doc"]
+    },
+
+    "alibaba-token-plan": {
+      "displayName": "千问AI平台 / 阿里百炼 Token Plan",
+      "shortName": "阿里TokenPlan",
+      "vendor": "Alibaba Cloud",
+      "type": "subscription",
+      "docs": "https://help.aliyun.com/zh/model-studio/token-plan-personal-overview",
+      "plans": [
+        { "id": "p1", "label": "个人版一档", "price": { "amount": 39, "currency": "CNY", "period": "month" }, "credits": 11500 },
+        { "id": "p2", "label": "个人版二档", "price": { "amount": 79, "currency": "CNY", "period": "month" }, "credits": 25500 },
+        { "id": "p3", "label": "个人版三档", "price": { "amount": 139, "currency": "CNY", "period": "month" }, "credits": 45000 },
+        { "id": "p4", "label": "个人版四档", "price": { "amount": 499, "currency": "CNY", "period": "month" }, "credits": 180000 }
+      ],
+      "billing": { "kind": "token-credit", "creditUnit": "Credits" },
+      "api": { "exposed": true, "baseUrl": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1", "authEnv": "ALIBABA_TOKEN_PLAN_API_KEY" },
+      "upstream": { "routing": "original-manufacturer", "pinnable": false, "degradeRisk": "low", "banRisk": "unknown" },
+      "limitType": { "fiveHour": null, "weekly": false, "monthly": true },
+      "notes": [
+        "千问AI平台与阿里百炼两平台同价同额度",
+        "22:00–08:00 该模型五折",
+        "⚠️ 输入输出将用于服务改进与模型优化（数据留存风险）",
+        "仅限交互式 coding 工具，禁后端批量；换周期 API Key 会变更"
+      ],
+      "sources": ["alibaba-token-plan-doc"]
+    },
+
+    "scnet-token-plan": {
+      "displayName": "SCNet 国家超算互联网 Token Plan",
+      "shortName": "SCNet",
+      "vendor": "SCNet",
+      "type": "subscription",
+      "docs": "https://www.scnet.cn/ac/openapi/doc/2.0/moduleapi/plans/token-plan.html",
+      "plans": [
+        { "id": "p1", "label": "一档", "price": { "amount": 30, "currency": "CNY", "period": "month" }, "credits": 60000 },
+        { "id": "p2", "label": "二档", "price": { "amount": 110, "currency": "CNY", "period": "month" }, "credits": 240000 },
+        { "id": "p3", "label": "三档", "price": { "amount": 265, "currency": "CNY", "period": "month" }, "credits": 600000 },
+        { "id": "p4", "label": "四档", "price": { "amount": 764, "currency": "CNY", "period": "month" }, "credits": 1800000 }
+      ],
+      "billing": { "kind": "token-credit", "creditUnit": "Credits" },
+      "api": { "exposed": true, "baseUrl": "https://api.scnet.cn/api/llm/v1", "authEnv": "SCNET_API_KEY", "keyPrefix": "sk-tp-" },
+      "upstream": { "routing": "original-manufacturer", "pinnable": false, "degradeRisk": "low", "banRisk": "unknown" },
+      "limitType": { "fiveHour": null, "weekly": "rate-adjusted", "monthly": true },
+      "notes": [
+        "综合倍率随模型变动（该模型 0.23），周倍率会调整",
+        "额度用尽报错，但可随时续费",
+        "专项 Key 前缀 sk-tp-"
+      ],
+      "sources": ["scnet-token-plan-doc"]
+    },
+
+    "volcengine-coding-plan": {
+      "displayName": "火山方舟 Coding Plan",
+      "shortName": "火山Coding",
+      "vendor": "ByteDance",
+      "type": "subscription",
+      "docs": "https://www.volcengine.com/docs/82379/1928261",
+      "plans": [
+        { "id": "lite", "label": "Lite", "price": { "amount": 40, "currency": "CNY", "period": "month" }, "quarterlyPrice": { "amount": 120, "currency": "CNY", "period": "quarter" } },
+        { "id": "pro", "label": "Pro", "price": { "amount": 200, "currency": "CNY", "period": "month" }, "quarterlyPrice": { "amount": 600, "currency": "CNY", "period": "quarter" } }
+      ],
+      "billing": { "kind": "afp", "creditUnit": "AFP" },
+      "api": { "exposed": true, "baseUrl": "https://ark.cn-beijing.volces.com/api/coding/v3", "authEnv": "ARK_CODING_PLAN_API_KEY" },
+      "upstream": { "routing": "original-manufacturer", "pinnable": false, "degradeRisk": "low", "banRisk": "unknown" },
+      "limitType": { "fiveHour": null, "weekly": null, "monthly": null, "unknown": true },
+      "notes": ["额度与三窗口限制均未核实（官方 5 个文档 URL 抓取失败）"],
+      "sources": ["volc-model-pricing"]
+    },
+
+    "volcengine-agent-plan": {
+      "displayName": "火山方舟 Agent Plan",
+      "shortName": "火山Agent",
+      "vendor": "ByteDance",
+      "type": "subscription",
+      "docs": "https://www.volcengine.com/docs/82379/1928261",
+      "plans": [
+        { "id": "small", "label": "Small", "price": { "amount": 40, "currency": "CNY", "period": "month" } },
+        { "id": "medium", "label": "Medium", "price": { "amount": 200, "currency": "CNY", "period": "month" } },
+        { "id": "large", "label": "Large", "price": { "amount": 500, "currency": "CNY", "period": "month" } },
+        { "id": "max", "label": "Max", "price": { "amount": 1000, "currency": "CNY", "period": "month" } }
+      ],
+      "billing": { "kind": "afp", "creditUnit": "AFP" },
+      "upstream": { "routing": "original-manufacturer", "pinnable": false, "degradeRisk": "low", "banRisk": "unknown" },
+      "limitType": { "fiveHour": null, "weekly": null, "monthly": null, "unknown": true },
+      "notes": ["额度与三窗口限制均未核实；活动页横幅确认含 DeepSeek-V4.1-Flash"],
+      "sources": ["volc-model-pricing"]
+    },
+
+    "kilo": {
+      "displayName": "Kilo Pass",
+      "shortName": "Kilo",
+      "vendor": "Kilo",
+      "type": "subscription",
+      "docs": "https://kilo.ai",
+      "plans": [
+        { "id": "starter", "label": "Starter", "price": { "amount": 19, "currency": "USD", "period": "month" }, "creditsUSD": 26.6 },
+        { "id": "pro", "label": "Pro", "price": { "amount": 49, "currency": "USD", "period": "month" }, "creditsUSD": 68.6 },
+        { "id": "elite", "label": "Elite", "price": { "amount": 199, "currency": "USD", "period": "month" }, "creditsUSD": 278.6 }
+      ],
+      "billing": { "kind": "dollar-credit", "creditMultiple": 1.4 },
+      "api": { "exposed": true, "baseUrl": "https://api.kilo.ai/api/gateway", "authEnv": "KILO_API_KEY" },
+      "upstream": { "routing": "openrouter", "pinnable": false, "degradeRisk": "unknown", "banRisk": "unknown" },
+      "limitType": { "fiveHour": null, "weekly": null, "monthly": true },
+      "notes": ["该模型经 OpenRouter 路由，非原厂直供；credits 与美元 1:1 计价"],
+      "sources": ["kilo-gateway"]
+    }
+  }
+}

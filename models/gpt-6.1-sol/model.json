@@ -1,0 +1,127 @@
+{
+  "$schema": "自描述。模型身份层。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "sources": [
+      "openai-pricing-doc",
+      "aa-peers"
+    ]
+  },
+  "slug": "gpt-6.1-sol",
+  "displayName": "GPT-6.1 Sol (Max)",
+  "vendor": "openai",
+  "vendorDisplay": "OpenAI",
+  "family": "GPT-6",
+  "tier": "顶级旗舰（flagship）",
+  "apiModelIds": {
+    "official": "gpt-6.1-sol",
+    "pro": "gpt-6.1-sol-pro",
+    "fast": "gpt-6.1-sol-fast"
+  },
+  "release": {
+    "date": "2026-09-02",
+    "knowledgeCutoff": "2026-05",
+    "deprecated": false
+  },
+  "openness": {
+    "openWeights": false,
+    "license": "Proprietary",
+    "opennessIndex": 0
+  },
+  "architecture": {
+    "sizeClass": "frontier-multimodal-moe"
+  },
+  "limits": {
+    "contextTokens": 1050000,
+    "maxOutputTokens": 128000,
+    "concurrencyLimit": 1000
+  },
+  "capabilities": {
+    "reasoning": {
+      "supported": true,
+      "default": true
+    },
+    "vision": true,
+    "toolCalls": true,
+    "jsonOutput": true,
+    "responsesApi": true,
+    "webSearch": {
+      "supported": true,
+      "note": "Responses API 原生支持搜索插件"
+    },
+    "inputModalities": [
+      "text",
+      "image"
+    ],
+    "outputModalities": [
+      "text"
+    ]
+  },
+  "speed": {
+    "outputTokensPerSecond": 112.5,
+    "timeToFirstChunkSeconds": 0.98
+  },
+  "baseline": {
+    "providerId": "openai-official",
+    "currency": "USD",
+    "unit": "per 1M tokens",
+    "tiers": [
+      {
+        "id": "standard",
+        "label": "标准上下文 (≤272K)",
+        "usd": {
+          "inputMiss": 2,
+          "inputHit": 0.1,
+          "output": 10
+        }
+      },
+      {
+        "id": "extended",
+        "label": "超长窗口 (>272K)",
+        "usd": {
+          "inputMiss": 4,
+          "inputHit": 0.2,
+          "output": 15
+        }
+      }
+    ]
+  },
+  "card": {
+    "radar": {
+      "shape": "hexagon",
+      "axesCount": 6,
+      "axes": [
+        {
+          "key": "financeAndAccounting",
+          "label": "财会",
+          "value": 53.98
+        },
+        {
+          "key": "strategyAndOps",
+          "label": "战略与运营",
+          "value": 56.98
+        },
+        {
+          "key": "legal",
+          "label": "法律",
+          "value": 57.69
+        },
+        {
+          "key": "healthcareAndMedical",
+          "label": "医疗健康",
+          "value": 51.18
+        },
+        {
+          "key": "engineering",
+          "label": "工程",
+          "value": 53.9
+        },
+        {
+          "key": "economics",
+          "label": "经济",
+          "value": 59.28
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "$schema": "自描述。订阅制渠道列表。",
+  "_meta": {
+    "modelSlug": "step-5-preview",
+    "generatedAt": "2026-10-08",
+    "verificationNote": "Step Plan 产品页已登记，但本轮未核实可静态引用的当前套餐价格/积分，因此不造订阅行。"
+  },
+  "plans": [],
+  "note": "StepFun 官方 Step Plan 套餐价格与额度本轮未核实；Step 5 Preview 官方 API 价格按量计费。"
+}

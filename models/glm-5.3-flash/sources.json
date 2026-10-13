@@ -1,0 +1,71 @@
+{
+  "$schema": "自描述。GLM-5.3-Flash 页面数字与口径的出处清单。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "modelSlug": "glm-5.3-flash",
+    "fetchedAtNote": "官方 URL 由本轮 web_fetch 核验；AA/LMArena 为工作区 2026-10-08 快照。"
+  },
+  "sources": [
+    {
+      "id": "glm-official-model",
+      "label": "智谱官方 GLM-5.3-Flash 模型文档",
+      "url": "https://docs.bigmodel.cn/cn/guide/models/vlm/glm-5.3-flash",
+      "fetchedAt": "2026-10-08",
+      "verification": "official-doc",
+      "covers": ["model.json architecture", "model.json limits", "model.json capabilities", "apiModelIds"]
+    },
+    {
+      "id": "glm-official-pricing",
+      "label": "智谱官方模型定价文档",
+      "url": "https://docs.bigmodel.cn/cn/guide/start/pricing.md",
+      "fetchedAt": "2026-10-08",
+      "verification": "official-doc",
+      "covers": ["channels/api.json baseline", "GLM-5.3-Flash ¥0.8/¥0.23/¥2.8 per 1M tokens"]
+    },
+    {
+      "id": "glm-coding-plan-overview",
+      "label": "智谱官方 GLM Coding Plan 套餐概览与用量说明",
+      "url": "https://docs.bigmodel.cn/cn/coding-plan/overview",
+      "fetchedAt": "2026-10-08",
+      "verification": "official-doc",
+      "covers": ["channels/subscription.json limits", "channels/subscription.json codingAgentCoefficient"]
+    },
+    {
+      "id": "glm-coding-plan-faq",
+      "label": "智谱官方 GLM Coding Plan 常见问题",
+      "url": "https://docs.bigmodel.cn/cn/coding-plan/faq.md",
+      "fetchedAt": "2026-10-08",
+      "verification": "official-doc",
+      "covers": ["GLM-5.3/GLM-5.3-Flash supported", "5-hour and weekly quota semantics", "quota exhaustion behavior", "supported tool restriction"]
+    },
+    {
+      "id": "glm-coding-plan-pricing-notice",
+      "label": "智谱官方 Coding Plan 改版说明",
+      "url": "https://docs.bigmodel.cn/cn/coding-plan/notice/usage-revision.md",
+      "fetchedAt": "2026-10-08",
+      "verification": "official-doc",
+      "covers": ["legacy V2 reference prices", "V2 five-hour prompt estimates", "peak period semantics"],
+      "notes": "动态订阅金额没有在本轮静态官方文档中固定；本页订阅金额仅作为待核实的参考占位，不应当作当前价格。"
+    },
+    {
+      "id": "aa-glm-5-3-flash",
+      "label": "Artificial Analysis GLM-5.3-Flash 对照快照",
+      "url": "https://artificialanalysis.ai/models/deepseek-v4-1-flash",
+      "fetchedAt": "2026-10-08",
+      "verification": "single-source-unverified",
+      "rawFile": "../../../raw/_global/2026-10-08/aa-peers.json",
+      "covers": ["benchmarks/aa.json", "model.json card.radar", "AA USD cost profile", "release date and architecture snapshot"],
+      "notes": "原始来源 URL 是 DeepSeek 页面中的同页 peers 快照；该文件不是 GLM 官方页面，不应作为官方定价来源。"
+    },
+    {
+      "id": "lmarena-text-glm-5-3-flash",
+      "label": "LMArena Text 榜工作区原始快照",
+      "url": "https://datasets-server.huggingface.co/rows?dataset=lmarena-ai/leaderboard-dataset&config=text",
+      "fetchedAt": "2026-10-08",
+      "verification": "api-endpoint",
+      "rawFile": "../deepseek-v4.1-flash/raw/2026-10-08/lmarena-text.json",
+      "covers": ["benchmarks/lmarena.json overall rank/rating/votes"],
+      "notes": "本页数值从工作区原始 JSON 的 glm-5.3-flash 条目读取；榜单发布日期为 2026-10-02。"
+    }
+  ]
+}

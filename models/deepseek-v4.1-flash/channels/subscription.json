@@ -1,0 +1,985 @@
+{
+  "$schema": "自描述。订阅制渠道 × 本模型。只放「随模型变化」的额度与限制；月费、上游路由策略、支付方式等身份字段见 ../../../providers.json。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "modelSlug": "deepseek-v4.1-flash",
+    "purpose": "回答「订阅渠道的限制到底是什么、按常见缓存率折算能跑多少」这一个问题。",
+    "separationRule": "⚠️ 本文件只放公开标称额度。任何个人实测用量一律放 ../observed/，两者不得合并、不得互相推导。",
+    "quotaConversionMethod": {
+      "baseline": "统一用官方谷价 $0.15 / $0.003 / $0.60（每 1M token）折算，这样不同订阅渠道之间可比。",
+      "profiles": {
+        "codingAgent": {
+          "label": "编程 Agent（OpenCode 官方口径）",
+          "inputTokens": 71710,
+          "outputTokens": 310,
+          "source": "OpenCode Go 官方文档：每请求 410 输入 + 71,300 缓存 + 310 输出",
+          "note": "上下文极长、缓存率极高，是真实 coding agent 的典型形态"
+        },
+        "chat": {
+          "label": "轻量问答",
+          "inputTokens": 1000,
+          "outputTokens": 500,
+          "source": "本页假设（无官方口径）",
+          "note": "短上下文、缓存率低，用于展示「如果不吃缓存，额度会缩水多少」"
+        }
+      },
+      "cacheRates": [
+        0,
+        0.5,
+        0.8,
+        0.874,
+        0.95,
+        0.994
+      ],
+      "cacheRateRationale": "0.874 是本项目在 Cline 上的实测缓存命中率（667.6M 命中 / 763.7M 输入），0.994 是 OpenCode 官方口径。两端夹住了真实区间。",
+      "selfCheck": "用 OpenCode 官方口径（每请求 410 未命中 + 71,300 缓存 + 310 输出）反算 $60 月限，得 129,190 请求，与其公布的 130,000 请求一致 —— 折算公式已被官方数据交叉验证。",
+      "caveat": "折算值只用于横向比较，不代表渠道承诺；实际可用量取决于该渠道的上游路由与限流策略。"
+    },
+    "limitTypeLegend": {
+      "fiveHour": "5 小时滚动窗口额度",
+      "weekly": "周额度",
+      "monthly": "月额度",
+      "rollingWindow": "窗口自首次请求开启、按固定时长重置，无日历边界，窗口间额度不结转",
+      "softLimit": "无硬额度，超额降速而非停用"
+    }
+  },
+  "plans": [
+    {
+      "providerId": "cline-pass",
+      "planId": "monthly",
+      "label": "ClinePass 月度",
+      "fee": {
+        "amount": 9.99,
+        "currency": "USD",
+        "period": "month"
+      },
+      "modelAllowance": {
+        "usd": 98.6,
+        "derivation": "Cline 内部月配额上限 5000 单位 ÷ 该模型倍数 k=50 → 约 $98.6（按 Cline 自身官方价表，即官方高峰价口径）。5h = 月 × 20% = $19.7，周 = 月 × 50% = $49.3。",
+        "quotaMultipleK": 50
+      },
+      "limits": {
+        "fiveHourUSD": 19.7,
+        "weeklyUSD": 49.3,
+        "monthlyUSD": 98.6
+      },
+      "rollingWindow": false,
+      "softLimit": false,
+      "officialRequestEstimate": null,
+      "quotaConversion": {
+        "baselinePrice": "官方谷价（$0.15 / $0.003 / $0.60 per 1M）",
+        "byProfile": {
+          "codingAgent": [
+            {
+              "cacheRate": 0,
+              "requests": 9011,
+              "tokensM": 648.95,
+              "costPerRequestUSD": 0.0109425
+            },
+            {
+              "cacheRate": 0.5,
+              "requests": 17384,
+              "tokensM": 1252.01,
+              "costPerRequestUSD": 0.0056718
+            },
+            {
+              "cacheRate": 0.8,
+              "requests": 39292,
+              "tokensM": 2829.82,
+              "costPerRequestUSD": 0.0025094
+            },
+            {
+              "cacheRate": 0.874,
+              "requests": 57016,
+              "tokensM": 4106.28,
+              "costPerRequestUSD": 0.0017293
+            },
+            {
+              "cacheRate": 0.95,
+              "requests": 106227,
+              "tokensM": 7650.49,
+              "costPerRequestUSD": 0.0009282
+            },
+            {
+              "cacheRate": 0.994,
+              "requests": 212327,
+              "tokensM": 15291.79,
+              "costPerRequestUSD": 0.0004644
+            }
+          ],
+          "chat": [
+            {
+              "cacheRate": 0,
+              "requests": 219111,
+              "tokensM": 328.67,
+              "costPerRequestUSD": 0.00045
+            },
+            {
+              "cacheRate": 0.5,
+              "requests": 261886,
+              "tokensM": 392.83,
+              "costPerRequestUSD": 0.0003765
+            },
+            {
+              "cacheRate": 0.8,
+              "requests": 296631,
+              "tokensM": 444.95,
+              "costPerRequestUSD": 0.0003324
+            },
+            {
+              "cacheRate": 0.874,
+              "requests": 306666,
+              "tokensM": 460,
+              "costPerRequestUSD": 0.0003215
+            },
+            {
+              "cacheRate": 0.95,
+              "requests": 317706,
+              "tokensM": 476.56,
+              "costPerRequestUSD": 0.0003104
+            },
+            {
+              "cacheRate": 0.994,
+              "requests": 324468,
+              "tokensM": 486.7,
+              "costPerRequestUSD": 0.0003039
+            }
+          ]
+        }
+      }
+    },
+    {
+      "providerId": "opencode-go",
+      "planId": "go",
+      "label": "OpenCode Go",
+      "fee": {
+        "amount": 10,
+        "currency": "USD",
+        "period": "month"
+      },
+      "modelAllowance": {
+        "usd": 60,
+        "derivation": "官方文档直接列出该模型月限 $60；5h = 月 × 20% = $12，周 = 月 × 50% = $30。",
+        "quotaMultipleK": null
+      },
+      "limits": {
+        "fiveHourUSD": 12,
+        "weeklyUSD": 30,
+        "monthlyUSD": 60
+      },
+      "rollingWindow": false,
+      "softLimit": false,
+      "officialRequestEstimate": {
+        "fiveHour": 26000,
+        "weekly": 65000,
+        "monthly": 130000,
+        "source": "OpenCode Go 官方文档"
+      },
+      "quotaConversion": {
+        "baselinePrice": "官方谷价（$0.15 / $0.003 / $0.60 per 1M）",
+        "byProfile": {
+          "codingAgent": [
+            {
+              "cacheRate": 0,
+              "requests": 5483,
+              "tokensM": 394.9,
+              "costPerRequestUSD": 0.0109425
+            },
+            {
+              "cacheRate": 0.5,
+              "requests": 10579,
+              "tokensM": 761.87,
+              "costPerRequestUSD": 0.0056718
+            },
+            {
+              "cacheRate": 0.8,
+              "requests": 23910,
+              "tokensM": 1722,
+              "costPerRequestUSD": 0.0025094
+            },
+            {
+              "cacheRate": 0.874,
+              "requests": 34695,
+              "tokensM": 2498.75,
+              "costPerRequestUSD": 0.0017293
+            },
+            {
+              "cacheRate": 0.95,
+              "requests": 64641,
+              "tokensM": 4655.47,
+              "costPerRequestUSD": 0.0009282
+            },
+            {
+              "cacheRate": 0.994,
+              "requests": 129205,
+              "tokensM": 9305.35,
+              "costPerRequestUSD": 0.0004644
+            }
+          ],
+          "chat": [
+            {
+              "cacheRate": 0,
+              "requests": 133333,
+              "tokensM": 200,
+              "costPerRequestUSD": 0.00045
+            },
+            {
+              "cacheRate": 0.5,
+              "requests": 159363,
+              "tokensM": 239.04,
+              "costPerRequestUSD": 0.0003765
+            },
+            {
+              "cacheRate": 0.8,
+              "requests": 180505,
+              "tokensM": 270.76,
+              "costPerRequestUSD": 0.0003324
+            },
+            {
+              "cacheRate": 0.874,
+              "requests": 186612,
+              "tokensM": 279.92,
+              "costPerRequestUSD": 0.0003215
+            },
+            {
+              "cacheRate": 0.95,
+              "requests": 193330,
+              "tokensM": 290,
+              "costPerRequestUSD": 0.0003104
+            },
+            {
+              "cacheRate": 0.994,
+              "requests": 197445,
+              "tokensM": 296.17,
+              "costPerRequestUSD": 0.0003039
+            }
+          ]
+        }
+      }
+    },
+    {
+      "providerId": "opencode-go",
+      "planId": "go-plus",
+      "label": "OpenCode Go Plus",
+      "fee": {
+        "amount": 40,
+        "currency": "USD",
+        "period": "month"
+      },
+      "modelAllowance": {
+        "usd": null,
+        "derivation": "官方未公布 Go Plus 的该模型月限；Go 与 Go Plus 单价相同，仅月限额不同。",
+        "quotaMultipleK": null
+      },
+      "limits": {
+        "fiveHourUSD": null,
+        "weeklyUSD": null,
+        "monthlyUSD": null
+      },
+      "rollingWindow": false,
+      "softLimit": false,
+      "officialRequestEstimate": null,
+      "quotaConversion": null
+    },
+    {
+      "providerId": "command-code",
+      "planId": "goat",
+      "label": "Command Code GOAT",
+      "fee": {
+        "amount": 10,
+        "currency": "USD",
+        "period": "month"
+      },
+      "modelAllowance": {
+        "usd": 60,
+        "derivation": "官方定价页列出 GOAT 含 $70 credits，其中该模型 $60；滚动窗口 5h $14 / 周 $35。",
+        "quotaMultipleK": null
+      },
+      "limits": {
+        "fiveHourUSD": 14,
+        "weeklyUSD": 35,
+        "monthlyUSD": 60
+      },
+      "rollingWindow": true,
+      "softLimit": false,
+      "officialRequestEstimate": null,
+      "quotaConversion": {
+        "baselinePrice": "官方谷价（$0.15 / $0.003 / $0.60 per 1M）",
+        "byProfile": {
+          "codingAgent": [
+            {
+              "cacheRate": 0,
+              "requests": 5483,
+              "tokensM": 394.9,
+              "costPerRequestUSD": 0.0109425
+            },
+            {
+              "cacheRate": 0.5,
+              "requests": 10579,
+              "tokensM": 761.87,
+              "costPerRequestUSD": 0.0056718
+            },
+            {
+              "cacheRate": 0.8,
+              "requests": 23910,
+              "tokensM": 1722,
+              "costPerRequestUSD": 0.0025094
+            },
+            {
+              "cacheRate": 0.874,
+              "requests": 34695,
+              "tokensM": 2498.75,
+              "costPerRequestUSD": 0.0017293
+            },
+            {
+              "cacheRate": 0.95,
+              "requests": 64641,
+              "tokensM": 4655.47,
+              "costPerRequestUSD": 0.0009282
+            },
+            {
+              "cacheRate": 0.994,
+              "requests": 129205,
+              "tokensM": 9305.35,
+              "costPerRequestUSD": 0.0004644
+            }
+          ],
+          "chat": [
+            {
+              "cacheRate": 0,
+              "requests": 133333,
+              "tokensM": 200,
+              "costPerRequestUSD": 0.00045
+            },
+            {
+              "cacheRate": 0.5,
+              "requests": 159363,
+              "tokensM": 239.04,
+              "costPerRequestUSD": 0.0003765
+            },
+            {
+              "cacheRate": 0.8,
+              "requests": 180505,
+              "tokensM": 270.76,
+              "costPerRequestUSD": 0.0003324
+            },
+            {
+              "cacheRate": 0.874,
+              "requests": 186612,
+              "tokensM": 279.92,
+              "costPerRequestUSD": 0.0003215
+            },
+            {
+              "cacheRate": 0.95,
+              "requests": 193330,
+              "tokensM": 290,
+              "costPerRequestUSD": 0.0003104
+            },
+            {
+              "cacheRate": 0.994,
+              "requests": 197445,
+              "tokensM": 296.17,
+              "costPerRequestUSD": 0.0003039
+            }
+          ]
+        }
+      }
+    },
+    {
+      "providerId": "command-code",
+      "planId": "go",
+      "label": "Command Code Go",
+      "fee": {
+        "amount": 1,
+        "currency": "USD",
+        "period": "month"
+      },
+      "modelAllowance": {
+        "usd": 10,
+        "derivation": "官方定价页列出 Go 含 $10 credits，全部可用于该模型；滚动窗口 5h $2 / 周 $5。",
+        "quotaMultipleK": null
+      },
+      "limits": {
+        "fiveHourUSD": 2,
+        "weeklyUSD": 5,
+        "monthlyUSD": 10
+      },
+      "rollingWindow": true,
+      "softLimit": false,
+      "officialRequestEstimate": null,
+      "quotaConversion": {
+        "baselinePrice": "官方谷价（$0.15 / $0.003 / $0.60 per 1M）",
+        "byProfile": {
+          "codingAgent": [
+            {
+              "cacheRate": 0,
+              "requests": 914,
+              "tokensM": 65.82,
+              "costPerRequestUSD": 0.0109425
+            },
+            {
+              "cacheRate": 0.5,
+              "requests": 1763,
+              "tokensM": 126.98,
+              "costPerRequestUSD": 0.0056718
+            },
+            {
+              "cacheRate": 0.8,
+              "requests": 3985,
+              "tokensM": 287,
+              "costPerRequestUSD": 0.0025094
+            },
+            {
+              "cacheRate": 0.874,
+              "requests": 5783,
+              "tokensM": 416.46,
+              "costPerRequestUSD": 0.0017293
+            },
+            {
+              "cacheRate": 0.95,
+              "requests": 10774,
+              "tokensM": 775.91,
+              "costPerRequestUSD": 0.0009282
+            },
+            {
+              "cacheRate": 0.994,
+              "requests": 21534,
+              "tokensM": 1550.89,
+              "costPerRequestUSD": 0.0004644
+            }
+          ],
+          "chat": [
+            {
+              "cacheRate": 0,
+              "requests": 22222,
+              "tokensM": 33.33,
+              "costPerRequestUSD": 0.00045
+            },
+            {
+              "cacheRate": 0.5,
+              "requests": 26560,
+              "tokensM": 39.84,
+              "costPerRequestUSD": 0.0003765
+            },
+            {
+              "cacheRate": 0.8,
+              "requests": 30084,
+              "tokensM": 45.13,
+              "costPerRequestUSD": 0.0003324
+            },
+            {
+              "cacheRate": 0.874,
+              "requests": 31102,
+              "tokensM": 46.65,
+              "costPerRequestUSD": 0.0003215
+            },
+            {
+              "cacheRate": 0.95,
+              "requests": 32222,
+              "tokensM": 48.33,
+              "costPerRequestUSD": 0.0003104
+            },
+            {
+              "cacheRate": 0.994,
+              "requests": 32908,
+              "tokensM": 49.36,
+              "costPerRequestUSD": 0.0003039
+            }
+          ]
+        }
+      }
+    },
+    {
+      "providerId": "command-code",
+      "planId": "max",
+      "label": "Command Code Max",
+      "fee": {
+        "amount": 100,
+        "currency": "USD",
+        "period": "month"
+      },
+      "modelAllowance": {
+        "usd": null,
+        "derivation": "官方未公布 Max 档的该模型单模型额度；仅给出总 credits $150 与窗口 5h $90 / 周 $180。",
+        "quotaMultipleK": null
+      },
+      "limits": {
+        "fiveHourUSD": 90,
+        "weeklyUSD": 180,
+        "monthlyUSD": null
+      },
+      "rollingWindow": true,
+      "softLimit": false,
+      "officialRequestEstimate": null,
+      "quotaConversion": null
+    },
+    {
+      "providerId": "electron-hub",
+      "planId": "lite",
+      "label": "Electron Hub DevPass Lite",
+      "fee": {
+        "amount": 10,
+        "currency": "USD",
+        "period": "month"
+      },
+      "modelAllowance": {
+        "usd": null,
+        "derivation": "官方口径为 Unlimited tokens / No credits —— 无硬额度，超额进慢车道。无法折算。",
+        "quotaMultipleK": null
+      },
+      "limits": {
+        "fiveHourUSD": null,
+        "weeklyUSD": null,
+        "monthlyUSD": null
+      },
+      "rollingWindow": false,
+      "softLimit": true,
+      "officialRequestEstimate": null,
+      "quotaConversion": null
+    },
+    {
+      "providerId": "electron-hub",
+      "planId": "turbo",
+      "label": "Electron Hub DevPass Turbo",
+      "fee": {
+        "amount": 40,
+        "currency": "USD",
+        "period": "month"
+      },
+      "modelAllowance": {
+        "usd": null,
+        "derivation": "同上，无硬额度。",
+        "quotaMultipleK": null
+      },
+      "limits": {
+        "fiveHourUSD": null,
+        "weeklyUSD": null,
+        "monthlyUSD": null
+      },
+      "rollingWindow": false,
+      "softLimit": true,
+      "officialRequestEstimate": null,
+      "quotaConversion": null
+    },
+    {
+      "providerId": "tencent-token-plan",
+      "planId": "lite",
+      "label": "腾讯云 Token Plan Lite",
+      "fee": {
+        "amount": 39,
+        "currency": "CNY",
+        "period": "month"
+      },
+      "creditsPerMonth": 780,
+      "creditPrice": {
+        "unit": "积分 per 1M token",
+        "inputMiss": 40,
+        "inputHit": 0.8,
+        "output": 160
+      },
+      "limits": {
+        "fiveHourUSD": null,
+        "weeklyUSD": null,
+        "monthlyUSD": null,
+        "monthlyCredits": 780
+      },
+      "officialRoundEstimate": "约 70 轮问答式交互",
+      "quotaConversion": {
+        "byProfile": {
+          "codingAgent": [
+            {
+              "cacheRate": 0,
+              "requests": 267,
+              "tokensM": 19.25,
+              "creditsPerRequest": 2.918
+            },
+            {
+              "cacheRate": 0.5,
+              "requests": 516,
+              "tokensM": 37.14,
+              "creditsPerRequest": 1.512484
+            },
+            {
+              "cacheRate": 0.8,
+              "requests": 1166,
+              "tokensM": 83.95,
+              "creditsPerRequest": 0.669174
+            },
+            {
+              "cacheRate": 0.874,
+              "requests": 1691,
+              "tokensM": 121.81,
+              "creditsPerRequest": 0.461158
+            },
+            {
+              "cacheRate": 0.95,
+              "requests": 3151,
+              "tokensM": 226.95,
+              "creditsPerRequest": 0.24752
+            },
+            {
+              "cacheRate": 0.994,
+              "requests": 6299,
+              "tokensM": 453.64,
+              "creditsPerRequest": 0.123834
+            }
+          ],
+          "chat": [
+            {
+              "cacheRate": 0,
+              "requests": 6500,
+              "tokensM": 9.75,
+              "creditsPerRequest": 0.12
+            },
+            {
+              "cacheRate": 0.5,
+              "requests": 7769,
+              "tokensM": 11.65,
+              "creditsPerRequest": 0.1004
+            },
+            {
+              "cacheRate": 0.8,
+              "requests": 8800,
+              "tokensM": 13.2,
+              "creditsPerRequest": 0.08864
+            },
+            {
+              "cacheRate": 0.874,
+              "requests": 9097,
+              "tokensM": 13.65,
+              "creditsPerRequest": 0.085739
+            },
+            {
+              "cacheRate": 0.95,
+              "requests": 9425,
+              "tokensM": 14.14,
+              "creditsPerRequest": 0.08276
+            },
+            {
+              "cacheRate": 0.994,
+              "requests": 9625,
+              "tokensM": 14.44,
+              "creditsPerRequest": 0.081035
+            }
+          ]
+        },
+        "discrepancyWarning": "官方给出的「约 70 / 200 轮」远小于本表折算值，说明官方「一轮」的 token 量远大于本表假设的请求画像。两个口径不可混用。"
+      }
+    },
+    {
+      "providerId": "tencent-token-plan",
+      "planId": "standard",
+      "label": "腾讯云 Token Plan Standard",
+      "fee": {
+        "amount": 99,
+        "currency": "CNY",
+        "period": "month"
+      },
+      "creditsPerMonth": 1980,
+      "creditPrice": {
+        "unit": "积分 per 1M token",
+        "inputMiss": 40,
+        "inputHit": 0.8,
+        "output": 160
+      },
+      "limits": {
+        "fiveHourUSD": null,
+        "weeklyUSD": null,
+        "monthlyUSD": null,
+        "monthlyCredits": 1980
+      },
+      "officialRoundEstimate": "约 200 轮问答式交互",
+      "quotaConversion": {
+        "byProfile": {
+          "codingAgent": [
+            {
+              "cacheRate": 0,
+              "requests": 679,
+              "tokensM": 48.87,
+              "creditsPerRequest": 2.918
+            },
+            {
+              "cacheRate": 0.5,
+              "requests": 1309,
+              "tokensM": 94.28,
+              "creditsPerRequest": 1.512484
+            },
+            {
+              "cacheRate": 0.8,
+              "requests": 2959,
+              "tokensM": 213.1,
+              "creditsPerRequest": 0.669174
+            },
+            {
+              "cacheRate": 0.874,
+              "requests": 4294,
+              "tokensM": 309.22,
+              "creditsPerRequest": 0.461158
+            },
+            {
+              "cacheRate": 0.95,
+              "requests": 7999,
+              "tokensM": 576.11,
+              "creditsPerRequest": 0.24752
+            },
+            {
+              "cacheRate": 0.994,
+              "requests": 15989,
+              "tokensM": 1151.54,
+              "creditsPerRequest": 0.123834
+            }
+          ],
+          "chat": [
+            {
+              "cacheRate": 0,
+              "requests": 16500,
+              "tokensM": 24.75,
+              "creditsPerRequest": 0.12
+            },
+            {
+              "cacheRate": 0.5,
+              "requests": 19721,
+              "tokensM": 29.58,
+              "creditsPerRequest": 0.1004
+            },
+            {
+              "cacheRate": 0.8,
+              "requests": 22338,
+              "tokensM": 33.51,
+              "creditsPerRequest": 0.08864
+            },
+            {
+              "cacheRate": 0.874,
+              "requests": 23093,
+              "tokensM": 34.64,
+              "creditsPerRequest": 0.085739
+            },
+            {
+              "cacheRate": 0.95,
+              "requests": 23925,
+              "tokensM": 35.89,
+              "creditsPerRequest": 0.08276
+            },
+            {
+              "cacheRate": 0.994,
+              "requests": 24434,
+              "tokensM": 36.65,
+              "creditsPerRequest": 0.081035
+            }
+          ]
+        },
+        "discrepancyWarning": "官方给出的「约 70 / 200 轮」远小于本表折算值，说明官方「一轮」的 token 量远大于本表假设的请求画像。两个口径不可混用。"
+      }
+    },
+    {
+      "providerId": "tencent-token-plan",
+      "planId": "pro",
+      "label": "腾讯云 Token Plan Pro",
+      "fee": {
+        "amount": 299,
+        "currency": "CNY",
+        "period": "month"
+      },
+      "creditsPerMonth": 5980,
+      "creditPrice": {
+        "unit": "积分 per 1M token",
+        "inputMiss": 40,
+        "inputHit": 0.8,
+        "output": 160
+      },
+      "limits": {
+        "fiveHourUSD": null,
+        "weeklyUSD": null,
+        "monthlyUSD": null,
+        "monthlyCredits": 5980
+      },
+      "officialRoundEstimate": null,
+      "quotaConversion": {
+        "byProfile": {
+          "codingAgent": [
+            {
+              "cacheRate": 0,
+              "requests": 2049,
+              "tokensM": 147.59,
+              "creditsPerRequest": 2.918
+            },
+            {
+              "cacheRate": 0.5,
+              "requests": 3954,
+              "tokensM": 284.75,
+              "creditsPerRequest": 1.512484
+            },
+            {
+              "cacheRate": 0.8,
+              "requests": 8936,
+              "tokensM": 643.6,
+              "creditsPerRequest": 0.669174
+            },
+            {
+              "cacheRate": 0.874,
+              "requests": 12967,
+              "tokensM": 933.91,
+              "creditsPerRequest": 0.461158
+            },
+            {
+              "cacheRate": 0.95,
+              "requests": 24160,
+              "tokensM": 1739.98,
+              "creditsPerRequest": 0.24752
+            },
+            {
+              "cacheRate": 0.994,
+              "requests": 48290,
+              "tokensM": 3477.87,
+              "creditsPerRequest": 0.123834
+            }
+          ],
+          "chat": [
+            {
+              "cacheRate": 0,
+              "requests": 49833,
+              "tokensM": 74.75,
+              "creditsPerRequest": 0.12
+            },
+            {
+              "cacheRate": 0.5,
+              "requests": 59562,
+              "tokensM": 89.34,
+              "creditsPerRequest": 0.1004
+            },
+            {
+              "cacheRate": 0.8,
+              "requests": 67464,
+              "tokensM": 101.2,
+              "creditsPerRequest": 0.08864
+            },
+            {
+              "cacheRate": 0.874,
+              "requests": 69746,
+              "tokensM": 104.62,
+              "creditsPerRequest": 0.085739
+            },
+            {
+              "cacheRate": 0.95,
+              "requests": 72257,
+              "tokensM": 108.39,
+              "creditsPerRequest": 0.08276
+            },
+            {
+              "cacheRate": 0.994,
+              "requests": 73795,
+              "tokensM": 110.69,
+              "creditsPerRequest": 0.081035
+            }
+          ]
+        },
+        "discrepancyWarning": "官方给出的「约 70 / 200 轮」远小于本表折算值，说明官方「一轮」的 token 量远大于本表假设的请求画像。两个口径不可混用。"
+      }
+    },
+    {
+      "providerId": "tencent-token-plan",
+      "planId": "max",
+      "label": "腾讯云 Token Plan Max",
+      "fee": {
+        "amount": 599,
+        "currency": "CNY",
+        "period": "month"
+      },
+      "creditsPerMonth": 11980,
+      "creditPrice": {
+        "unit": "积分 per 1M token",
+        "inputMiss": 40,
+        "inputHit": 0.8,
+        "output": 160
+      },
+      "limits": {
+        "fiveHourUSD": null,
+        "weeklyUSD": null,
+        "monthlyUSD": null,
+        "monthlyCredits": 11980
+      },
+      "officialRoundEstimate": null,
+      "quotaConversion": {
+        "byProfile": {
+          "codingAgent": [
+            {
+              "cacheRate": 0,
+              "requests": 4106,
+              "tokensM": 295.68,
+              "creditsPerRequest": 2.918
+            },
+            {
+              "cacheRate": 0.5,
+              "requests": 7921,
+              "tokensM": 570.45,
+              "creditsPerRequest": 1.512484
+            },
+            {
+              "cacheRate": 0.8,
+              "requests": 17903,
+              "tokensM": 1289.35,
+              "creditsPerRequest": 0.669174
+            },
+            {
+              "cacheRate": 0.874,
+              "requests": 25978,
+              "tokensM": 1870.94,
+              "creditsPerRequest": 0.461158
+            },
+            {
+              "cacheRate": 0.95,
+              "requests": 48400,
+              "tokensM": 3485.78,
+              "creditsPerRequest": 0.24752
+            },
+            {
+              "cacheRate": 0.994,
+              "requests": 96742,
+              "tokensM": 6967.38,
+              "creditsPerRequest": 0.123834
+            }
+          ],
+          "chat": [
+            {
+              "cacheRate": 0,
+              "requests": 99833,
+              "tokensM": 149.75,
+              "creditsPerRequest": 0.12
+            },
+            {
+              "cacheRate": 0.5,
+              "requests": 119323,
+              "tokensM": 178.98,
+              "creditsPerRequest": 0.1004
+            },
+            {
+              "cacheRate": 0.8,
+              "requests": 135153,
+              "tokensM": 202.73,
+              "creditsPerRequest": 0.08864
+            },
+            {
+              "cacheRate": 0.874,
+              "requests": 139726,
+              "tokensM": 209.59,
+              "creditsPerRequest": 0.085739
+            },
+            {
+              "cacheRate": 0.95,
+              "requests": 144756,
+              "tokensM": 217.13,
+              "creditsPerRequest": 0.08276
+            },
+            {
+              "cacheRate": 0.994,
+              "requests": 147837,
+              "tokensM": 221.76,
+              "creditsPerRequest": 0.081035
+            }
+          ]
+        },
+        "discrepancyWarning": "官方给出的「约 70 / 200 轮」远小于本表折算值，说明官方「一轮」的 token 量远大于本表假设的请求画像。两个口径不可混用。"
+      }
+    }
+  ]
+}

@@ -1,0 +1,728 @@
+{
+  "$schema": "自描述。按量渠道列表。",
+  "_meta": {
+    "modelSlug": "deepseek-v4-pro",
+    "generatedAt": "2026-10-08"
+  },
+  "baseline": {
+    "providerId": "deepseek-official",
+    "label": "DeepSeek 官方（基准）",
+    "tiers": [
+      {
+        "id": "offpeak",
+        "label": "空闲",
+        "usd": {
+          "inputMiss": 0.66,
+          "inputHit": 0.022,
+          "output": 1.98
+        },
+        "cny": {
+          "inputMiss": 4.5,
+          "inputHit": 0.15,
+          "output": 13.5
+        }
+      },
+      {
+        "id": "peak",
+        "label": "高峰",
+        "usd": {
+          "inputMiss": 1.32,
+          "inputHit": 0.044,
+          "output": 3.96
+        },
+        "cny": {
+          "inputMiss": 9,
+          "inputHit": 0.3,
+          "output": 27
+        }
+      }
+    ]
+  },
+  "channels": [
+    {
+      "providerId": "deepseek-official",
+      "isOfficial": true,
+      "displayName": "DeepSeek 官方 API",
+      "tiers": [
+        {
+          "id": "offpeak",
+          "label": "空闲",
+          "usd": {
+            "inputMiss": 0.66,
+            "inputHit": 0.022,
+            "output": 1.98
+          },
+          "cny": {
+            "inputMiss": 4.5,
+            "inputHit": 0.15,
+            "output": 13.5
+          }
+        },
+        {
+          "id": "peak",
+          "label": "高峰",
+          "usd": {
+            "inputMiss": 1.32,
+            "inputHit": 0.044,
+            "output": 3.96
+          },
+          "cny": {
+            "inputMiss": 9,
+            "inputHit": 0.3,
+            "output": 27
+          }
+        }
+      ],
+      "peakValley": true,
+      "modelIds": {
+        "openai": "deepseek-v4-pro",
+        "anthropic": "deepseek-v4-pro"
+      },
+      "limits": {
+        "contextTokens": 1000000,
+        "maxOutputTokens": 384000,
+        "concurrency": 500
+      },
+      "features": {
+        "implicitCache": true,
+        "vision": false,
+        "toolCalls": true
+      },
+      "notes": [
+        "基准行，倍数恒为 1x",
+        "官方同时提供人民币与美元牌价",
+        "并发上限 500"
+      ]
+    },
+    {
+      "providerId": "siliconflow",
+      "displayName": "SiliconFlow 硅基流动",
+      "tiers": [
+        {
+          "id": "flat",
+          "label": "固定价",
+          "usd": {
+            "inputMiss": 1.32,
+            "inputHit": 0.044,
+            "output": 3.96
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1000000,
+        "maxOutputTokens": 384000
+      },
+      "notes": [
+        "标价等于官方峰价（对谷价 2x，对峰价 1x）",
+        "已上线 0813 正式版"
+      ]
+    },
+    {
+      "providerId": "volcengine-ark",
+      "displayName": "火山方舟 Volcengine Ark",
+      "priceCurrency": "CNY",
+      "tiers": [
+        {
+          "id": "offpeak",
+          "label": "空闲",
+          "cny": {
+            "inputMiss": 4.5,
+            "inputHit": 0.15,
+            "output": 13.5
+          }
+        },
+        {
+          "id": "peak",
+          "label": "高峰",
+          "cny": {
+            "inputMiss": 9,
+            "inputHit": 0.3,
+            "output": 27
+          }
+        }
+      ],
+      "peakValley": true,
+      "limits": {
+        "contextTokens": 1000000,
+        "maxOutputTokens": 384000
+      },
+      "notes": [
+        "与官方人民币同价（1x）",
+        "另有缓存存储费 ¥0.017/M"
+      ]
+    },
+    {
+      "providerId": "alibaba-bailian-beijing",
+      "displayName": "阿里云百炼（北京）",
+      "priceCurrency": "CNY",
+      "tiers": [
+        {
+          "id": "offpeak",
+          "label": "闲时",
+          "cny": {
+            "inputMiss": 4.5,
+            "inputHit": null,
+            "output": 13.5
+          }
+        },
+        {
+          "id": "peak",
+          "label": "忙时",
+          "cny": {
+            "inputMiss": 9,
+            "inputHit": null,
+            "output": 27
+          }
+        }
+      ],
+      "peakValley": true,
+      "limits": {
+        "contextTokens": 1000000,
+        "maxOutputTokens": 384000
+      },
+      "notes": [
+        "与官方人民币同价",
+        "忙时 8:00-22:00（14h）"
+      ]
+    },
+    {
+      "providerId": "cloudflare-workers-ai",
+      "displayName": "Cloudflare Workers AI",
+      "tiers": [
+        {
+          "id": "flat",
+          "label": "固定价",
+          "usd": {
+            "inputMiss": 1.32,
+            "inputHit": 0.044,
+            "output": 3.96
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1048576,
+        "maxOutputTokens": 943718
+      },
+      "notes": [
+        "已上架 @cf/deepseek-ai/deepseek-v4-pro-0813",
+        "固定单价等于官方峰价"
+      ]
+    },
+    {
+      "providerId": "deepinfra",
+      "displayName": "DeepInfra",
+      "tiers": [
+        {
+          "id": "flat",
+          "label": "标价",
+          "usd": {
+            "inputMiss": 1.3,
+            "inputHit": 0.1,
+            "output": 2.6
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1048576,
+        "maxOutputTokens": 384000
+      },
+      "notes": [
+        "输出 $2.60 低于官方峰价 $3.96",
+        "缓存价 $0.10"
+      ]
+    },
+    {
+      "providerId": "together",
+      "displayName": "Together AI",
+      "tiers": [
+        {
+          "id": "flat",
+          "label": "固定价",
+          "usd": {
+            "inputMiss": 1.32,
+            "inputHit": 0.13,
+            "output": 3.96
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1048576,
+        "maxOutputTokens": 384000
+      },
+      "notes": [
+        "输入输出等于官方峰价",
+        "缓存价 $0.13"
+      ]
+    },
+    {
+      "providerId": "digitalocean",
+      "displayName": "DigitalOcean Gradient",
+      "tiers": [
+        {
+          "id": "flat",
+          "label": "固定价",
+          "usd": {
+            "inputMiss": 1.32,
+            "inputHit": 0.044,
+            "output": 3.96
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1048576,
+        "maxOutputTokens": 943718
+      },
+      "notes": [
+        "等于官方峰价"
+      ]
+    },
+    {
+      "providerId": "nebius",
+      "displayName": "Nebius AI Studio",
+      "tiers": [
+        {
+          "id": "flat",
+          "label": "固定价",
+          "usd": {
+            "inputMiss": 1.32,
+            "inputHit": null,
+            "output": 3.96
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 979000,
+        "maxOutputTokens": 881100
+      },
+      "notes": [
+        "输入输出等于官方峰价",
+        "无缓存命中折扣"
+      ]
+    },
+    {
+      "providerId": "wandb-inference",
+      "displayName": "W&B Inference",
+      "tiers": [
+        {
+          "id": "flat",
+          "label": "固定价",
+          "usd": {
+            "inputMiss": 1.31,
+            "inputHit": 0.044,
+            "output": 3.96
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1048576,
+        "maxOutputTokens": 1048576
+      },
+      "notes": [
+        "接近官方峰价"
+      ]
+    },
+    {
+      "providerId": "openrouter",
+      "displayName": "OpenRouter",
+      "tiers": [
+        {
+          "id": "flat",
+          "label": "默认路由",
+          "usd": {
+            "inputMiss": 1.32,
+            "inputHit": 0.044,
+            "output": 3.96
+          }
+        }
+      ],
+      "peakValley": false,
+      "multiEndpoint": true,
+      "limits": {
+        "contextTokens": 1048576,
+        "maxOutputTokens": 943718
+      },
+      "notes": [
+        "聚合网关，默认路由标价等于官方峰价",
+        "实测 22 个上游端点，低至 $0.127 / $8 或 $0.141 / $0.424"
+      ],
+      "endpoints": [
+        {
+          "providerName": "Relace",
+          "tag": "relace/fp4",
+          "usd": {
+            "inputMiss": 0.1271,
+            "inputHit": 0.0953,
+            "output": 8
+          },
+          "contextTokens": 1048576,
+          "maxOutputTokens": 393216,
+          "quantization": "fp4",
+          "uptimeLast1d": 99.86,
+          "implicitCache": false,
+          "note": "fp4"
+        },
+        {
+          "providerName": "Baidu",
+          "tag": "baidu/fp8",
+          "usd": {
+            "inputMiss": 0.14124,
+            "inputHit": 0.004494,
+            "output": 0.42372
+          },
+          "contextTokens": 1048576,
+          "maxOutputTokens": 393216,
+          "quantization": "fp8",
+          "uptimeLast1d": 100,
+          "implicitCache": false,
+          "note": "fp8"
+        },
+        {
+          "providerName": "Wafer",
+          "tag": "wafer",
+          "usd": {
+            "inputMiss": 0.175,
+            "inputHit": 0.17,
+            "output": 3.4
+          },
+          "contextTokens": 1048576,
+          "maxOutputTokens": 943718,
+          "quantization": "unknown",
+          "uptimeLast1d": 100,
+          "implicitCache": false,
+          "note": "unknown"
+        },
+        {
+          "providerName": "Ionstream",
+          "tag": "ionstream",
+          "usd": {
+            "inputMiss": 0.37,
+            "inputHit": 0.15,
+            "output": 2.93
+          },
+          "contextTokens": 1048576,
+          "maxOutputTokens": 943718,
+          "quantization": "unknown",
+          "uptimeLast1d": 97.71,
+          "implicitCache": false,
+          "note": "unknown"
+        },
+        {
+          "providerName": "Sail Research",
+          "tag": "sail-research/us",
+          "usd": {
+            "inputMiss": 0.4,
+            "inputHit": 0.033,
+            "output": 4.3
+          },
+          "contextTokens": 1048576,
+          "maxOutputTokens": 384000,
+          "quantization": "fp4",
+          "uptimeLast1d": 100,
+          "implicitCache": false,
+          "note": "fp4"
+        },
+        {
+          "providerName": "Sail Research",
+          "tag": "sail-research/fp4",
+          "usd": {
+            "inputMiss": 0.4,
+            "inputHit": 0.033,
+            "output": 4.3
+          },
+          "contextTokens": 1048576,
+          "maxOutputTokens": 384000,
+          "quantization": "fp4",
+          "uptimeLast1d": 100,
+          "implicitCache": false,
+          "note": "fp4"
+        },
+        {
+          "providerName": "Alibaba",
+          "tag": "alibaba",
+          "usd": {
+            "inputMiss": 0.5808,
+            "inputHit": 0.05808,
+            "output": 1.7424
+          },
+          "contextTokens": 1000000,
+          "maxOutputTokens": 393216,
+          "quantization": "unknown",
+          "uptimeLast1d": 99.69,
+          "implicitCache": false,
+          "note": "unknown"
+        },
+        {
+          "providerName": "StreamLake",
+          "tag": "streamlake",
+          "usd": {
+            "inputMiss": 0.66,
+            "inputHit": 0.022,
+            "output": 1.98
+          },
+          "contextTokens": 1024000,
+          "maxOutputTokens": 384000,
+          "quantization": "unknown",
+          "uptimeLast1d": 100,
+          "implicitCache": false,
+          "note": "unknown"
+        },
+        {
+          "providerName": "DeepSeek",
+          "tag": "deepseek",
+          "usd": {
+            "inputMiss": 0.66,
+            "inputHit": 0.022,
+            "output": 1.98
+          },
+          "contextTokens": 1048576,
+          "maxOutputTokens": 393216,
+          "quantization": "unknown",
+          "uptimeLast1d": 100,
+          "implicitCache": true,
+          "note": "官方端点支持隐式缓存"
+        },
+        {
+          "providerName": "Phala",
+          "tag": "phala",
+          "usd": {
+            "inputMiss": 0.957,
+            "inputHit": 0.099,
+            "output": 2.8776
+          },
+          "contextTokens": 1048576,
+          "maxOutputTokens": 393216,
+          "quantization": "unknown",
+          "uptimeLast1d": 99.78,
+          "implicitCache": false,
+          "note": "unknown"
+        },
+        {
+          "providerName": "Novita",
+          "tag": "novita/fp8",
+          "usd": {
+            "inputMiss": 0.99,
+            "inputHit": 0.033,
+            "output": 2.97
+          },
+          "contextTokens": 1048576,
+          "maxOutputTokens": 393216,
+          "quantization": "fp8",
+          "uptimeLast1d": 100,
+          "implicitCache": false,
+          "note": "fp8"
+        },
+        {
+          "providerName": "GMICloud",
+          "tag": "gmicloud/fp8",
+          "usd": {
+            "inputMiss": 1.056,
+            "inputHit": 0.0352,
+            "output": 3.168
+          },
+          "contextTokens": 1048575,
+          "maxOutputTokens": 943717,
+          "quantization": "fp8",
+          "uptimeLast1d": 100,
+          "implicitCache": false,
+          "note": "fp8"
+        },
+        {
+          "providerName": "DeepInfra",
+          "tag": "deepinfra/fp8",
+          "usd": {
+            "inputMiss": 1.3,
+            "inputHit": 0.1,
+            "output": 2.6
+          },
+          "contextTokens": 1048576,
+          "maxOutputTokens": 16384,
+          "quantization": "fp8",
+          "uptimeLast1d": 99.45,
+          "implicitCache": false,
+          "note": "fp8"
+        },
+        {
+          "providerName": "CoreWeave",
+          "tag": "coreweave/fp8",
+          "usd": {
+            "inputMiss": 1.31,
+            "inputHit": 0.044,
+            "output": 3.96
+          },
+          "contextTokens": 1048576,
+          "maxOutputTokens": 943718,
+          "quantization": "fp8",
+          "uptimeLast1d": 100,
+          "implicitCache": false,
+          "note": "fp8"
+        },
+        {
+          "providerName": "AtlasCloud",
+          "tag": "atlas-cloud/fp8",
+          "usd": {
+            "inputMiss": 1.32,
+            "inputHit": 0.132,
+            "output": 3.96
+          },
+          "contextTokens": 1048576,
+          "maxOutputTokens": 393216,
+          "quantization": "fp8",
+          "uptimeLast1d": 100,
+          "implicitCache": false,
+          "note": "fp8"
+        },
+        {
+          "providerName": "Nebius",
+          "tag": "nebius/fp8",
+          "usd": {
+            "inputMiss": 1.32,
+            "inputHit": null,
+            "output": 3.96
+          },
+          "contextTokens": 979000,
+          "maxOutputTokens": 881100,
+          "quantization": "fp8",
+          "uptimeLast1d": 100,
+          "implicitCache": false,
+          "note": "fp8"
+        },
+        {
+          "providerName": "Parasail",
+          "tag": "parasail/fp8",
+          "usd": {
+            "inputMiss": 1.32,
+            "inputHit": 0.044,
+            "output": 3.96
+          },
+          "contextTokens": 1048576,
+          "maxOutputTokens": 943718,
+          "quantization": "fp8",
+          "uptimeLast1d": 100,
+          "implicitCache": false,
+          "note": "fp8"
+        },
+        {
+          "providerName": "Together",
+          "tag": "together",
+          "usd": {
+            "inputMiss": 1.32,
+            "inputHit": 0.13,
+            "output": 3.96
+          },
+          "contextTokens": 1048576,
+          "maxOutputTokens": 943718,
+          "quantization": "unknown",
+          "uptimeLast1d": 97.53,
+          "implicitCache": false,
+          "note": "unknown"
+        },
+        {
+          "providerName": "DigitalOcean",
+          "tag": "digitalocean",
+          "usd": {
+            "inputMiss": 1.32,
+            "inputHit": 0.044,
+            "output": 3.96
+          },
+          "contextTokens": 1048576,
+          "maxOutputTokens": 943718,
+          "quantization": "unknown",
+          "uptimeLast1d": 100,
+          "implicitCache": false,
+          "note": "unknown"
+        },
+        {
+          "providerName": "SiliconFlow",
+          "tag": "siliconflow/fp8",
+          "usd": {
+            "inputMiss": 1.32,
+            "inputHit": 0.044,
+            "output": 3.96
+          },
+          "contextTokens": 1048576,
+          "maxOutputTokens": 393216,
+          "quantization": "fp8",
+          "uptimeLast1d": 100,
+          "implicitCache": false,
+          "note": "fp8"
+        },
+        {
+          "providerName": "Cloudflare",
+          "tag": "cloudflare",
+          "usd": {
+            "inputMiss": 1.32,
+            "inputHit": 0.044,
+            "output": 3.96
+          },
+          "contextTokens": 1048576,
+          "maxOutputTokens": 943718,
+          "quantization": "unknown",
+          "uptimeLast1d": 99.67,
+          "implicitCache": false,
+          "note": "unknown"
+        },
+        {
+          "providerName": "Venice",
+          "tag": "venice",
+          "usd": {
+            "inputMiss": 1.65,
+            "inputHit": 0.165,
+            "output": 4.95
+          },
+          "contextTokens": 1000000,
+          "maxOutputTokens": 32768,
+          "quantization": "unknown",
+          "uptimeLast1d": 85.71,
+          "implicitCache": false,
+          "note": "unknown"
+        }
+      ]
+    },
+    {
+      "providerId": "azure-foundry",
+      "displayName": "Azure AI Foundry (Fireworks)",
+      "tiers": [
+        {
+          "id": "flat",
+          "label": "DZ 区域单价",
+          "usd": {
+            "inputMiss": 1.925,
+            "inputHit": 0.62,
+            "output": 3.828
+          }
+        }
+      ],
+      "peakValley": false,
+      "limits": {
+        "contextTokens": 1000000,
+        "maxOutputTokens": 384000
+      },
+      "notes": [
+        "Azure Retail Prices API 实测 FW DeepSeek-V4-Pro meter"
+      ]
+    },
+    {
+      "providerId": "aws-bedrock",
+      "displayName": "AWS Bedrock",
+      "available": false,
+      "notes": [
+        "已核实未上架 DeepSeek V4 系列"
+      ]
+    },
+    {
+      "providerId": "google-vertex",
+      "displayName": "Google Vertex AI",
+      "available": false,
+      "notes": [
+        "已核实未上架 DeepSeek V4 系列"
+      ]
+    }
+  ]
+}

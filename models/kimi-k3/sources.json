@@ -1,0 +1,69 @@
+{
+  "$schema": "自描述。Kimi K3 页面数字与口径的出处清单。",
+  "_meta": { "generatedAt": "2026-10-08", "modelSlug": "kimi-k3" },
+  "sources": [
+    {
+      "id": "kimi-k3-official-model",
+      "label": "Kimi 官方模型列表",
+      "url": "https://platform.kimi.ai/docs/models",
+      "fetchedAt": "2026-10-08",
+      "verification": "official-doc",
+      "covers": ["model identity", "1M context", "current model availability"]
+    },
+    {
+      "id": "kimi-k3-official-quickstart",
+      "label": "Kimi K3 官方快速开始",
+      "url": "https://platform.kimi.ai/docs/guide/kimi-k3-quickstart",
+      "fetchedAt": "2026-10-08",
+      "verification": "official-doc",
+      "covers": ["2.8T parameters", "Kimi Delta Attention", "native vision", "long-horizon positioning"]
+    },
+    {
+      "id": "kimi-k3-official-pricing",
+      "label": "Kimi 官方 K3 API 定价",
+      "url": "https://platform.kimi.ai/docs/pricing/chat.md",
+      "fetchedAt": "2026-10-08",
+      "verification": "official-doc",
+      "covers": ["channels/api.json baseline", "input/cache hit/output", "cache write TTL 5m/1h"]
+    },
+    {
+      "id": "aa-kimi-k3",
+      "label": "Artificial Analysis Kimi K3 对照快照",
+      "url": "https://artificialanalysis.ai/models/deepseek-v4-1-flash",
+      "fetchedAt": "2026-10-08",
+      "verification": "single-source-unverified",
+      "rawFile": "../../raw/_global/2026-10-08/aa-peers.json",
+      "covers": ["benchmarks/aa.json", "radar", "AA USD task cost", "architecture snapshot"],
+      "notes": "工作区 peers 快照中的 Kimi K3 (Max) 条目；不是官方定价来源。"
+    },
+    {
+      "id": "lmarena-text-kimi-k3",
+      "label": "LMArena Text 榜工作区原始快照",
+      "url": "https://datasets-server.huggingface.co/rows?dataset=lmarena-ai/leaderboard-dataset&config=text",
+      "fetchedAt": "2026-10-08",
+      "verification": "api-endpoint",
+      "rawFile": "../deepseek-v4.1-flash/raw/2026-10-08/lmarena-text.json",
+      "covers": ["benchmarks/lmarena.json overall rank/rating/votes"]
+    },
+    {
+      "id": "kimi-k3-modelsdev-crosscheck",
+      "label": "models.dev Kimi K3 聚合目录快照",
+      "url": "https://models.dev/",
+      "fetchedAt": "2026-10-08",
+      "verification": "aggregator",
+      "rawFile": "../../raw/_global/2026-10-08/modelsdev.json",
+      "covers": ["canonical model id", "modalities", "context/max output cross-check"],
+      "notes": "聚合缓存价与官方 Kimi 价不一致，不用于主渠道价格。"
+    },
+    {
+      "id": "kimi-k3-openrouter-crosscheck",
+      "label": "OpenRouter Kimi K3 聚合目录快照",
+      "url": "https://openrouter.ai/api/v1/models",
+      "fetchedAt": "2026-10-08",
+      "verification": "aggregator",
+      "rawFile": "../../raw/_global/2026-10-08/openrouter-models.json",
+      "covers": ["context/max output/modalities cross-check"],
+      "notes": "聚合端点价格不覆盖官方 Moonshot API 价格。"
+    }
+  ]
+}

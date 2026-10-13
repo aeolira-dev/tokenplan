@@ -1,0 +1,420 @@
+{
+  "$schema": "自描述。按量计费渠道 × 本模型。只放「随模型变化」的字段：价格、该渠道下的上下文/最大输出、上游与限制差异。渠道身份（月费、官网、路由策略）见 ../../../providers.json。",
+  "_meta": {
+    "generatedAt": "2026-10-08",
+    "modelSlug": "deepseek-v4.1-flash",
+    "currencyNote": "所有价格统一以 USD / 每 1M token 存储。人民币渠道在 cny 字段另存原始牌价，不做汇率换算（避免二次误差）；需要人民币视图时按 providers.json 的 fxRates 折算。",
+    "ratioDerivation": {
+      "principle": "本文件只存价格，不存倍数。倍数是纯函数 ratio = channelPrice / baselinePrice(tier)，由构建期计算。这样峰/谷切换按钮只需换 tier，整列倍数自动重算，不会出现手写倍数与价格不一致。",
+      "baselineProviderId": "deepseek-official",
+      "tiers": ["offpeak", "peak"],
+      "perField": ["inputMiss", "inputHit", "output"],
+      "headline": "blended7To2To1 —— 按 AA 的 7:2:1 混合口径（7 份缓存读 + 2 份未命中输入 + 1 份输出）折算的单一倍数，用于表格的「与官方相比」列。公式与 AA 的 price1mBlended7To2To1 一致。",
+      "headlineFormula": "(7*inputHit + 2*inputMiss + 1*output) / 10",
+      "currencyRule": "⚠️ 同币种相比，不做汇率换算。人民币渠道（火山/百度/百炼北京）对官方人民币牌价（¥1/¥0.02/¥4 谷），美元渠道对官方美元牌价（$0.15/$0.003/$0.60 谷）。若强行把 ¥1 按 7.1 折算成 $0.1408 再比，会凭空得到 0.94x 的假优势 —— 而官方自己的人民币牌价就是 ¥1，两者其实是同价。"
+    },
+    "verificationLevels": {
+      "official-doc": "渠道官方文档/定价页直接核实",
+      "api-endpoint": "渠道公开 API 返回值核实",
+      "aggregator": "仅聚合平台列出，官网未证",
+      "single-source-unverified": "仅第三方单源"
+    },
+    "ordering": "official 恒为第一行，其余按 headline 倍数（对谷价）升序。",
+    "knownPitfall": "多数第三方渠道的固定单价恰好等于官方高峰价（$0.30/$1.20）。对谷价看是 2x，对峰价看是 1x。不声明基准，整张表会整体差一倍。"
+  },
+
+  "baseline": {
+    "providerId": "deepseek-official",
+    "label": "DeepSeek 官方（基准）",
+    "tiers": [
+      {
+        "id": "offpeak",
+        "label": "空闲",
+        "usd": { "inputMiss": 0.15, "inputHit": 0.003, "output": 0.6 },
+        "cny": { "inputMiss": 1, "inputHit": 0.02, "output": 4 }
+      },
+      {
+        "id": "peak",
+        "label": "高峰",
+        "usd": { "inputMiss": 0.3, "inputHit": 0.006, "output": 1.2 },
+        "cny": { "inputMiss": 2, "inputHit": 0.04, "output": 8 }
+      }
+    ],
+    "peakWindow": {
+      "timezone": "Asia/Shanghai",
+      "days": ["monday", "tuesday", "wednesday", "thursday", "friday"],
+      "ranges": [["09:00", "12:00"], ["14:00", "18:00"]],
+      "excludeHolidays": "CN",
+      "note": "高峰 = 北京时间周一至周五 9:00-12:00、14:00-18:00，不含中国法定节假日；其余含周末全天为空闲。空闲恒为高峰一半。"
+    }
+  },
+
+  "channels": [
+    {
+      "providerId": "deepseek-official",
+      "isOfficial": true,
+      "displayName": "DeepSeek 官方 API",
+      "tiers": [
+        { "id": "offpeak", "label": "空闲", "usd": { "inputMiss": 0.15, "inputHit": 0.003, "output": 0.6 }, "cny": { "inputMiss": 1, "inputHit": 0.02, "output": 4 } },
+        { "id": "peak", "label": "高峰", "usd": { "inputMiss": 0.3, "inputHit": 0.006, "output": 1.2 }, "cny": { "inputMiss": 2, "inputHit": 0.04, "output": 8 } }
+      ],
+      "peakValley": true,
+      "peakWindow": "同 baseline.peakWindow",
+      "modelIds": { "openai": "deepseek-flash", "anthropic": "deepseek-flash" },
+      "baseUrls": { "openai": "https://api.deepseek.com", "anthropic": "https://api.deepseek.com/anthropic" },
+      "limits": { "contextTokens": 1000000, "maxOutputTokens": 384000, "concurrency": 2500 },
+      "features": { "implicitCache": true, "vision": true, "toolCalls": true, "jsonOutput": true, "responsesApi": true, "anthropicApi": true, "chatPrefixCompletion": true, "fimCompletion": "非思考模式（Beta）" },
+      "verification": "official-doc",
+      "notes": ["基准行，倍数恒为 1x", "官方同时提供人民币与美元牌价，两者并存", "缓存命中价极低（$0.003/M），使实际成本高度依赖缓存率"],
+      "sources": ["deepseek-pricing-doc", "deepseek-pricing-doc-en", "openrouter-flash-endpoints"]
+    },
+
+    {
+      "providerId": "siliconflow",
+      "displayName": "SiliconFlow 硅基流动",
+      "tiers": [{ "id": "flat", "label": "固定价", "usd": { "inputMiss": 0.15, "inputHit": 0.003, "output": 0.6 } }],
+      "peakValley": false,
+      "modelIds": { "openai": "deepseek-ai/DeepSeek-V4.1-Flash" },
+      "limits": { "contextTokens": 1049000, "maxOutputTokens": null },
+      "features": { "implicitCache": false, "vision": true },
+      "verification": "official-doc",
+      "notes": ["官网直售价与官方谷价完全相同（1x）", "上下文标注 1049K（官方 1M）", "OpenRouter 上挂的 SiliconFlow 报价是 $0.30/$1.20，比官网贵一倍 —— 走官网更便宜"],
+      "sources": ["siliconflow-pricing2", "openrouter-flash-endpoints"]
+    },
+
+    {
+      "providerId": "302ai",
+      "displayName": "302.AI",
+      "tiers": [{ "id": "flat", "label": "固定价", "usd": { "inputMiss": 0.15, "inputHit": 0.003, "output": 0.6 } }],
+      "peakValley": false,
+      "modelIds": { "openai": "deepseek-flash" },
+      "limits": { "contextTokens": 1000000, "maxOutputTokens": 384000 },
+      "features": { "implicitCache": false },
+      "verification": "aggregator",
+      "notes": ["价格与官方谷价相同", "仅 models.dev 列出，未在其官网逐模型页确认"],
+      "sources": ["modelsdev"]
+    },
+
+    {
+      "providerId": "aihubmix",
+      "displayName": "AIHubMix",
+      "tiers": [{ "id": "flat", "label": "固定价", "usd": { "inputMiss": 0.155, "inputHit": 0.0031, "output": 0.62 } }],
+      "peakValley": false,
+      "modelIds": { "openai": "deepseek-v4.1-flash" },
+      "limits": { "contextTokens": 1000000, "maxOutputTokens": 384000 },
+      "features": { "implicitCache": false },
+      "verification": "aggregator",
+      "notes": ["比官方谷价贵约 3%", "聚合站，未逐项核实上游"],
+      "sources": ["modelsdev"]
+    },
+
+    {
+      "providerId": "deepinfra",
+      "displayName": "DeepInfra",
+      "tiers": [
+        { "id": "flat", "label": "标价", "usd": { "inputMiss": 0.2, "inputHit": 0.006, "output": 0.6 } },
+        { "id": "discounted", "label": "折扣价（30% off）", "usd": { "inputMiss": 0.14, "inputHit": 0.0042, "output": 0.42 } }
+      ],
+      "peakValley": false,
+      "modelIds": { "openai": "deepseek-ai/DeepSeek-V4.1-Flash" },
+      "limits": { "contextTokens": 1048576, "maxOutputTokens": 131072 },
+      "features": { "implicitCache": false, "vision": true, "quantization": "fp8", "serviceTiers": ["flex", "priority"] },
+      "verification": "api-endpoint",
+      "notes": ["输入比官方贵 33%，输出与官方持平", "⚠️ 最大输出仅 131072，远低于官方 384000", "OpenRouter 上显示的是折后价 $0.14/$0.42", "缓存价按输入价的 3% 计（rate_per_input_token_cached 0.03）"],
+      "sources": ["deepinfra-models-api", "modelsdev", "openrouter-flash-endpoints"]
+    },
+
+    {
+      "providerId": "wandb-inference",
+      "displayName": "W&B Inference",
+      "tiers": [{ "id": "flat", "label": "固定价", "usd": { "inputMiss": 0.2, "inputHit": 0.03, "output": 0.65 } }],
+      "peakValley": false,
+      "modelIds": { "openai": "deepseek-ai/DeepSeek-V4.1-Flash" },
+      "limits": { "contextTokens": 1048576, "maxOutputTokens": 1048576 },
+      "features": { "implicitCache": false },
+      "verification": "aggregator",
+      "notes": ["输入贵 33%、输出贵 8%", "⚠️ 缓存价 $0.03/M，是官方谷价的 10 倍 —— 高缓存率场景下实际成本会明显高于倍数直觉"],
+      "sources": ["modelsdev"]
+    },
+
+    {
+      "providerId": "novita",
+      "displayName": "Novita AI",
+      "tiers": [
+        { "id": "flat", "label": "官网标价", "usd": { "inputMiss": 0.3, "inputHit": 0.006, "output": 1.2 } },
+        { "id": "openrouter", "label": "OpenRouter 折扣价", "usd": { "inputMiss": 0.195, "inputHit": 0.0039, "output": 0.78 } }
+      ],
+      "peakValley": false,
+      "modelIds": { "openai": "deepseek/deepseek-v4.1-flash", "variants": ["deepseek/deepseek-v4.1-flash-dst", "deepseek/deepseek-v4.1-flash-p"] },
+      "limits": { "contextTokens": 1048576, "maxOutputTokens": 393216 },
+      "features": { "implicitCache": false, "quantization": "fp8" },
+      "verification": "api-endpoint",
+      "notes": ["官网 API 标价等于官方峰价（对谷价 2x）", "OpenRouter 上另有折扣价 $0.195/$0.78", "官方 API 返回 input_token_price_per_m=3000（单位 1e-4 USD）"],
+      "sources": ["novita-models-api", "openrouter-flash-endpoints"]
+    },
+
+    {
+      "providerId": "together",
+      "displayName": "Together AI",
+      "tiers": [{ "id": "flat", "label": "固定价", "usd": { "inputMiss": 0.3, "inputHit": 0.006, "output": 1.2 } }],
+      "peakValley": false,
+      "modelIds": { "openai": "deepseek-ai/DeepSeek-V4.1-Flash" },
+      "limits": { "contextTokens": 1048576, "maxOutputTokens": 384000 },
+      "features": { "implicitCache": false },
+      "verification": "official-doc",
+      "notes": ["等于官方峰价（对谷价 2x，对峰价 1x）", "官方定价表明确列出 cached 一列 $0.006"],
+      "sources": ["together-pricing", "modelsdev"]
+    },
+
+    {
+      "providerId": "fireworks",
+      "displayName": "Fireworks AI",
+      "tiers": [
+        { "id": "standard", "label": "Standard", "usd": { "inputMiss": 0.3, "inputHit": 0.006, "output": 1.2 } },
+        { "id": "us", "label": "US-only 区域", "usd": { "inputMiss": 0.45, "inputHit": 0.009, "output": 1.8 } }
+      ],
+      "peakValley": false,
+      "modelIds": { "openai": "accounts/fireworks/models/deepseek-v4p1-flash" },
+      "limits": { "contextTokens": 1000000, "maxOutputTokens": 384000 },
+      "features": { "implicitCache": false },
+      "verification": "aggregator",
+      "notes": ["Standard 档等于官方峰价（2x 谷价）", "US-only 档 $0.45/$1.80 是全表最贵直连渠道（3x 谷价）", "Fireworks 官网定价页为 JS 渲染，逐模型价未从官网直接读到；价格来自 OpenRouter 端点与 models.dev 两处一致", "⚠️ OpenRouter 上 Fireworks 的 30 分钟可用率仅 63%，1 天 91% —— 是全表稳定性最差的渠道之一"],
+      "sources": ["openrouter-flash-endpoints", "modelsdev"]
+    },
+
+    {
+      "providerId": "digitalocean",
+      "displayName": "DigitalOcean Gradient",
+      "tiers": [{ "id": "flat", "label": "固定价", "usd": { "inputMiss": 0.3, "inputHit": 0.006, "output": 1.2 } }],
+      "peakValley": false,
+      "modelIds": { "openai": "deepseek-v4.1-flash" },
+      "limits": { "contextTokens": 1048576, "maxOutputTokens": 1048576 },
+      "features": { "implicitCache": false },
+      "verification": "aggregator",
+      "notes": ["等于官方峰价（2x 谷价）", "max_output 标为 1048576，大于官方 384000，疑为文档口径不一致"],
+      "sources": ["modelsdev", "openrouter-flash-endpoints"]
+    },
+
+    {
+      "providerId": "nebius",
+      "displayName": "Nebius AI Studio",
+      "tiers": [{ "id": "flat", "label": "固定价", "usd": { "inputMiss": 0.3, "inputHit": null, "output": 1.2 } }],
+      "peakValley": false,
+      "modelIds": { "openai": "deepseek-ai/DeepSeek-V4.1-Flash" },
+      "limits": { "contextTokens": 1048000, "maxOutputTokens": 1048000 },
+      "features": { "implicitCache": false, "reasoningEfforts": ["none", "low", "high", "max"] },
+      "verification": "aggregator",
+      "notes": ["等于官方峰价（2x 谷价）", "⚠️ models.dev 报的 cache_read = 0.3（与输入价相同，即无缓存折扣），与其它渠道普遍 $0.006 差异极大，需向 Nebius 复核后再上线", "支持 reasoning_effort 四档（含 none）"],
+      "sources": ["modelsdev", "nebius-models-api"]
+    },
+
+    {
+      "providerId": "vercel-gateway",
+      "displayName": "Vercel AI Gateway",
+      "tiers": [
+        { "id": "flat", "label": "标价", "usd": { "inputMiss": 0.3, "inputHit": 0.007, "output": 1.2 } },
+        { "id": "promo", "label": "促销最低价（30% off）", "usd": { "inputMiss": 0.14, "inputHit": null, "output": 0.42 } }
+      ],
+      "peakValley": false,
+      "modelIds": { "openai": "deepseek/deepseek-v4.1-flash" },
+      "limits": { "contextTokens": 1048576, "maxOutputTokens": 32768 },
+      "features": { "implicitCache": false },
+      "verification": "official-doc",
+      "notes": ["网关不自己定价，转发上游报价；标价取官方峰价", "页面「Prices from $0.14 / $0.42」是路由到最便宜上游后的促销价", "⚠️ 最大输出仅 32768，是全表最低，严重限制长输出场景"],
+      "sources": ["vercel-flash", "modelsdev"]
+    },
+
+    {
+      "providerId": "openrouter",
+      "displayName": "OpenRouter",
+      "tiers": [{ "id": "flat", "label": "默认路由", "usd": { "inputMiss": 0.3, "inputHit": 0.006, "output": 1.2 } }],
+      "peakValley": false,
+      "multiEndpoint": true,
+      "modelIds": { "openai": "deepseek/deepseek-v4.1-flash" },
+      "limits": { "contextTokens": 1048576, "maxOutputTokens": 943718 },
+      "features": { "implicitCache": false, "note": "OpenRouter 自身是聚合网关，价格取决于被路由到的上游" },
+      "verification": "api-endpoint",
+      "notes": ["聚合网关，默认价取官方峰价", "实测 30 个上游端点，价差达 16x（输入从 $0.0283 到 $0.45）", "只有 DeepSeek 官方端点的 supports_implicit_caching = true，其余 29 家全 false"],
+      "sources": ["openrouter-flash-endpoints"],
+      "endpoints": [
+        { "providerName": "Relace", "tag": "relace", "usd": { "inputMiss": 0.0283, "inputHit": 0.01, "output": 1 }, "contextTokens": 1048576, "maxOutputTokens": 943718, "quantization": "unknown", "uptimeLast1d": null, "implicitCache": false },
+        { "providerName": "Baidu", "tag": "baidu/fp8", "usd": { "inputMiss": 0.0354, "inputHit": 0.000708, "output": 0.1416 }, "contextTokens": 1048576, "maxOutputTokens": 393216, "quantization": "fp8", "uptimeLast1d": null, "implicitCache": false, "note": "缓存价 $0.000708/M 是全表最低" },
+        { "providerName": "Morph", "tag": "morph/fp8", "usd": { "inputMiss": 0.045, "inputHit": 0.01, "output": 0.6 }, "contextTokens": 1048576, "maxOutputTokens": 943718, "quantization": "fp8", "uptimeLast1d": 95.6, "implicitCache": false },
+        { "providerName": "Wafer", "tag": "wafer", "usd": { "inputMiss": 0.055, "inputHit": 0.044, "output": 1.5 }, "contextTokens": 1048576, "maxOutputTokens": 943718, "quantization": "unknown", "uptimeLast1d": null, "implicitCache": false },
+        { "providerName": "Sail Research", "tag": "sail-research/fp4", "usd": { "inputMiss": 0.08, "inputHit": 0.01, "output": 0.4 }, "contextTokens": 1048576, "maxOutputTokens": 384000, "quantization": "fp4", "uptimeLast1d": 98.26, "implicitCache": false },
+        { "providerName": "Decart", "tag": "decart/fp4", "usd": { "inputMiss": 0.09, "inputHit": 0.018, "output": 0.18 }, "contextTokens": 1048576, "maxOutputTokens": 262144, "quantization": "fp4", "uptimeLast1d": null, "implicitCache": false },
+        { "providerName": "DekaLLM", "tag": "dekallm", "usd": { "inputMiss": 0.12, "inputHit": 0.005, "output": 1.2 }, "contextTokens": 1048576, "maxOutputTokens": 943718, "quantization": "unknown", "uptimeLast1d": null, "implicitCache": false },
+        { "providerName": "Ionstream", "tag": "ionstream", "usd": { "inputMiss": 0.133, "inputHit": 0.006, "output": 1.15 }, "contextTokens": 1048576, "maxOutputTokens": 943718, "quantization": "unknown", "uptimeLast1d": 98.94, "implicitCache": false },
+        { "providerName": "DeepInfra", "tag": "deepinfra/fp8", "usd": { "inputMiss": 0.14, "inputHit": 0.0042, "output": 0.42 }, "contextTokens": 1048576, "maxOutputTokens": 131072, "quantization": "fp8", "uptimeLast1d": null, "implicitCache": false },
+        { "providerName": "InferenceNet", "tag": "inference-net/fp8", "usd": { "inputMiss": 0.145, "inputHit": 0.015, "output": 0.6 }, "contextTokens": 1040000, "maxOutputTokens": 393216, "quantization": "fp8", "uptimeLast1d": null, "implicitCache": false },
+        { "providerName": "StreamLake", "tag": "streamlake/fp8", "usd": { "inputMiss": 0.15, "inputHit": 0.003, "output": 0.6 }, "contextTokens": 1024000, "maxOutputTokens": 384000, "quantization": "fp8", "uptimeLast1d": null, "implicitCache": false },
+        { "providerName": "Alibaba", "tag": "alibaba", "usd": { "inputMiss": 0.15, "inputHit": 0.015, "output": 0.6 }, "contextTokens": 1000000, "maxOutputTokens": 393216, "quantization": "unknown", "uptimeLast1d": null, "implicitCache": false, "note": "该端点带 overrides，峰谷区间与官方不同（UTC 0-14 为高价档）" },
+        { "providerName": "DeepSeek", "tag": "deepseek", "usd": { "inputMiss": 0.15, "inputHit": 0.003, "output": 0.6 }, "contextTokens": 1048576, "maxOutputTokens": 393216, "quantization": "unknown", "uptimeLast1d": null, "implicitCache": true, "note": "唯一支持隐式缓存的端点；带 overrides，与官方文档峰谷完全一致" },
+        { "providerName": "GMICloud", "tag": "gmicloud/fp8", "usd": { "inputMiss": 0.18, "inputHit": 0.0036, "output": 0.72 }, "contextTokens": 1048575, "maxOutputTokens": 943717, "quantization": "fp8", "uptimeLast1d": null, "implicitCache": false },
+        { "providerName": "Novita", "tag": "novita/fp8", "usd": { "inputMiss": 0.195, "inputHit": 0.0039, "output": 0.78 }, "contextTokens": 1048576, "maxOutputTokens": 393216, "quantization": "fp8", "uptimeLast1d": null, "implicitCache": false },
+        { "providerName": "CoreWeave", "tag": "coreweave/fp8", "usd": { "inputMiss": 0.2, "inputHit": 0.03, "output": 0.65 }, "contextTokens": 1048576, "maxOutputTokens": 943718, "quantization": "fp8", "uptimeLast1d": null, "implicitCache": false },
+        { "providerName": "Phala", "tag": "phala", "usd": { "inputMiss": 0.21, "inputHit": 0.0042, "output": 0.84 }, "contextTokens": 1048576, "maxOutputTokens": 943718, "quantization": "unknown", "uptimeLast1d": 94.59, "implicitCache": false },
+        { "providerName": "DigitalOcean", "tag": "digitalocean", "usd": { "inputMiss": 0.225, "inputHit": 0.006, "output": 0.9 }, "contextTokens": 1048576, "maxOutputTokens": 943718, "quantization": "unknown", "uptimeLast1d": 99.37, "implicitCache": false },
+        { "providerName": "Makora", "tag": "makora/fp8", "usd": { "inputMiss": 0.27, "inputHit": 0.009, "output": 1.15 }, "contextTokens": 1048576, "maxOutputTokens": 393216, "quantization": "fp8", "uptimeLast1d": null, "implicitCache": false },
+        { "providerName": "Crusoe", "tag": "crusoe/fp8", "usd": { "inputMiss": 0.29, "inputHit": 0.007, "output": 1.2 }, "contextTokens": 1048576, "maxOutputTokens": 943718, "quantization": "fp8", "uptimeLast1d": null, "implicitCache": false },
+        { "providerName": "AtlasCloud", "tag": "atlas-cloud/fp8", "usd": { "inputMiss": 0.3, "inputHit": 0.03, "output": 1.2 }, "contextTokens": 1048576, "maxOutputTokens": 393216, "quantization": "fp8", "uptimeLast1d": null, "implicitCache": false },
+        { "providerName": "BaseTen", "tag": "baseten/fp8", "usd": { "inputMiss": 0.3, "inputHit": 0.007, "output": 1.2 }, "contextTokens": 1048576, "maxOutputTokens": 262144, "quantization": "fp8", "uptimeLast1d": null, "implicitCache": false, "note": "OpenRouter 上出现两条相同条目，渲染时需去重" },
+        { "providerName": "Together", "tag": "together", "usd": { "inputMiss": 0.3, "inputHit": 0.006, "output": 1.2 }, "contextTokens": 1048576, "maxOutputTokens": 943718, "quantization": "unknown", "uptimeLast1d": null, "implicitCache": false },
+        { "providerName": "SiliconFlow", "tag": "siliconflow/fp8", "usd": { "inputMiss": 0.3, "inputHit": 0.006, "output": 1.2 }, "contextTokens": 1048576, "maxOutputTokens": 393216, "quantization": "fp8", "uptimeLast1d": null, "implicitCache": false, "note": "比硅基官网贵一倍" },
+        { "providerName": "Modal", "tag": "modal", "usd": { "inputMiss": 0.3, "inputHit": 0.03, "output": 1.2 }, "contextTokens": 1048576, "maxOutputTokens": 943718, "quantization": "unknown", "uptimeLast1d": null, "implicitCache": false },
+        { "providerName": "Parasail", "tag": "parasail/fp8", "usd": { "inputMiss": 0.3, "inputHit": 0.006, "output": 1.2 }, "contextTokens": 1048576, "maxOutputTokens": 943718, "quantization": "fp8", "uptimeLast1d": null, "implicitCache": false },
+        { "providerName": "Fireworks", "tag": "fireworks", "usd": { "inputMiss": 0.3, "inputHit": 0.006, "output": 1.2 }, "contextTokens": 1048576, "maxOutputTokens": 943718, "quantization": "unknown", "uptimeLast1d": 91.38, "implicitCache": false, "note": "30 分钟可用率仅 63.33%" },
+        { "providerName": "Venice", "tag": "venice/fp8", "usd": { "inputMiss": 0.3, "inputHit": 0.0075, "output": 1.2 }, "contextTokens": 1000000, "maxOutputTokens": 131072, "quantization": "fp8", "uptimeLast1d": null, "implicitCache": false },
+        { "providerName": "Fireworks (US)", "tag": "fireworks/us", "usd": { "inputMiss": 0.45, "inputHit": 0.009, "output": 1.8 }, "contextTokens": 1048576, "maxOutputTokens": 943718, "quantization": "unknown", "uptimeLast1d": 89.66, "implicitCache": false, "note": "全表最贵；状态标记为不可用" }
+      ]
+    },
+
+    {
+      "providerId": "volcengine-ark",
+      "displayName": "火山方舟",
+      "tiers": [
+        { "id": "offpeak", "label": "空闲时段", "usd": { "inputMiss": 0.1408, "inputHit": 0.002816, "output": 0.5632 }, "cny": { "inputMiss": 1, "inputHit": 0.02, "output": 4 } },
+        { "id": "peak", "label": "高峰时段", "usd": { "inputMiss": 0.2817, "inputHit": 0.005634, "output": 1.1268 }, "cny": { "inputMiss": 2, "inputHit": 0.04, "output": 8 } }
+      ],
+      "priceCurrency": "CNY",
+      "peakValley": true,
+      "peakWindow": { "timezone": "Asia/Shanghai", "note": "峰谷时段与官方一致，但按请求完成时间判定（官方按收到请求时间）" },
+      "modelIds": { "openai": "deepseek-v4-1-flash" },
+      "limits": { "contextTokens": null, "maxOutputTokens": null },
+      "features": { "implicitCache": false },
+      "extraFees": [{ "name": "缓存存储费", "cnyPer1M": 0.017, "note": "官方无此项" }],
+      "verification": "official-doc",
+      "notes": ["人民币牌价与官方人民币牌价完全相同（1.00x）", "⚠️ 上方的 usd 字段仅为本页展示用的近似折算（按 7.1），倍数列必须用 cny 字段对官方 cny 牌价计算，否则会得到假的 0.94x", "额外收取缓存存储费 ¥0.017/M —— 官方没有这项，高缓存场景下实际成本会略高于 1x"],
+      "sources": ["volc-model-pricing"]
+    },
+
+    {
+      "providerId": "alibaba-bailian-beijing",
+      "displayName": "阿里云百炼·北京",
+      "tiers": [
+        { "id": "offpeak", "label": "闲时（22:00-次日 8:00）", "usd": { "inputMiss": 0.1408, "inputHit": null, "output": 0.5632 }, "cny": { "inputMiss": 1, "inputHit": null, "output": 4 } },
+        { "id": "peak", "label": "忙时（8:00-22:00）", "usd": { "inputMiss": 0.2817, "inputHit": null, "output": 1.1268 }, "cny": { "inputMiss": 2, "inputHit": null, "output": 8 } }
+      ],
+      "priceCurrency": "CNY",
+      "peakValley": true,
+      "peakWindow": { "timezone": "Asia/Shanghai", "ranges": [["08:00", "22:00"]], "note": "忙时 = 北京时间 8:00-22:00，闲时 = 22:00-次日 8:00。比官方高峰窗口（6 小时/天）长得多，实际多为忙时价。" },
+      "modelIds": { "openai": "deepseek-v4.1-flash" },
+      "limits": { "contextTokens": null, "maxOutputTokens": null },
+      "features": { "implicitCache": true, "note": "官方写「上下文缓存享有折扣」，但未公布命中价数字", "prefixCompletion": false },
+      "freeQuota": "100 万 token（自开通/发布起 90 天内）",
+      "verification": "official-doc",
+      "notes": ["价格数字与官方相同，但忙时窗口长达 14 小时/天，实际支出高于官方", "⚠️ 缓存命中价未公布具体数字，倍数列该格应显示「未公布」而非 1x", "不支持前缀续写", "仅华北 2（北京）地域有免费额度"],
+      "sources": ["aliyun-bailian-pricing"]
+    },
+
+    {
+      "providerId": "alibaba-bailian-singapore",
+      "displayName": "阿里云百炼·新加坡",
+      "tiers": [
+        { "id": "offpeak", "label": "Idle hours（22:00-次日 8:00）", "usd": { "inputMiss": 0.15, "inputHit": null, "output": 0.6 } },
+        { "id": "peak", "label": "Busy hours（8:00-22:00）", "usd": { "inputMiss": 0.3, "inputHit": null, "output": 1.2 } }
+      ],
+      "peakValley": true,
+      "peakWindow": { "timezone": "Asia/Shanghai", "ranges": [["08:00", "22:00"]], "note": "官方英文页写「busy hours refer to UTC+8 8:00-22:00，off-peak 22:00-8:00」" },
+      "modelIds": { "openai": "deepseek-v4.1-flash" },
+      "limits": { "contextTokens": null, "maxOutputTokens": null },
+      "features": { "implicitCache": true, "responsesApi": true, "note": "Responses API 仅北京与新加坡地域支持" },
+      "freeQuota": "100 万 token",
+      "regionalVariants": [
+        { "region": "Germany (Frankfurt)", "scope": "Global", "usd": { "inputMiss": 0.283, "inputHit": null, "output": 1.131 } },
+        { "region": "China (Hong Kong)", "scope": "Global", "usd": { "inputMiss": 0.283, "inputHit": null, "output": 1.131 } }
+      ],
+      "verification": "official-doc",
+      "notes": ["美元牌价与官方美元牌价完全相同（1x 谷 / 1x 峰）", "⚠️ 缓存命中价未公布", "法兰克福与香港区域为 Global 部署，价格约 $0.283/$1.131"],
+      "sources": ["aliyun-intl-price4"]
+    },
+
+    {
+      "providerId": "baidu-qianfan",
+      "displayName": "百度千帆",
+      "tiers": [
+        { "id": "offpeak", "label": "空闲时段（22:00-次日 8:00）", "usd": { "inputMiss": 0.1408, "inputHit": 0.002816, "output": 0.5632 }, "cny": { "inputMiss": 1, "inputHit": 0.02, "output": 4 } },
+        { "id": "peak", "label": "高峰时段（8:00-22:00）", "usd": { "inputMiss": 0.2817, "inputHit": 0.005634, "output": 1.1268 }, "cny": { "inputMiss": 2, "inputHit": 0.04, "output": 8 } }
+      ],
+      "priceCurrency": "CNY",
+      "peakValley": true,
+      "peakWindow": { "timezone": "Asia/Shanghai", "ranges": [["08:00", "22:00"]], "note": "高峰时段 8:00-22:00，与阿里一致，比官方高峰窗口长得多" },
+      "modelIds": { "openai": "DeepSeek-V4.1-Flash" },
+      "limits": { "contextTokens": null, "maxOutputTokens": null },
+      "features": { "implicitCache": true },
+      "verification": "official-doc",
+      "notes": ["价格数字与官方相同（1x），但高峰窗口 14 小时/天", "官方定价页按「元/千 tokens」标价，已换算为每百万 token", "同页还有 DeepSeek-V4-Pro-0813 高峰 ¥9/¥0.30/¥27 每百万"],
+      "sources": ["baidu-qianfan-price"]
+    },
+
+    {
+      "providerId": "azure-foundry",
+      "displayName": "微软 Azure (Foundry)",
+      "tiers": [
+        { "id": "deepseek-global", "label": "Azure Deepseek Models · Global", "usd": { "inputMiss": 0.3, "inputHit": 0.006, "output": 1.2 }, "regions": 42 },
+        { "id": "deepseek-dz-us", "label": "Azure Deepseek Models · Data Zone（美国）", "usd": { "inputMiss": 0.33, "inputHit": 0.0066, "output": 1.32 }, "regions": 9 },
+        { "id": "deepseek-dz-eu", "label": "Azure Deepseek Models · Data Zone（欧洲）", "usd": { "inputMiss": 0.36, "inputHit": 0.0072, "output": 1.44 }, "regions": 13 },
+        { "id": "deepseek-dz-usgov", "label": "Azure Deepseek Models · Data Zone（usgovarizona / usgovvirginia）", "usd": { "inputMiss": 0.4125, "inputHit": 0.00825, "output": 1.65 }, "regions": 2 },
+        { "id": "deepseek-global-usgov", "label": "Azure Deepseek Models · Global（usgov 区域）", "usd": { "inputMiss": 0.375, "inputHit": 0.0075, "output": 1.5 }, "regions": 2 },
+        { "id": "fireworks-global", "label": "Azure Fireworks Models · Global（转售）", "usd": { "inputMiss": 0.375, "inputHit": 0.008, "output": 1.5 }, "regions": 20 }
+      ],
+      "peakValley": false,
+      "modelIds": { "openai": "DeepSeek-V4.1-Flash" },
+      "limits": { "contextTokens": null, "maxOutputTokens": null },
+      "features": { "implicitCache": true, "note": "Azure 侧有 cached 档位价格，说明支持缓存" },
+      "verification": "api-endpoint",
+      "notes": [
+        "⚠️ 修正此前结论：Azure 同时提供两条产品线 —— Azure Deepseek Models（原厂直供）与 Azure Fireworks Models（经 Fireworks 转售）",
+        "原厂 Glbl 档 $0.30/$0.006/$1.20 与官方美元峰价一致（2x 谷价）；无峰谷，价格恒定",
+        "DZ（Data Zone）档比 Global 贵，usgov 区域最贵（最高 2.75x 谷价）",
+        "转售线 $0.375/$0.008/$1.50 比 Fireworks 自身 Standard 档贵 25%",
+        "Azure SKU 名不含「DeepSeek」字样（形如 V4.1 Flash Input Glbl），按 DeepSeek 关键字过滤会漏掉",
+        "零售价 API 未提供该模型的上下文/最大输出，需从 Azure 模型卡另行核实"
+      ],
+      "sources": ["azure-retail-v4", "azure-retail-flash2"]
+    },
+
+    {
+      "providerId": "tencent-tokenhub",
+      "displayName": "腾讯云 TokenHub（按量）",
+      "tiers": [{ "id": "flat", "label": "积分抵扣", "usd": null, "creditsPer1M": { "inputMiss": 40, "inputHit": 0.8, "output": 160 } }],
+      "peakValley": false,
+      "modelIds": { "openai": "deepseek/deepseek-flash" },
+      "limits": { "contextTokens": null, "maxOutputTokens": null },
+      "features": { "implicitCache": true },
+      "verification": "official-doc",
+      "notes": [
+        "计费单位是「积分」而非美元，公式 = Σ(token × 对应单价)/1e6",
+        "标注「原厂直供」，但 TokenHub 明示不对该服务提供 SLA 保障",
+        "⚠️ 积分与人民币的换算率未核实，因此本行无法给出与官方相比的倍数，页面该格应显示「积分计价」",
+        "官方文档同时列出订阅版（Token Plan），见 subscription.json"
+      ],
+      "sources": ["tencent-tokenhub-doc"]
+    },
+
+    {
+      "providerId": "cloudflare-workers-ai",
+      "displayName": "Cloudflare Workers AI",
+      "available": false,
+      "verification": "official-doc",
+      "notes": ["已核实未上架 DeepSeek-V4.1-Flash；Cloudflare 自有目录只有 v4-flash-0731 与 v4-pro-0813"],
+      "sources": ["cloudflare-models"]
+    },
+    {
+      "providerId": "aws-bedrock",
+      "displayName": "AWS Bedrock",
+      "available": false,
+      "verification": "official-doc",
+      "notes": ["已核实未上架；Bedrock 的 DeepSeek 目录仅 V3.2 / V3.1 / R1"],
+      "sources": ["bedrock-models"]
+    },
+    {
+      "providerId": "google-vertex",
+      "displayName": "Google Vertex AI",
+      "available": false,
+      "verification": "official-doc",
+      "notes": ["已核实未上架；partner-models 仅 V3.2 / V3.1 / R1-0528 / OCR"],
+      "sources": ["vertex-partner-models"]
+    }
+  ]
+}
