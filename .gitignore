@@ -15,3 +15,7 @@ raw/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Local deployment/scratch artifacts (not part of the site)
+.wrangler/
+.dsh-*
