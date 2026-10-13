@@ -19,3 +19,7 @@ Thumbs.db
 # Local deployment/scratch artifacts (not part of the site)
 .wrangler/
 .dsh-*
+# 自动续期得到的 Cloudflare 访问令牌缓存，含凭据，绝不能提交
+.cloudflare-auth.json
+# 工作区内的 GitHub 部署私钥与已知主机记录，绝不提交
+.ssh/

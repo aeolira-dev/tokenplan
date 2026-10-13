@@ -1,0 +1,35 @@
+{
+  "algorithm": "blake3(base64(content) + ext).hex.slice(0,32)",
+  "vectors": [
+    {
+      "name": "zfill",
+      "content": "",
+      "ext": "html",
+      "hash": "bc88d1b19523ba52d6a2959dd93cf9c8"
+    },
+    {
+      "name": "hello-html",
+      "content": "<!doctype html><title>hi</title>",
+      "ext": "html",
+      "hash": "24a8102effc032e3db6533fdffc528c6"
+    },
+    {
+      "name": "hello-noext",
+      "content": "<!doctype html><title>hi</title>",
+      "ext": "",
+      "hash": "eb1f8b68c4f32c23793f634669520b8f"
+    },
+    {
+      "name": "中文页面",
+      "content": "横评目录 · 按发布公司",
+      "ext": "html",
+      "hash": "c4685f2f6b13d3ac449204cea7bf7d7f"
+    },
+    {
+      "name": "index-sample",
+      "content": "<html><body>tokenplan</body></html>",
+      "ext": "html",
+      "hash": "85b0aee6b7c3439f37ee461673ccec6c"
+    }
+  ]
+}

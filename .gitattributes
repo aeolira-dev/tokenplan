@@ -1,0 +1,10 @@
+# vendor/blake3-wasm 是 Pages 部署的硬依赖，其中 .wasm 是二进制，绝不能被换行符转换破坏。
+# 显式声明可避免 core.autocrlf=true 的环境下被误当文本处理。
+*.wasm binary
+*.node binary
+
+# 站点与数据文件按原样保留 LF，避免部署哈希与本地不一致
+*.html text eol=lf
+*.mjs text eol=lf
+*.json text eol=lf
+*.md text eol=lf
