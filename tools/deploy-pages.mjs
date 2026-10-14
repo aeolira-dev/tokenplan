@@ -136,9 +136,23 @@ const files = listSiteFiles();
 console.log(`[plan] 项目 ${PROJECT} · 待部署 ${files.length} 个文件：${files.join(', ')}`);
 
 const token = await getAccessToken();
-const accounts = await api(token, 'GET', '/accounts');
-const accountId = (accounts.json.result || [])[0]?.id;
-if (!accountId) throw new Error('无法读取 Cloudflare 账号，请检查 Wrangler 登录状态');
+
+// 账号 ID 解析顺序：环境变量 > 已知账号（与 verify-manifest.mjs 一致）> /accounts 接口。
+// 说明：Pages 作用域令牌（Account:Cloudflare Pages:Edit）无权读取 /accounts（返回空列表），
+// 但完全有能力部署本项目。若只依赖 /accounts，会把「权限更小、更安全」的令牌误判为不可用。
+const KNOWN_ACCOUNT = '652a9c243095d91b982ff5f4a97185a6';
+let accountId = process.env.CLOUDFLARE_ACCOUNT_ID || process.env.CF_ACCOUNT_ID || null;
+let accountSource = accountId ? '环境变量' : null;
+if (!accountId) {
+  const accounts = await api(token, 'GET', '/accounts');
+  accountId = (accounts.json.result || [])[0]?.id || null;
+  if (accountId) accountSource = '/accounts 接口';
+}
+if (!accountId) {
+  accountId = KNOWN_ACCOUNT;
+  accountSource = '内置已知账号';
+}
+console.log(`[auth] 账号 ${accountId}（来源：${accountSource}）`);
 const zones = await api(token, 'GET', '/zones?per_page=50');
 const zoneId = (zones.json.result || []).find((z) => DOMAIN.endsWith(z.name))?.id || null;
 
